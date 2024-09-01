@@ -1,9 +1,12 @@
 name: "test"
 
 on:
-  paths:
-    - "src/**/*.nix"
-    - "src/**/*.lua"
+  push:
+    paths:
+      - "src/**"
+  pull_request:
+    paths:
+      - "src/**"
 
 jobs:
   health-check:

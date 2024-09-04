@@ -7,7 +7,7 @@
     vim-extra-plugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
   };
 
-  outputs = inputs@{ flake-parts, nixpkgs, vim-extra-plugins, ... }:
+  outputs = inputs@{ flake-parts, nixpkgs, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = nixpkgs.lib.systems.flakeExposed;
       perSystem = { pkgs, system, ... }:
@@ -15,15 +15,15 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              vim-extra-plugins.overlays.default
+              inputs.vim-extra-plugins.overlays.default
             ];
           };
-          neovim = pkgs.callPackage ./src { };
+          neovim = import ./src {
+            inherit pkgs;
+          };
         in
         {
-          packages = {
-            default = neovim;
-          };
+          packages.default = neovim;
         };
     };
 }

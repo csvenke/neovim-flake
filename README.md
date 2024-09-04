@@ -6,14 +6,12 @@
 
 ## Usage
 
-Directly
-
 ```bash
 nix run github:csvenke/neovim-flake
 ```
 
-Profile
+If you dont have flakes enabled
 
 ```bash
-nix profile install github:csvenke/neovim-flake
+nix run --extra-experimental-features 'nix-command flakes' github:csvenke/neovim-flake
 ```

@@ -10,6 +10,9 @@
   outputs = inputs@{ flake-parts, nixpkgs, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = nixpkgs.lib.systems.flakeExposed;
+      imports = [
+        inputs.flake-parts.flakeModules.easyOverlay
+      ];
       perSystem = { pkgs, system, ... }:
         let
           pkgs = import nixpkgs {
@@ -23,7 +26,12 @@
           };
         in
         {
-          packages.default = neovim;
+          overlayAttrs = {
+            inherit neovim;
+          };
+          packages = {
+            default = neovim;
+          };
         };
     };
 }

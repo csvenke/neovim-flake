@@ -24,6 +24,8 @@ let
 in
 
 mkVimRc [
-  (mkFiles ".lua" ./core)
+  (mkFile "options.lua" ./core/options.lua)
+  (mkFile "keymaps.lua" ./core/keymaps.lua)
+  (mkFile "autocmds.lua" ./core/autocmds.lua)
   (mkFiles ".lua" ./plugins)
 ]

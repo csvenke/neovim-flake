@@ -7,6 +7,8 @@ on:
   pull_request:
     paths:
       - "src/**"
+      - "flake.lock"
+      - "flake.nix"
 
 jobs:
   health-check:

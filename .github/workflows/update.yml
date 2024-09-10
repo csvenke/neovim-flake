@@ -25,3 +25,4 @@ jobs:
           pr-labels: |
             dependencies
             automated
+          token: ${{ secrets.GITHUB_TOKEN }}

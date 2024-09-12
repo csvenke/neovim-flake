@@ -21,7 +21,7 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
-          pr-title: "Update flake.lock"
+          pr-title: "feat: update flake.lock"
           pr-labels: |
             dependencies
             automated

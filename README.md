@@ -1,4 +1,4 @@
-# neovim
+# neovim flake
 
 <p align="center">
     <img src=".github/assets/neovim-screenshot.png" />

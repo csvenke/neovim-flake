@@ -1,9 +1,6 @@
 name: "health-check"
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     paths:
       - "src/**"

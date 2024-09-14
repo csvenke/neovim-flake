@@ -13,7 +13,7 @@
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay
       ];
-      perSystem = { pkgs, system, ... }:
+      perSystem = { system, ... }:
         let
           pkgs = import nixpkgs {
             inherit system;

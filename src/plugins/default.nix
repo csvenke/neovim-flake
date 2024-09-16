@@ -35,6 +35,10 @@ let
     lazygit-nvim
     diffview-nvim
     git-blame-nvim
+    # Test
+    neotest
+    neotest-plenary
+    neotest-jest
     # Ui
     noice-nvim
     trouble-nvim

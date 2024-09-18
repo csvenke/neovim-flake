@@ -200,6 +200,8 @@ local servers = {
   taplo = {},
 
   gleam = {},
+
+  tailwindcss = {},
 }
 
 local capabilities = vim.tbl_deep_extend(

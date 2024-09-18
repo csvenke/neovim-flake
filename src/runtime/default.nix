@@ -59,5 +59,8 @@ with pkgs;
   ### Javascript/Typescript ###
   nodejs
   nodePackages.typescript-language-server
+
+  ### Tailwindcss
+  tailwindcss-language-server
 ]
 

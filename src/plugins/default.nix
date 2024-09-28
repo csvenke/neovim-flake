@@ -48,13 +48,15 @@ let
     which-key-nvim
     bufferline-nvim
     nvim-spectre
+    # Startup
+    alpha-nvim
+    vim-startuptime
     # Utils
     comment-nvim
     smart-splits-nvim
     # Other
     SchemaStore-nvim
     mini-nvim
-    vim-startuptime
     nvim-ts-autotag
     nui-nvim
     plenary-nvim

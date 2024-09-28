@@ -38,8 +38,8 @@ require("diffview").setup({
   },
   view = {
     merge_tool = {
-      layout = "diff3_mixed"
-    }
+      layout = "diff3_mixed",
+    },
   },
   hooks = {
     diff_buf_read = function()
@@ -56,4 +56,3 @@ vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "[g]it [g]ui" })
 vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "[g]it [d]iff view" })
 vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "[g]it [h]istory (current file)" })
 vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "[g]it [H]istory" })
-vim.keymap.set("n", "<leader>gb", "<cmd>GitBlameToggle<cr>", { desc = "[g]it [b]lame toggle" })

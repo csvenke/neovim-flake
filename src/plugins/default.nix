@@ -3,11 +3,12 @@
 let
   plugins = with pkgs.vimPlugins; [
     direnv-vim
-    # Syntax highlighting
+    # Treesitter
     nvim-treesitter.withAllGrammars
     nvim-treesitter-textobjects
     nvim-treesitter-refactor
     nvim-treesitter-context
+    nvim-ts-autotag
     # LSP
     fidget-nvim
     neodev-nvim
@@ -15,8 +16,6 @@ let
     nvim-lspconfig
     omnisharp-extended-lsp-nvim
     nvim-jdtls
-    # Formatting
-    conform-nvim
     # Autocomplete
     friendly-snippets
     luasnip
@@ -26,6 +25,8 @@ let
     cmp-cmdline
     cmp_luasnip
     nvim-cmp
+    # Formatting
+    conform-nvim
     # Telescope
     telescope-nvim
     telescope-fzf-native-nvim
@@ -42,21 +43,20 @@ let
     noice-nvim
     trouble-nvim
     lualine-nvim
-    neo-tree-nvim
     nvim-notify
     which-key-nvim
     nvim-spectre
+    # Navigation
     oil-nvim
     harpoon2
+    neo-tree-nvim
     # Startup
     alpha-nvim
     vim-startuptime
     # Utils
     smart-splits-nvim
-    # Other
     SchemaStore-nvim
     mini-nvim
-    nvim-ts-autotag
     nui-nvim
     plenary-nvim
     vim-sleuth

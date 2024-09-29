@@ -47,6 +47,7 @@ let
     which-key-nvim
     nvim-spectre
     oil-nvim
+    harpoon2
     # Startup
     alpha-nvim
     vim-startuptime

@@ -8,10 +8,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
       { "<leader>b", group = "[b]uffer" },
       { "<leader>c", group = "[c]ode" },
       { "<leader>d", group = "[d]iagnostics" },
-      { "<leader>f", group = "[f]ormat" },
       { "<leader>g", group = "[g]it" },
       { "<leader>q", group = "[q]uit" },
-      { "<leader>r", group = "[r]efactor" },
       { "<leader>s", group = "[s]earch" },
       { "<leader>t", group = "[t]est" },
     })

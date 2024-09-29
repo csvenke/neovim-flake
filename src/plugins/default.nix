@@ -51,7 +51,6 @@ let
     alpha-nvim
     vim-startuptime
     # Utils
-    comment-nvim
     smart-splits-nvim
     # Other
     SchemaStore-nvim

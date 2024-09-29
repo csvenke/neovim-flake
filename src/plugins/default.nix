@@ -46,7 +46,6 @@ let
     neo-tree-nvim
     nvim-notify
     which-key-nvim
-    bufferline-nvim
     nvim-spectre
     # Startup
     alpha-nvim

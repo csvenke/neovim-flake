@@ -23,6 +23,7 @@ require("neo-tree").setup({
   window = {
     mappings = {
       ["<space>"] = "none",
+      ["?"] = "none",
       ["/"] = "none",
       ["l"] = "open",
       ["h"] = "close_node",

@@ -17,12 +17,6 @@ local function deleteBufferForce()
   require("mini.bufremove").delete(0, true)
 end
 
-require("mini.ai").setup({
-  n_lines = 500,
-})
-
-require("mini.surround").setup()
-
 require("mini.pairs").setup()
 
 require("mini.diff").setup({

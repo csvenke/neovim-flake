@@ -46,6 +46,7 @@ let
     nvim-notify
     which-key-nvim
     nvim-spectre
+    oil-nvim
     # Startup
     alpha-nvim
     vim-startuptime

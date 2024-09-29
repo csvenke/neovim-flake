@@ -30,7 +30,6 @@ let
     # Telescope
     telescope-nvim
     telescope-fzf-native-nvim
-    telescope-ui-select-nvim
     # Git
     lazygit-nvim
     diffview-nvim
@@ -45,7 +44,6 @@ let
     lualine-nvim
     nvim-notify
     which-key-nvim
-    nvim-spectre
     # Navigation
     oil-nvim
     harpoon2

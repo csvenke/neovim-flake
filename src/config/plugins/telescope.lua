@@ -1,10 +1,17 @@
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("user-vim-enter-telescope", { clear = true }),
   callback = function()
-    require("telescope").setup()
+    require("telescope").setup({
+      extensions = {
+        ["ui-select"] = {
+          require("telescope.themes").get_dropdown({}),
+        },
+      },
+    })
     require("telescope").load_extension("fzf")
     require("telescope").load_extension("notify")
     require("telescope").load_extension("noice")
+    require("telescope").load_extension("ui-select")
 
     local builtin = require("telescope.builtin")
 

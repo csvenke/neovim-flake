@@ -30,6 +30,7 @@ let
     # Telescope
     telescope-nvim
     telescope-fzf-native-nvim
+    telescope-ui-select-nvim
     # Git
     lazygit-nvim
     diffview-nvim

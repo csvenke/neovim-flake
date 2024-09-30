@@ -8,7 +8,13 @@ vim.keymap.set("n", "<C-a>", function()
 end, { desc = "harpoon file" })
 
 vim.keymap.set("n", "<C-e>", function()
-  harpoon.ui:toggle_quick_menu(harpoon:list())
+  local toggle_opts = {
+    border = "rounded",
+    title_pos = "center",
+    ui_width_ratio = 0.40,
+  }
+
+  harpoon.ui:toggle_quick_menu(harpoon:list(), toggle_opts)
 end, { desc = "open harpoon window" })
 
 vim.keymap.set("n", "<C-p>", function()

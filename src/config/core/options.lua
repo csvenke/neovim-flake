@@ -51,4 +51,6 @@ vim.opt.hlsearch = true
 
 vim.opt.termguicolors = true
 
+vim.o.tabline = "%=%{tabpagenr()}"
+
 vim.cmd("set nowrap")

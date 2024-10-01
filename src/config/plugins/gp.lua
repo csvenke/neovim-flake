@@ -17,6 +17,8 @@ end
 
 require("gp").setup({
   openai_api_key = { "cat", api_key_path },
+  default_chat_agent = "ChatGPT",
+  default_command_agent = "CodeGPT",
   agents = {
     {
       name = "ChatGPT",
@@ -37,7 +39,7 @@ require("gp").setup({
       name = "CodeGPT",
       chat = false,
       command = true,
-      model = { model = "gpt-4o", temperature = 0.8, top_p = 1 },
+      model = { model = "gpt-4o-mini", temperature = 0.8, top_p = 1 },
       system_prompt = "You are an AI working as a code editor.\n\n"
         .. "Please AVOID COMMENTARY OUTSIDE OF THE SNIPPET RESPONSE.\n"
         .. "START AND END YOUR ANSWER WITH:\n\n```",
@@ -45,10 +47,8 @@ require("gp").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>aa", "<cmd>GpChatNew<cr>", { desc = "new chat" })
-vim.keymap.set("n", "<leader>ac", "<cmd>GpChatNew<cr>", { desc = "new chat" })
-
-vim.keymap.set("n", "<leader>aA", "<cmd>GpChatToggle<cr>", { desc = "toggle chat" })
+vim.keymap.set("n", "<leader>aa", "<cmd>GpChatToggle<cr>", { desc = "toggle chat" })
+vim.keymap.set("n", "<leader>aA", "<cmd>GpChatNew<cr>", { desc = "new chat" })
 
 vim.keymap.set("n", "<leader>a|", "<cmd>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
 vim.keymap.set("n", "<leader>av", "<cmd>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
@@ -56,15 +56,9 @@ vim.keymap.set("n", "<leader>av", "<cmd>GpChatNew vsplit<cr>", { desc = "new cha
 vim.keymap.set("n", "<leader>a-", "<cmd>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
 vim.keymap.set("n", "<leader>as", "<cmd>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
 
-vim.keymap.set("v", "ap", ":'<,'>GpChatPaste<cr>", { desc = "paste selection to chat" })
-vim.keymap.set("n", "<leader>ap", ":%GpChatPaste<cr>", { desc = "paste buffer to chat" })
+vim.keymap.set("v", "<leader>ap", ":'<,'>GpChatPaste<cr>", { desc = "paste selection to chat" })
 
-vim.keymap.set("v", "ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selection" })
-vim.keymap.set("n", "<leader>ar", ":%GpRewrite<cr>", { desc = "rewrite buffer" })
+vim.keymap.set("v", "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selection" })
 
-vim.keymap.set("v", "ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
-vim.keymap.set("v", "aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
-vim.keymap.set("n", "<leader>ao", "<cmd>GpAppend<cr>", { desc = "insert below" })
-vim.keymap.set("n", "<leader>aO", "<cmd>GpPrepend<cr>", { desc = "insert above" })
-
-vim.keymap.set("n", "<leader>af", "<cmd>GpChatFinder<cr>", { desc = "find chats" })
+vim.keymap.set("v", "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
+vim.keymap.set("v", "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })

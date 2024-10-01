@@ -4,7 +4,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
     local wk = require("which-key")
     wk.setup({})
     wk.add({
-      { "<leader>a", group = "[a]i" },
+      {
+        mode = { "n", "v" },
+        { "<leader>a", group = "[a]i" },
+      },
       { "<leader>b", group = "[b]uffer" },
       { "<leader>c", group = "[c]ode" },
       { "<leader>d", group = "[d]iagnostics" },

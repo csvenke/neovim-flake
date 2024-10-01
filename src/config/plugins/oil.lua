@@ -5,6 +5,8 @@ require("oil").setup({
     ["_"] = "actions.open_cwd",
     ["-"] = "actions.parent",
     ["<CR>"] = "actions.select",
+    ["gx"] = "actions.open_external",
+    ["g."] = "actions.toggle_hidden",
   },
 })
 

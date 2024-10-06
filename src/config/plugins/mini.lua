@@ -19,16 +19,5 @@ end
 
 require("mini.pairs").setup()
 
-require("mini.diff").setup({
-  view = {
-    style = "sign",
-    signs = {
-      add = "▎",
-      change = "▎",
-      delete = "",
-    },
-  },
-})
-
 vim.keymap.set("n", "<leader>bd", deleteBuffer, { desc = "[b]uffer [d]elete" })
 vim.keymap.set("n", "<leader>bD", deleteBufferForce, { desc = "[b]uffer [D]elete (force)" })

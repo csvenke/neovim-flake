@@ -49,6 +49,24 @@ require("diffview").setup({
   },
 })
 
+require("gitsigns").setup({
+  on_attach = function()
+    local gitsigns = require("gitsigns")
+
+    local function stage_visual_hunk()
+      gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+    end
+
+    local function reset_visual_hunk()
+      gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+    end
+
+    vim.keymap.set("v", "gh", stage_visual_hunk, { desc = "[g]it stage [h]unk" })
+    vim.keymap.set("v", "gH", reset_visual_hunk, { desc = "[g]it unstage [H]unk" })
+    vim.keymap.set("n", "<leader>gb", gitsigns.toggle_current_line_blame, { desc = "toggle [g]it [b]lame" })
+  end,
+})
+
 vim.opt.culopt = "number"
 vim.opt.fillchars:append({ diff = " " })
 

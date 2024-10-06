@@ -34,7 +34,7 @@ let
     # Git
     lazygit-nvim
     diffview-nvim
-    git-blame-nvim
+    gitsigns-nvim
     # Test
     neotest
     neotest-plenary

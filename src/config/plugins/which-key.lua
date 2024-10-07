@@ -9,7 +9,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
         { "<leader>a", group = "[a]i" },
       },
       { "<leader>b", group = "[b]uffer" },
-      { "<leader>c", group = "[c]ode" },
+      {
+        mode = { "n", "x" },
+        { "<leader>c", group = "[c]ode" },
+      },
       { "<leader>d", group = "[d]iagnostics" },
       { "<leader>g", group = "[g]it" },
       { "<leader>q", group = "[q]uit" },

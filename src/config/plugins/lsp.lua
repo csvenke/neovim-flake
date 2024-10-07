@@ -3,8 +3,9 @@ require("neodev").setup({})
 require("neoconf").setup({})
 
 local function make_map_buffer(buffer)
-  return function(keys, func, desc)
-    vim.keymap.set("n", keys, func, { buffer = buffer, desc = desc })
+  return function(keys, func, desc, mode)
+    mode = mode or "n"
+    vim.keymap.set(mode, keys, func, { buffer = buffer, desc = desc })
   end
 end
 
@@ -18,7 +19,7 @@ local function default_on_attach(client, buffer)
   map("gr", telescope.lsp_references, "[g]oto [r]eference(s)")
   map("K", vim.lsp.buf.hover, "Hover documentation")
   map("<leader>D", telescope.lsp_type_definitions, "type [D]efinition(s)")
-  map("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction")
+  map("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction", { "n", "x" })
   map("<leader>cr", vim.lsp.buf.rename, "[c]ode [r]ename")
   map("<leader>cd", vim.diagnostic.open_float, "[c]ode [d]iagnostic")
 

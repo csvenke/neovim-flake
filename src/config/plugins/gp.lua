@@ -40,9 +40,9 @@ require("gp").setup({
       chat = false,
       command = true,
       model = { model = "gpt-4o-mini", temperature = 0.8, top_p = 1 },
-      system_prompt = "You are an AI working as a code editor.\n\n"
-        .. "Please AVOID COMMENTARY OUTSIDE OF THE SNIPPET RESPONSE.\n"
-        .. "START AND END YOUR ANSWER WITH:\n\n```",
+      system_prompt = "You are an AI specialized in refactoring code within Neovim.\n\n"
+        .. "Please provide clear and concise code snippets without additional commentary.\n"
+        .. "Enclose your responses within:\n\n```",
     },
   },
 })

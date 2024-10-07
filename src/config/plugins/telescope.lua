@@ -31,6 +31,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Find in files (Grep)" })
     vim.keymap.set("n", "<leader>?", builtin.live_grep, { desc = "Find in files (Grep)" })
     vim.keymap.set("n", "<leader>:", builtin.command_history, { desc = "Command history" })
+    vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[s]earch recent files" })
     vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "[s]earch [f]iles" })
   end,
 })

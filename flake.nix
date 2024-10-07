@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     vim-extra-plugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
+    angular-language-server.url = "github:csvenke/angular-language-server-flake";
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, ... }:
@@ -19,6 +20,7 @@
             inherit system;
             overlays = [
               inputs.vim-extra-plugins.overlays.default
+              inputs.angular-language-server.overlays.default
             ];
           };
           neovim = import ./src {

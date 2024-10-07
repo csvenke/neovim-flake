@@ -2,7 +2,6 @@
 
 with pkgs;
 [
-  tree-sitter
   gcc
   ripgrep
   fd
@@ -57,10 +56,16 @@ with pkgs;
   prettierd
 
   ### Javascript/Typescript ###
-  nodejs
   nodePackages.typescript-language-server
+
+  ### Angular
+  angular-language-server
 
   ### Tailwindcss
   tailwindcss-language-server
+
+  ### Dotnet
+  csharpier
+  omnisharp-roslyn
 ]
 

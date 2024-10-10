@@ -62,3 +62,10 @@ vim.keymap.set("v", "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selec
 
 vim.keymap.set("v", "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
 vim.keymap.set("v", "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
+
+vim.keymap.set(
+  "v",
+  "<leader>an",
+  ":'<,'>GpPrepend Analyze and understand the code, in code comments, give 5 alternative names that clearly describe the function/class/variable's purpose<cr>",
+  { desc = "naming suggestions" }
+)

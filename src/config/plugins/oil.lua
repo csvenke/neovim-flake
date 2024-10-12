@@ -4,8 +4,10 @@ require("oil").setup({
   keymaps = {
     ["_"] = "actions.open_cwd",
     ["-"] = "actions.parent",
+    ["."] = "actions.cd",
     ["<CR>"] = "actions.select",
     ["g."] = "actions.toggle_hidden",
+    ["gx"] = "actions.open_external",
   },
   view_options = {
     show_hidden = true,

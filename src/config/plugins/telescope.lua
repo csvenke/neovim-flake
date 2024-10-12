@@ -12,9 +12,11 @@ vim.api.nvim_create_autocmd("VimEnter", {
     require("telescope").load_extension("notify")
     require("telescope").load_extension("noice")
     require("telescope").load_extension("ui-select")
+    require("telescope").load_extension("git_worktree")
 
     local builtin = require("telescope.builtin")
 
+    -- Builtin
     vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [h]elp" })
     vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[s]earch [k]eymaps" })
     vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [f]iles" })
@@ -26,12 +28,17 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[s]earch [w]ord" })
     vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[s]earch [d]iagnostics" })
     vim.keymap.set("n", "<leader>so", builtin.vim_options, { desc = "[s]earch vim [o]ptions" })
-    vim.keymap.set("n", "<leader>sn", "<cmd>Telescope notify<cr>", { desc = "[s]earch [n]otify" })
-    vim.keymap.set("n", "<leader>sN", "<cmd>Telescope noice<cr>", { desc = "[s]earch [N]oice" })
     vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Find in files (Grep)" })
     vim.keymap.set("n", "<leader>?", builtin.live_grep, { desc = "Find in files (Grep)" })
     vim.keymap.set("n", "<leader>:", builtin.command_history, { desc = "Command history" })
     vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[s]earch recent files" })
     vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "[s]earch [f]iles" })
+
+    -- noice
+    vim.keymap.set("n", "<leader>sn", "<cmd>Telescope notify<cr>", { desc = "[s]earch [n]otify" })
+    vim.keymap.set("n", "<leader>sN", "<cmd>Telescope noice<cr>", { desc = "[s]earch [N]oice" })
+
+    -- git_worktree
+    vim.keymap.set("n", "<leader>gw", "<cmd>Telescope git_worktree<cr>", { desc = "[g]it switch [w]orktree" })
   end,
 })

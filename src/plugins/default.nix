@@ -77,12 +77,12 @@ let
     # Git
     (buildVimPlugin {
       pname = "git-worktree.nvim";
-      version = "2.0.1";
+      version = "2024-06-07";
       src = pkgs.fetchFromGitHub {
         owner = "polarmutex";
         repo = "git-worktree.nvim";
         rev = "500629d0ad916ec362f53ecf21f84f3ba445f73e";
-        sha256 = "+YzOh+nGZji1pA5J6BI2AoCtNsyW0V50Wc/DYj7XVDU=";
+        sha256 = "db5z9j+HTPcOeBjnX8T7syLt4zNDvm45V0lXrD8q6oY=";
       };
     })
   ];

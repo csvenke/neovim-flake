@@ -19,5 +19,16 @@ end
 
 require("mini.pairs").setup()
 
+require("mini.ai").setup({
+  mappings = {
+    around = "a",
+    inside = "i",
+    around_next = "an",
+    inside_next = "in",
+    around_last = "al",
+    inside_last = "il",
+  },
+})
+
 vim.keymap.set("n", "<leader>bd", deleteBuffer, { desc = "[b]uffer [d]elete" })
 vim.keymap.set("n", "<leader>bD", deleteBufferForce, { desc = "[b]uffer [D]elete (force)" })

@@ -81,7 +81,7 @@ let
       src = pkgs.fetchFromGitHub {
         owner = "polarmutex";
         repo = "git-worktree.nvim";
-        rev = "2.0.1";
+        rev = "500629d0ad916ec362f53ecf21f84f3ba445f73e";
         sha256 = "+YzOh+nGZji1pA5J6BI2AoCtNsyW0V50Wc/DYj7XVDU=";
       };
     })

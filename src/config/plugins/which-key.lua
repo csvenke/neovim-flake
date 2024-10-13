@@ -13,10 +13,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
         mode = { "n", "x" },
         { "<leader>c", group = "[c]ode" },
       },
-      {
-        mode = { "n", "x" },
-        { "<leader>h", group = "[h]unk" },
-      },
       { "<leader>d", group = "[d]iagnostics" },
       { "<leader>g", group = "[g]it" },
       { "<leader>q", group = "[q]uit" },

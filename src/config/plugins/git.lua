@@ -62,10 +62,8 @@ require("gitsigns").setup({
     end
 
     vim.keymap.set("n", "<leader>gb", gitsigns.toggle_current_line_blame, { desc = "toggle [g]it [b]lame" })
-    vim.keymap.set("n", "<leader>hn", gitsigns.next_hunk, { desc = "git [h]unk [n]ext" })
-    vim.keymap.set("n", "<leader>hp", gitsigns.prev_hunk, { desc = "git [h]unk [p]revious" })
-    vim.keymap.set("v", "<leader>hs", stage_visual_hunk, { desc = "git [h]unk [s]tage" })
-    vim.keymap.set("v", "<leader>hu", reset_visual_hunk, { desc = "git [h]unk [u]nstage" })
+    vim.keymap.set("v", "gh", stage_visual_hunk, { desc = "git stage [h]unk" })
+    vim.keymap.set("v", "gH", reset_visual_hunk, { desc = "git reset [H]unk" })
   end,
 })
 

@@ -8,6 +8,7 @@ require("neo-tree").setup({
     "git_status",
   },
   filesystem = {
+    hijack_netrw_behavior = "disabled",
     use_libuv_file_watcher = true,
     follow_current_file = { enabled = true },
     filtered_items = {
@@ -38,11 +39,3 @@ require("neo-tree").setup({
 vim.keymap.set("n", "<leader>e", function()
   require("neo-tree.command").execute({ source = "filesystem", toggle = true })
 end, { desc = "file [e]xplorer" })
-
-vim.keymap.set("n", "<leader>E", function()
-  require("neo-tree.command").execute({ source = "filesystem" })
-end, { desc = "goto [E]xplorer" })
-
-vim.keymap.set("n", "<leader>ge", function()
-  require("neo-tree.command").execute({ source = "git_status", toggle = true })
-end, { desc = "[g]it status [e]xplorer" })

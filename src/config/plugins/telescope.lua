@@ -12,7 +12,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
     require("telescope").load_extension("notify")
     require("telescope").load_extension("noice")
     require("telescope").load_extension("ui-select")
-    require("telescope").load_extension("git_worktree")
 
     local builtin = require("telescope.builtin")
 
@@ -37,8 +36,5 @@ vim.api.nvim_create_autocmd("VimEnter", {
     -- noice
     vim.keymap.set("n", "<leader>sn", "<cmd>Telescope notify<cr>", { desc = "[s]earch [n]otify" })
     vim.keymap.set("n", "<leader>sN", "<cmd>Telescope noice<cr>", { desc = "[s]earch [N]oice" })
-
-    -- git_worktree
-    vim.keymap.set("n", "<leader>gw", "<cmd>Telescope git_worktree<cr>", { desc = "[g]it switch [w]orktree" })
   end,
 })

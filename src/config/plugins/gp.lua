@@ -15,7 +15,8 @@ if not file_exists(api_key_path) then
   return
 end
 
-require("gp").setup({
+---@class GpConfig
+local config = {
   openai_api_key = { "cat", api_key_path },
   default_chat_agent = "ChatGPT",
   default_command_agent = "CodeGPT",
@@ -45,27 +46,32 @@ require("gp").setup({
         .. "Enclose your responses within:\n\n```",
     },
   },
-})
+  hooks = {
+    SuggestAlternativeNaming = function(plugin, params)
+      local template = "I have the following code from {{filename}}:\n\n"
+        .. "```{{filetype}}\n{{selection}}\n```\n\n"
+        .. "Give 5 alternative names that clearly describe the selected function/class/variable's purpose\n"
+        .. "Write the suggestions in comments and nothing else"
+      local agent = plugin.get_command_agent()
+
+      plugin.Prompt(params, plugin.Target.prepend, agent, template, nil, nil)
+    end,
+  },
+}
+
+require("gp").setup(config)
 
 vim.keymap.set("n", "<leader>aa", "<cmd>GpChatToggle<cr>", { desc = "toggle chat" })
 vim.keymap.set("n", "<leader>aA", "<cmd>GpChatNew<cr>", { desc = "new chat" })
-
-vim.keymap.set("n", "<leader>a|", "<cmd>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
 vim.keymap.set("n", "<leader>av", "<cmd>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
-
-vim.keymap.set("n", "<leader>a-", "<cmd>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
 vim.keymap.set("n", "<leader>as", "<cmd>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
-
-vim.keymap.set("v", "<leader>ap", ":'<,'>GpChatPaste<cr>", { desc = "paste selection to chat" })
-
-vim.keymap.set("v", "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selection" })
-
-vim.keymap.set("v", "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
-vim.keymap.set("v", "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
-
+vim.keymap.set({ "v", "x" }, "<leader>ap", ":'<,'>GpChatPaste<cr>", { desc = "paste selection to chat" })
+vim.keymap.set({ "v", "x" }, "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selection" })
+vim.keymap.set({ "v", "x" }, "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
+vim.keymap.set({ "v", "x" }, "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
 vim.keymap.set(
-  "v",
+  { "v", "x" },
   "<leader>an",
-  ":'<,'>GpPrepend Analyze and understand the code, in code comments, give 5 alternative names that clearly describe the function/class/variable's purpose<cr>",
-  { desc = "naming suggestions" }
+  ":'<,'>GpSuggestAlternativeNaming<cr>",
+  { desc = "suggest alternative naming" }
 )

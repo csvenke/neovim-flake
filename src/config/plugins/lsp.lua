@@ -130,6 +130,14 @@ local servers = {
 
   eslint = {},
 
+  denols = {
+    on_attach = function()
+      vim.g.markdown_fenced_languages = {
+        "ts=typescript",
+      }
+    end,
+  },
+
   pyright = {
     enabled = true,
   },

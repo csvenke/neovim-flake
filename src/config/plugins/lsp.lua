@@ -70,6 +70,8 @@ local servers = {
         importModuleSpecifierEnding = "minimal",
       },
     },
+    root_dir = require("lspconfig").util.root_pattern("package.json"),
+    single_file_support = false,
     on_attach = function()
       vim.keymap.set(
         "n",
@@ -83,6 +85,15 @@ local servers = {
         makeCodeAction("source.removeUnused.ts"),
         { desc = "[c]ode [R]emove unused imports" }
       )
+    end,
+  },
+
+  denols = {
+    root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
+    on_attach = function()
+      vim.g.markdown_fenced_languages = {
+        "ts=typescript",
+      }
     end,
   },
 
@@ -129,14 +140,6 @@ local servers = {
   marksman = {},
 
   eslint = {},
-
-  denols = {
-    on_attach = function()
-      vim.g.markdown_fenced_languages = {
-        "ts=typescript",
-      }
-    end,
-  },
 
   pyright = {
     enabled = true,

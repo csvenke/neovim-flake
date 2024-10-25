@@ -78,6 +78,10 @@ local function git_switch_worktree()
   end
 
   vim.ui.select(results, { prompt = "Switch worktree" }, function(choice)
+    if choice == nil then
+      return
+    end
+
     local path = choice:match("^%S+")
     require("git-worktree").switch_worktree(path)
   end)

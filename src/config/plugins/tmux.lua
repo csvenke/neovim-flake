@@ -15,7 +15,11 @@ local function open_vertical_split()
 end
 
 local function open_popup()
-  os.execute("tmux popup -d $PWD -E 'tmux attach -t popup || tmux new -s popup'")
+  local data = vim.system({ "basename", os.getenv("PWD") }, { text = true }):wait()
+  local name = string.gsub(data.stdout or "popup", "%W", "")
+  local command = string.format("tmux popup -d $PWD -E 'tmux attach -t %s || tmux new -s %s'", name, name)
+
+  os.execute(command)
 end
 
 vim.keymap.set("n", "tt", open_horizontal_split, { desc = "[t]mux horizontal split" })

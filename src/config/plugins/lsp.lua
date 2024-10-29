@@ -214,7 +214,14 @@ local servers = {
 
   gleam = {},
 
-  tailwindcss = {},
+  tailwindcss = {
+    root_dir = require("lspconfig").util.root_pattern(
+      "tailwind.config.js",
+      "tailwind.config.cjs",
+      "tailwind.config.mjs",
+      "tailwind.config.ts"
+    ),
+  },
 }
 
 local capabilities = vim.tbl_deep_extend(

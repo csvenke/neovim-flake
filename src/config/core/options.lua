@@ -55,4 +55,6 @@ vim.opt.termguicolors = true
 
 vim.o.tabline = "%=%{tabpagenr()}"
 
+vim.opt.scrollbind = false
+
 vim.cmd("set nowrap")

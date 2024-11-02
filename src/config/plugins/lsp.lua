@@ -194,6 +194,7 @@ local servers = {
 
   html = {},
   cssls = {},
+  css_variables = {},
   eslint = {},
   jsonls = {
     on_new_config = function(new_config)

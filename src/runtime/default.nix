@@ -50,6 +50,7 @@ with pkgs;
 
   ### Json, eslint, markdown, css, html ###
   vscode-langservers-extracted
+  css-variables-language-server
   vscode-extensions.dbaeumer.vscode-eslint
 
   ### Prettier ###

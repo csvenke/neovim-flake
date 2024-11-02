@@ -6,6 +6,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     vim-extra-plugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
     angular-language-server.url = "github:csvenke/angular-language-server-flake";
+    css-variables-language-server.url = "github:csvenke/css-variables-language-server-flake";
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, ... }:
@@ -21,6 +22,7 @@
             overlays = [
               inputs.vim-extra-plugins.overlays.default
               inputs.angular-language-server.overlays.default
+              inputs.css-variables-language-server.overlays.default
             ];
           };
           neovim = import ./src {

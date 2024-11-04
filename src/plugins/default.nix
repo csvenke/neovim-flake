@@ -71,21 +71,6 @@ let
     # LLMs
     gp-nvim
   ];
-
-  # Plugins not found in vimPlugins and vimExtraPlugins
-  manualPlugins = with pkgs.vimUtils; [
-    # Git
-    (buildVimPlugin {
-      pname = "git-worktree.nvim";
-      version = "2024-06-07";
-      src = pkgs.fetchFromGitHub {
-        owner = "polarmutex";
-        repo = "git-worktree.nvim";
-        rev = "500629d0ad916ec362f53ecf21f84f3ba445f73e";
-        sha256 = "db5z9j+HTPcOeBjnX8T7syLt4zNDvm45V0lXrD8q6oY=";
-      };
-    })
-  ];
 in
 
-plugins ++ extraPlugins ++ manualPlugins
+plugins ++ extraPlugins

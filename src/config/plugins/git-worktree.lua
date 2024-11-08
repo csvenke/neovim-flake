@@ -51,7 +51,7 @@ local function change_working_directory(working_directory)
 end
 
 local function switch_worktree()
-  select_worktree("Change worktree", change_working_directory)
+  select_worktree("Switch worktree", change_working_directory)
 end
 
 local function remove_worktree()

@@ -7,11 +7,11 @@ if not is_inside_tmux() then
 end
 
 local function open_horizontal_split()
-  os.execute("tmux split-window -v -c $PWD")
+  vim.system({ "tmux", "split-window", "-v", "-c", vim.fn.getcwd() })
 end
 
 local function open_vertical_split()
-  os.execute("tmux split-window -h -c $PWD")
+  vim.system({ "tmux", "split-window", "-h", "-c", vim.fn.getcwd() })
 end
 
 local function open_popup()

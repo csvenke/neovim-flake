@@ -41,23 +41,31 @@ local function select_worktree(prompt, on_select)
   end)
 end
 
----@param working_directory string
-local function change_working_directory(working_directory)
+---@param path string
+local function change_working_directory(path)
   local current_path = vim.fn.expand("%:.")
-  local editable_file = vim.fn.filereadable(current_path) == 1 and current_path or "."
-  vim.cmd("cd " .. working_directory)
+  local editable_path = vim.fn.filereadable(current_path) == 1 and current_path or "."
+  vim.cmd("cd " .. path)
   vim.cmd("clearjumps")
-  vim.cmd("edit " .. editable_file)
+  vim.cmd("edit " .. editable_path)
 end
 
 local function switch_worktree()
-  select_worktree("Switch worktree", change_working_directory)
+  select_worktree("Switch worktree", function(worktree)
+    change_working_directory(worktree)
+    vim.notify_once("Switched to worktree " .. worktree)
+  end)
 end
 
 local function remove_worktree()
-  select_worktree("Remove worktree", function(worktree_path)
-    vim.system({ "git", "worktree", "remove", worktree_path }):wait()
-    vim.notify("Removed worktree " .. worktree_path)
+  select_worktree("Remove worktree", function(worktree)
+    if vim.fn.getcwd() == worktree then
+      vim.notify_once("Can't remove active worktree")
+      return
+    end
+
+    vim.system({ "git", "worktree", "remove", worktree }):wait()
+    vim.notify_once("Removed worktree " .. worktree)
   end)
 end
 
@@ -70,16 +78,16 @@ local function add_worktree()
     end
 
     local root = get_root_worktree()
-    local new_worktree = root .. "/" .. input
+    local new_worktree = string.format("%s/%s", root, input)
 
     if vim.fn.isdirectory(new_worktree) == 1 then
-      vim.notify("Worktree already exists")
+      vim.notify_once("Worktree already exists")
       return
     end
 
     vim.system({ "git", "worktree", "add", input }, { cwd = root }):wait()
     change_working_directory(new_worktree)
-    vim.notify("Created worktree " .. new_worktree)
+    vim.notify_once("Switched to worktree " .. new_worktree)
   end)
 end
 

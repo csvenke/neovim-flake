@@ -35,10 +35,13 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
   callback = function(event)
-    if event.match:match("^%w%w+:[\\/][\\/]") then
+    local is_protocol = event.match:match("^%w%w+:[\\/][\\/]")
+    if is_protocol then
       return
     end
+
     local file = vim.uv.fs_realpath(event.match) or event.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+    local directory_path = vim.fn.fnamemodify(file, ":p:h")
+    vim.fn.mkdir(directory_path, "p")
   end,
 })

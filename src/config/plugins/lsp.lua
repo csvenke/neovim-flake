@@ -155,22 +155,7 @@ local servers = {
     enabled = true,
   },
 
-  ruff_lsp = {
-    init_options = {
-      settings = {
-        args = {},
-      },
-    },
-    on_attach = function(client)
-      vim.keymap.set(
-        "n",
-        "<leader>co",
-        makeCodeAction("source.organizeImports"),
-        { desc = "[c]ode [o]organize imports" }
-      )
-      client.server_capabilities.hoverProvider = false
-    end,
-  },
+  ruff = {},
 
   yamlls = {
     on_attach = function(client)

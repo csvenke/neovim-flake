@@ -37,7 +37,7 @@ with pkgs;
   ### Python ###
   (python3.withPackages (ps: [ ps.pip ps.pipx ]))
   pyright
-  ruff-lsp
+  ruff
 
   ### Markdown ###
   marksman

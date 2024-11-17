@@ -27,7 +27,7 @@ with pkgs;
 
   ### Nix ###
   nixd
-  alejandra
+  nixfmt-rfc-style
 
   ### Bash ###
   nodePackages.bash-language-server

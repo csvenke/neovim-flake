@@ -68,10 +68,15 @@ local servers = {
     settings = {
       nixd = {
         nixpkgs = {
-          expr = "import <nixpkgs> {}",
+          expr = "import <nixpkgs> { }",
         },
         formatting = {
-          command = { "alejandra" },
+          command = { "nixfmt" },
+        },
+        options = {
+          ["flake-parts"] = {
+            expr = '(builtins.getFlake ("git+file://" + toString ./.)).currentSystem.options',
+          },
         },
       },
     },

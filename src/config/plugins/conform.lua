@@ -14,7 +14,6 @@ conform.setup({
   end,
   formatters_by_ft = {
     lua = { "stylua" },
-    nix = { "nixfmt" },
     bash = { "shfmt" },
     sh = { "shfmt" },
     cs = { "csharpier" },
@@ -43,9 +42,6 @@ conform.setup({
         ".editorconfig",
       }),
       require_cwd = false,
-    },
-    nixfmt = {
-      command = "nixpkgs-fmt",
     },
     shfmt = {
       command = "shfmt",

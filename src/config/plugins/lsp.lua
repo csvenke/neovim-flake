@@ -63,7 +63,19 @@ end
 ---@diagnostic disable: missing-fields
 ---@type lspconfig.options
 local servers = {
-  nil_ls = {},
+  nixd = {
+    cmd = { "nixd" },
+    settings = {
+      nixd = {
+        nixpkgs = {
+          expr = "import <nixpkgs> {}",
+        },
+        formatting = {
+          command = { "alejandra" },
+        },
+      },
+    },
+  },
 
   bashls = {},
 

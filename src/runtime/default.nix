@@ -26,8 +26,8 @@ with pkgs;
   stylua
 
   ### Nix ###
-  nil
-  nixpkgs-fmt
+  nixd
+  alejandra
 
   ### Bash ###
   nodePackages.bash-language-server

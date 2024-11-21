@@ -4,9 +4,18 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    vim-extra-plugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
-    angular-language-server.url = "github:csvenke/angular-language-server-flake";
-    css-variables-language-server.url = "github:csvenke/css-variables-language-server-flake";
+    vim-extra-plugins = {
+      url = "github:jooooscha/nixpkgs-vim-extra-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    angular-language-server = {
+      url = "github:csvenke/angular-language-server-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    css-variables-language-server = {
+      url = "github:csvenke/css-variables-language-server-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ flake-parts, nixpkgs, ... }:

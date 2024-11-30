@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
-      - run: nix run . -- --headless "+checkhealth" +qa
+      - run: nix flake check -v
 
   automerge:
     if: contains(github.event.pull_request.labels.*.name, 'automerge')

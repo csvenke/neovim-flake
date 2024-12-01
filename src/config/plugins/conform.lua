@@ -54,7 +54,6 @@ conform.setup({
         ".csharpierrc",
         ".csharpierrc.json",
         ".csharpierrc.yaml",
-        ".editorconfig",
       }),
       require_cwd = true,
     },

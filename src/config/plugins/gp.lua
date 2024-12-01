@@ -90,11 +90,11 @@ require("gp").setup({
 
       plugin.Prompt(params, plugin.Target.prepend, agent, template, nil, nil)
     end,
-    SuggestAlternativeNaming = function(plugin, params)
+    SuggestNaming = function(plugin, params)
       local template = "I have the following code from {{filename}}:\n\n"
         .. "```{{filetype}}\n{{selection}}\n```\n\n"
         .. "Give 5 alternative names that clearly describe the selected function/class/variable's purpose\n"
-        .. "Write the suggestions in comments and nothing else\n"
+        .. "Write suggestions in only comments\n"
       local agent = plugin.get_command_agent()
 
       plugin.Prompt(params, plugin.Target.prepend, agent, template, nil, nil)
@@ -102,8 +102,10 @@ require("gp").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>aa", "<cmd>GpChatToggle<cr>", { desc = "toggle chat" })
-vim.keymap.set("n", "<leader>aA", "<cmd>GpChatNew<cr>", { desc = "new chat" })
+vim.keymap.set("n", "<leader>aa", "<cmd>GpNew<cr>", { desc = "quick chat" })
+vim.keymap.set({ "v", "x" }, "<leader>aa", ":'<,'>GpNew<cr>", { desc = "quick chat with selection" })
+vim.keymap.set("n", "<leader>ac", "<cmd>GpChatToggle<cr>", { desc = "toggle [c]hat" })
+vim.keymap.set("n", "<leader>aC", "<cmd>GpChatNew<cr>", { desc = "new [C]hat" })
 vim.keymap.set("n", "<leader>av", "<cmd>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
 vim.keymap.set("n", "<leader>as", "<cmd>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
 vim.keymap.set("n", "<leader>ao", "<cmd>GpAppend<cr>", { desc = "insert below" })
@@ -113,9 +115,4 @@ vim.keymap.set({ "v", "x" }, "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewr
 vim.keymap.set({ "v", "x" }, "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
 vim.keymap.set({ "v", "x" }, "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
 vim.keymap.set({ "v", "x" }, "<leader>ae", ":'<,'>GpExplain<cr>", { desc = "explain selection" })
-vim.keymap.set(
-  { "v", "x" },
-  "<leader>an",
-  ":'<,'>GpSuggestAlternativeNaming<cr>",
-  { desc = "suggest alternative naming" }
-)
+vim.keymap.set({ "v", "x" }, "<leader>an", ":'<,'>GpSuggestNaming<cr>", { desc = "suggest naming" })

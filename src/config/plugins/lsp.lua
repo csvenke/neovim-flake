@@ -73,11 +73,6 @@ local servers = {
         formatting = {
           command = { "nixfmt" },
         },
-        options = {
-          ["flake-parts"] = {
-            expr = '(builtins.getFlake ("git+file://" + toString ./.)).currentSystem.options',
-          },
-        },
       },
     },
   },

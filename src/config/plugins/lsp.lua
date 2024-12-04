@@ -150,7 +150,7 @@ local servers = {
       },
       RoslynExtensionsOptions = {
         EnableAnalyzersSupport = true,
-        EnableImportCompletion = true,
+        EnableImportCompletion = false,
         AnalyzeOpenDocumentsOnly = false,
       },
       Sdk = {

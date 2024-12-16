@@ -35,7 +35,10 @@ with pkgs;
   shellcheck
 
   ### Python ###
-  (python3.withPackages (ps: [ ps.pip ps.pipx ]))
+  (python3.withPackages (ps: [
+    ps.pip
+    ps.pipx
+  ]))
   pyright
   ruff
 
@@ -69,4 +72,3 @@ with pkgs;
   csharpier
   omnisharp-roslyn
 ]
-

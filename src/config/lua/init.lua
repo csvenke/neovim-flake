@@ -5,7 +5,6 @@ require("core.autocmds")
 
 -- plugins
 require("plugins.alpha")
-require("plugins.cmp")
 require("plugins.conform")
 require("plugins.diffview")
 require("plugins.git-worktree")

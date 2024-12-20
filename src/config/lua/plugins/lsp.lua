@@ -156,10 +156,10 @@ local servers = {
       local map = make_map_buffer(buffer)
       local omnisharp = require("omnisharp_extended")
 
-      map("gd", omnisharp.lsp_definition, "[g]oto [d]efinition")
-      map("gi", omnisharp.lsp_implementation, "[g]oto [i]mplementation")
-      map("gr", omnisharp.lsp_references, "[g]oto [r]eferences")
-      map("<leader>D", omnisharp.lsp_type_definition, "type [D]efinition")
+      map("gd", omnisharp.telescope_lsp_definition, "[g]oto [d]efinition")
+      map("gi", omnisharp.telescope_lsp_implementation, "[g]oto [i]mplementation")
+      map("gr", omnisharp.telescope_lsp_references, "[g]oto [r]eferences")
+      map("<leader>D", omnisharp.telescope_lsp_type_definition, "type [D]efinition")
     end,
   },
 

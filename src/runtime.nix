@@ -2,12 +2,12 @@
 
 with pkgs;
 [
+  ### Core ###
   gcc
   ripgrep
   fd
   findutils
   gnutar
-  fzf
   wget
   curl
   unzip
@@ -17,9 +17,18 @@ with pkgs;
   gnused
   gnugrep
   xdg-utils
+  xclip
+
+  ### Git ###
   git
   lazygit
-  xclip
+  delta
+
+  ### Lazygit ###
+  lazygit
+
+  ### Telescope ###
+  fzf
 
   ### Lua ###
   lua-language-server

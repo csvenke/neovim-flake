@@ -3,7 +3,6 @@
 let
   runtime = pkgs.callPackage ./runtime.nix { };
   plugins = pkgs.callPackage ./plugins.nix { };
-
   config = pkgs.vimUtils.buildVimPlugin {
     name = "config";
     src = ./config;

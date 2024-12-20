@@ -9,16 +9,6 @@ require("oil").setup({
     ["<CR>"] = "actions.select",
     ["g."] = "actions.cd",
     ["gx"] = "actions.open_external",
-    ["ff"] = {
-      function()
-        require("telescope.builtin").find_files({
-          cwd = require("oil").get_current_dir(),
-        })
-      end,
-      mode = "n",
-      nowait = true,
-      desc = "Find files in current directory",
-    },
   },
   view_options = {
     show_hidden = true,

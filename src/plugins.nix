@@ -2,72 +2,82 @@
 
 let
   plugins = with pkgs.vimPlugins; [
+    # Core
+    plenary-nvim
+    vim-sleuth
+
+    # Direnv
     direnv-vim
+
     # Treesitter
     nvim-treesitter.withAllGrammars
     nvim-treesitter-textobjects
     nvim-treesitter-refactor
     nvim-treesitter-context
     nvim-ts-autotag
+
     # LSP
+    SchemaStore-nvim
     fidget-nvim
     neodev-nvim
     neoconf-nvim
     nvim-lspconfig
     omnisharp-extended-lsp-nvim
     nvim-jdtls
+
     # Autocomplete
     friendly-snippets
-    luasnip
-    cmp-nvim-lsp
-    cmp-buffer
-    cmp-path
-    cmp-cmdline
-    cmp_luasnip
-    nvim-cmp
+    blink-cmp
+
     # Formatting
     conform-nvim
-    # Telescope
+
+    # Fuzzy search
     telescope-nvim
     telescope-fzf-native-nvim
     telescope-ui-select-nvim
+
     # Git
     lazygit-nvim
     diffview-nvim
     gitsigns-nvim
+
     # Test
     neotest
     neotest-plenary
     neotest-jest
+
     # Ui
-    noice-nvim
-    trouble-nvim
-    lualine-nvim
+    nui-nvim
     nvim-notify
+    noice-nvim
+    lualine-nvim
+
+    # Keymaps
     which-key-nvim
+
     # Navigation
     oil-nvim
     harpoon2
     neo-tree-nvim
+    smart-splits-nvim
+
     # Startup
     alpha-nvim
     vim-startuptime
-    # Utils
-    smart-splits-nvim
-    SchemaStore-nvim
-    mini-nvim
-    nui-nvim
-    plenary-nvim
-    vim-sleuth
+
     # Icons
-    lspkind-nvim
     nvim-web-devicons
+
+    # Misc
+    mini-nvim
   ];
 
   # https://github.com/NixNeovim/NixNeovimPlugins
   extraPlugins = with pkgs.vimExtraPlugins; [
     # Themes
     nordic-alexczyl
+
     # LLMs
     gp-nvim
   ];

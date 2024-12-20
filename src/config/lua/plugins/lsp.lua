@@ -1,8 +1,3 @@
-require("fidget").setup({})
-require("neodev").setup({})
-require("neoconf").setup({})
-require("luasnip.loaders.from_vscode").lazy_load()
-
 local function make_map_buffer(buffer)
   return function(keys, func, desc, mode)
     mode = mode or "n"
@@ -12,14 +7,13 @@ end
 
 local function default_on_attach(client, buffer)
   local map = make_map_buffer(buffer)
-  local telescope = require("telescope.builtin")
 
-  map("gd", telescope.lsp_definitions, "[g]oto [d]efinition(s)")
+  map("gd", vim.lsp.buf.definition, "[g]oto [d]efinition(s)")
   map("gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
-  map("gi", telescope.lsp_implementations, "[g]oto [i]mplementation(s)")
-  map("gr", telescope.lsp_references, "[g]oto [r]eference(s)")
+  map("gi", vim.lsp.buf.implementation, "[g]oto [i]mplementation(s)")
+  map("gr", vim.lsp.buf.references, "[g]oto [r]eference(s)")
   map("K", vim.lsp.buf.hover, "Hover documentation")
-  map("<leader>D", telescope.lsp_type_definitions, "type [D]efinition(s)")
+  map("<leader>D", vim.lsp.buf.type_definition, "type [D]efinition(s)")
   map("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction", { "n", "x" })
   map("<leader>cr", vim.lsp.buf.rename, "[c]ode [r]ename")
   map("<leader>cd", vim.diagnostic.open_float, "[c]ode [d]iagnostic")
@@ -163,9 +157,9 @@ local servers = {
       local omnisharp = require("omnisharp_extended")
 
       map("gd", omnisharp.lsp_definition, "[g]oto [d]efinition")
-      map("gi", omnisharp.telescope_lsp_implementation, "[g]oto [i]mplementation")
-      map("gr", omnisharp.telescope_lsp_references, "[g]oto [r]eferences")
-      map("<leader>D", omnisharp.telescope_lsp_type_definition, "type [D]efinition")
+      map("gi", omnisharp.lsp_implementation, "[g]oto [i]mplementation")
+      map("gr", omnisharp.lsp_references, "[g]oto [r]eferences")
+      map("<leader>D", omnisharp.lsp_type_definition, "type [D]efinition")
     end,
   },
 
@@ -242,49 +236,15 @@ local servers = {
   },
 }
 
-local luasnip = require("luasnip")
-local cmp = require("cmp")
-
-luasnip.config.setup({})
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-
-  formatting = {
-    format = require("lspkind").cmp_format({
-      mode = "symbol_text",
-      maxwidth = 50,
-      ellipsis_char = "...",
-      show_labelDetails = true,
-    }),
-  },
-
-  mapping = cmp.mapping.preset.insert({
-    ["<C-n>"] = cmp.mapping.select_next_item(),
-    ["<C-p>"] = cmp.mapping.select_prev_item(),
-    ["<Enter>"] = cmp.mapping.confirm({ select = true }),
-    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete({}),
-  }),
-  sources = cmp.config.sources({
-    { name = "nvim_lsp" },
-    { name = "luasnip" },
-  }, {
-    { name = "buffer" },
-  }),
+require("fidget").setup({})
+require("neodev").setup({})
+require("neoconf").setup({})
+require("blink.cmp").setup({
+  signature = { enabled = true },
 })
 
-local capabilities = vim.tbl_deep_extend(
-  "force",
-  vim.lsp.protocol.make_client_capabilities(),
-  require("cmp_nvim_lsp").default_capabilities()
-)
-
 local lspconfig = require("lspconfig")
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 for server, config in pairs(servers) do
   config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
@@ -295,4 +255,3 @@ end
 vim.diagnostic.config({
   underline = false,
 })
-vim.opt.pumheight = 15

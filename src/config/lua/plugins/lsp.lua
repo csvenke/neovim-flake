@@ -248,7 +248,14 @@ require("blink.cmp").setup({
   sources = {
     default = { "lsp", "path", "snippets", "buffer" },
   },
-  signature = { enabled = false },
+  completion = {
+    menu = {
+      draw = {
+        treesitter = { "lsp" },
+        columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+      },
+    },
+  },
 })
 
 local lspconfig = require("lspconfig")

@@ -11,10 +11,6 @@ let
   overrideNeovim = pkgs.neovim.override {
     configure = {
       packages.all.start = plugins ++ [ config ];
-      customRC = # vim
-        ''
-          lua require("init")
-        '';
     };
   };
 in

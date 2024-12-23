@@ -80,4 +80,5 @@ with pkgs;
   ### Dotnet
   csharpier
   omnisharp-roslyn
+  netcoredbg
 ]

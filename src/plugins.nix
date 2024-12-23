@@ -25,6 +25,12 @@ let
     omnisharp-extended-lsp-nvim
     nvim-jdtls
 
+    # Debug
+    nvim-dap
+    nvim-dap-ui
+    nvim-dap-virtual-text
+    nvim-nio
+
     # Autocomplete
     friendly-snippets
     blink-cmp

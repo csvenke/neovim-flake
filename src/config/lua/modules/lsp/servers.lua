@@ -103,6 +103,10 @@ local servers = {
       map("gi", omnisharp.telescope_lsp_implementation, "[g]oto [i]mplementation")
       map("gr", omnisharp.telescope_lsp_references, "[g]oto [r]eferences")
       map("<leader>D", omnisharp.telescope_lsp_type_definition, "type [D]efinition")
+
+      vim.diagnostic.config({
+        virtual_text = false,
+      })
     end,
   },
 

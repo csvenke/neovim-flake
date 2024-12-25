@@ -17,7 +17,7 @@ end
 local function open_popup()
   local data = vim.system({ "basename", os.getenv("PWD") }, { text = true }):wait()
   local name = string.gsub(data.stdout or "popup", "%W", "")
-  local command = string.format("tmux popup -d $PWD -E 'tmux attach -t %s || tmux new -s %s'", name, name)
+  local command = string.format("tmux popup -w80%% -h80%% -d $PWD -E 'tmux attach -t %s || tmux new -s %s'", name, name)
 
   os.execute(command)
 end

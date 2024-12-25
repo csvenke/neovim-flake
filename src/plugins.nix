@@ -19,7 +19,7 @@ let
     # LSP
     SchemaStore-nvim
     fidget-nvim
-    neodev-nvim
+    lazydev-nvim
     neoconf-nvim
     nvim-lspconfig
     omnisharp-extended-lsp-nvim

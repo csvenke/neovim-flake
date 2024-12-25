@@ -37,7 +37,11 @@ local function default_on_attach(client, buffer)
 end
 
 require("fidget").setup({})
-require("neodev").setup({})
+require("lazydev").setup({
+  library = {
+    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+  },
+})
 require("neoconf").setup({})
 require("blink.cmp").setup({
   keymap = { preset = "default" },
@@ -46,14 +50,21 @@ require("blink.cmp").setup({
     nerd_font_variant = "mono",
   },
   sources = {
-    default = { "lsp", "path", "snippets", "buffer" },
+    default = { "lazydev", "lsp", "path", "snippets", "buffer" },
   },
   completion = {
     menu = {
       draw = {
-        treesitter = { "lsp" },
+        treesitter = true,
         columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
       },
+    },
+  },
+  providers = {
+    lazydev = {
+      name = "LazyDev",
+      module = "lazydev.integrations.blink",
+      score_offset = 100,
     },
   },
 })

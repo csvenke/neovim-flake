@@ -1,4 +1,3 @@
----@diagnostic disable: missing-fields
 ---@type lspconfig.options
 local servers = {
   nixd = {
@@ -66,18 +65,7 @@ local servers = {
     end,
   },
 
-  lua_ls = {
-    settings = {
-      Lua = {
-        library = {
-          vim.env.VIMRUNTIME,
-        },
-        completion = {
-          callSnippet = "Replace",
-        },
-      },
-    },
-  },
+  lua_ls = {},
 
   omnisharp = {
     cmd = { "OmniSharp" },

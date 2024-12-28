@@ -1,3 +1,5 @@
+--- @param client vim.lsp.Client
+--- @param buffer number
 local function default_on_attach(client, buffer)
   local map = require("util").make_map_buffer(buffer)
 
@@ -34,12 +36,23 @@ local function default_on_attach(client, buffer)
       end,
     })
   end
+
+  if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+    map("<leader>ch", function()
+      local toggle = not vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
+      vim.lsp.inlay_hint.enable(toggle)
+    end, "[c]ode [h]int")
+  end
 end
 
 require("fidget").setup({})
 require("lazydev").setup({
   library = {
-    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+    { path = "luvit-meta/library", words = { "vim%.uv" } },
+  },
+  integrations = {
+    lspconfig = true,
+    cmp = false,
   },
 })
 require("neoconf").setup({})
@@ -50,7 +63,7 @@ require("blink.cmp").setup({
     nerd_font_variant = "mono",
   },
   sources = {
-    default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+    default = { "lsp", "path", "snippets", "buffer", "lazydev" },
   },
   completion = {
     menu = {
@@ -61,11 +74,8 @@ require("blink.cmp").setup({
     },
   },
   providers = {
-    lazydev = {
-      name = "LazyDev",
-      module = "lazydev.integrations.blink",
-      score_offset = 100,
-    },
+    lsp = { fallback_for = { "lazydev" } },
+    lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
   },
 })
 

@@ -1,6 +1,6 @@
 local dap = require("dap")
 local dapui = require("dapui")
-require("nvim-dap-virtual-text").setup()
+require("nvim-dap-virtual-text").setup({})
 
 dapui.setup({
   icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },

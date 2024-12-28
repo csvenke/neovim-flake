@@ -1,4 +1,4 @@
----@type lspconfig.options
+--- @type table<string, lspconfig.Config>
 local servers = {
   nixd = {
     cmd = { "nixd" },
@@ -9,6 +9,16 @@ local servers = {
         },
         formatting = {
           command = { "nixfmt" },
+        },
+      },
+    },
+  },
+
+  lua_ls = {
+    settings = {
+      Lua = {
+        completion = {
+          callSnippet = "Replace",
         },
       },
     },
@@ -64,8 +74,6 @@ local servers = {
       new_config.cmd = { "angular-language-server", "--stdio", "--tsProbeLocations", "", "--ngProbeLocations", "" }
     end,
   },
-
-  lua_ls = {},
 
   omnisharp = {
     cmd = { "OmniSharp" },

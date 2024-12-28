@@ -19,6 +19,7 @@ let
     # LSP
     SchemaStore-nvim
     fidget-nvim
+    luvit-meta
     lazydev-nvim
     neoconf-nvim
     nvim-lspconfig

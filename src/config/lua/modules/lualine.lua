@@ -2,7 +2,7 @@ require("lualine").setup({
   options = {
     theme = "auto",
     globalstatus = true,
-    icons_enabled = vim.g.have_nerd_font,
+    icons_enabled = true
   },
   extensions = { "neo-tree", "trouble" },
 })

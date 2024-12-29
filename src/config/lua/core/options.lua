@@ -3,8 +3,6 @@ vim.g.maplocalleader = "\\"
 
 vim.g.autoformat = false
 
-vim.g.have_nerd_font = true
-
 vim.opt.autowrite = true
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }

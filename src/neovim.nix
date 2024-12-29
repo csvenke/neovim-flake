@@ -1,23 +1,26 @@
-{ pkgs }:
+{
+  neovim,
+  vimUtils,
+  callPackage,
+  writeShellApplication,
+}:
 
 let
-  runtime = pkgs.callPackage ./runtime.nix { };
-  plugins = pkgs.callPackage ./plugins.nix { };
-  config = pkgs.vimUtils.buildVimPlugin {
+  config = vimUtils.buildVimPlugin {
     name = "config";
     src = ./config;
+    dependencies = callPackage ./plugins.nix { };
   };
-
-  overrideNeovim = pkgs.neovim.override {
+  overrideNeovim = neovim.override {
     configure = {
-      packages.all.start = plugins ++ [ config ];
+      packages.all.start = [ config ];
     };
   };
 in
 
-pkgs.writeShellApplication {
+writeShellApplication {
   name = "nvim";
-  runtimeInputs = runtime;
+  runtimeInputs = callPackage ./runtime.nix { };
   text = ''
     ${overrideNeovim}/bin/nvim "$@"
   '';

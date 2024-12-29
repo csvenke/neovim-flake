@@ -74,18 +74,30 @@ conform.setup({
   },
 })
 
-local function formatBuffer()
-  require("conform").format({ async = true, lsp_fallback = true })
+local function format_buffer()
+  conform.format({ async = true, lsp_fallback = true })
 end
 
-local function toggleAutoFormat()
+local function format_selection()
+  conform.format({
+    async = true,
+    lsp_fallback = true,
+    range = {
+      start = vim.fn.getpos("'<"),
+      ["end"] = vim.fn.getpos("'>"),
+    },
+  })
+end
+
+local function toggle_autoformat()
   vim.cmd("lua vim.g.autoformat = not vim.g.autoformat")
   if vim.g.autoformat then
-    vim.notify("Autoformat is on")
+    vim.notify("autoformat is on")
   else
-    vim.notify("Autoformat is off")
+    vim.notify("autoformat is off")
   end
 end
 
-vim.keymap.set("n", "F", formatBuffer, { desc = "[F]ormat buffer" })
-vim.keymap.set("n", "<C-f>", toggleAutoFormat, { desc = "Toggle auto-[f]ormat" })
+vim.keymap.set("v", "F", format_selection, { desc = "format selection" })
+vim.keymap.set("n", "F", format_buffer, { desc = "[F]ormat buffer" })
+vim.keymap.set("n", "<C-f>", toggle_autoformat, { desc = "Toggle auto-[f]ormat" })

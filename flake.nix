@@ -8,10 +8,6 @@
       url = "github:jooooscha/nixpkgs-vim-extra-plugins";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    angular-language-server = {
-      url = "github:csvenke/angular-language-server-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     css-variables-language-server = {
       url = "github:csvenke/css-variables-language-server-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +28,6 @@
             inherit system;
             overlays = [
               inputs.vim-extra-plugins.overlays.default
-              inputs.angular-language-server.overlays.default
               inputs.css-variables-language-server.overlays.default
             ];
           };

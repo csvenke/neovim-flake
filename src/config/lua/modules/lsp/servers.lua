@@ -68,12 +68,7 @@ local servers = {
     end,
   },
 
-  angularls = {
-    cmd = { "angular-language-server", "--stdio", "--tsProbeLocations", "", "--ngProbeLocations", "" },
-    on_new_config = function(new_config)
-      new_config.cmd = { "angular-language-server", "--stdio", "--tsProbeLocations", "", "--ngProbeLocations", "" }
-    end,
-  },
+  angularls = {},
 
   omnisharp = {
     cmd = { "OmniSharp" },

@@ -19,15 +19,21 @@ dapui.setup({
   },
 })
 
-dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-dap.listeners.before.event_terminated["dapui_config"] = dapui.close
-dap.listeners.before.event_exited["dapui_config"] = dapui.close
+vim.keymap.set("n", "<F1>", dap.continue, { desc = "[d]ebug continue" })
+vim.keymap.set("n", "<F2>", dap.step_into, { desc = "[d]ebug step into" })
+vim.keymap.set("n", "<F3>", dap.step_over, { desc = "[d]ebug step over" })
+vim.keymap.set("n", "<F4>", dap.step_out, { desc = "[d]ebug step out" })
+vim.keymap.set("n", "<F5>", dap.step_back, { desc = "[d]ebug step back" })
+vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "toggle [d]ebug [b]reakpoint" })
+vim.keymap.set("n", "<leader>dB", dap.clear_breakpoints, { desc = "clear [d]ebug [B]reakpoints" })
 
-vim.keymap.set("n", "<F1>", dap.continue, { desc = "debug continue" })
-vim.keymap.set("n", "<F2>", dap.step_over, { desc = "debug step over" })
-vim.keymap.set("n", "<F3>", dap.step_into, { desc = "debug step into" })
-vim.keymap.set("n", "<F4>", dap.step_out, { desc = "debug step out" })
-vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "debug toggle breakpoint" })
+vim.keymap.set("n", "<space>d?", function()
+  dapui.eval(nil, { enter = true })
+end, { desc = "[d]ebug inspect" })
+
+vim.keymap.set("n", "<leader>dd", function()
+  dapui.toggle({ reset = true })
+end, { desc = "toggle [d]ebug ui" })
 
 -- dotnet
 dap.adapters.coreclr = {

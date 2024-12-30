@@ -10,7 +10,7 @@ wk.add({
     mode = { "n", "x" },
     { "<leader>c", group = "[c]ode" },
   },
-  { "<leader>d", group = "[d]iagnostics" },
+  { "<leader>d", group = "[d]ebug" },
   { "<leader>g", group = "[g]it" },
   { "<leader>q", group = "[q]uit" },
   { "<leader>s", group = "[s]earch" },

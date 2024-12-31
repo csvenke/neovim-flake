@@ -1,5 +1,6 @@
 {
   neovim,
+  git,
   vimUtils,
   callPackage,
   writeShellApplication,
@@ -10,6 +11,7 @@ let
     name = "config";
     src = ./config;
     dependencies = callPackage ./plugins.nix { };
+    buildInputs = [ git ];
   };
   overrideNeovim = neovim.override {
     configure = {

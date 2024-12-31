@@ -48,14 +48,13 @@ end
 require("fidget").setup({})
 require("lazydev").setup({
   library = {
-    { path = "luvit-meta/library", words = { "vim%.uv" } },
+    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
   },
   integrations = {
     lspconfig = true,
     cmp = false,
   },
 })
-require("neoconf").setup({})
 require("blink.cmp").setup({
   keymap = { preset = "default" },
   appearance = {
@@ -63,19 +62,23 @@ require("blink.cmp").setup({
     nerd_font_variant = "mono",
   },
   sources = {
-    default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+    default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+    cmdline = {},
+    providers = {
+      lazydev = {
+        name = "LazyDev",
+        module = "lazydev.integrations.blink",
+        score_offset = 100,
+      },
+    },
   },
   completion = {
     menu = {
       draw = {
-        treesitter = true,
+        treesitter = { "lsp" },
         columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
       },
     },
-  },
-  providers = {
-    lsp = { fallback_for = { "lazydev" } },
-    lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
   },
 })
 

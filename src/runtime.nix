@@ -39,7 +39,7 @@ with pkgs;
   nixfmt-rfc-style
 
   ### Bash ###
-  nodePackages.bash-language-server
+  bash-language-server
   shfmt
   shellcheck
 
@@ -69,15 +69,15 @@ with pkgs;
   prettierd
 
   ### Javascript/Typescript ###
-  nodePackages.typescript-language-server
+  typescript-language-server
 
-  ### Angular
+  ### Angular ###
   angular-language-server
 
-  ### Tailwindcss
+  ### Tailwindcss ###
   tailwindcss-language-server
 
-  ### Dotnet
+  ### Dotnet ###
   csharpier
   omnisharp-roslyn
   netcoredbg

@@ -12,16 +12,13 @@ let
     # Treesitter
     nvim-treesitter.withAllGrammars
     nvim-treesitter-textobjects
-    nvim-treesitter-refactor
     nvim-treesitter-context
     nvim-ts-autotag
 
     # LSP
     SchemaStore-nvim
     fidget-nvim
-    luvit-meta
     lazydev-nvim
-    neoconf-nvim
     nvim-lspconfig
     omnisharp-extended-lsp-nvim
     nvim-jdtls

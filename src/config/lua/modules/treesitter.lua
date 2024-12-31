@@ -23,13 +23,4 @@ require("nvim-treesitter.configs").setup({
       goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
     },
   },
-  refactor = {
-    highlight_definitions = {
-      enable = true,
-      clear_on_cursor_move = true,
-    },
-    highlight_current_scope = {
-      enable = false,
-    },
-  },
 })

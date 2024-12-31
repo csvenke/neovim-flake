@@ -12,6 +12,17 @@ local servers = {
         },
       },
     },
+    on_attach = function(client)
+      local no_flake = vim.fn.findfile("flake.nix", vim.fn.getcwd()) == ""
+      if no_flake then
+        return
+      end
+
+      client.config.settings.nixd.nixpkgs.expr = "import (builtins.getFlake (toString ./.)).inputs.nixpkgs {}"
+      client.notify("workspace/didChangeConfiguration", {
+        settings = client.config.settings,
+      })
+    end,
   },
 
   lua_ls = {

@@ -31,6 +31,9 @@ local servers = {
         completion = {
           callSnippet = "Replace",
         },
+        diagnostics = {
+          disable = { "missing-fields" },
+        },
       },
     },
   },

@@ -11,7 +11,6 @@ let
 
     # Treesitter
     nvim-treesitter.withAllGrammars
-    nvim-treesitter-textobjects
     nvim-treesitter-context
     nvim-ts-autotag
 

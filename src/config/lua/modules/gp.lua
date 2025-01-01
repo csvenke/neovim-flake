@@ -103,16 +103,25 @@ require("gp").setup({
 })
 
 vim.keymap.set("n", "<leader>aa", "<cmd>GpNew<cr>", { desc = "quick chat" })
-vim.keymap.set({ "v", "x" }, "<leader>aa", ":'<,'>GpNew<cr>", { desc = "quick chat with selection" })
+vim.keymap.set("v", "<leader>aa", ":'<,'>GpNew<cr>", { desc = "quick chat with selection" })
+vim.keymap.set("n", "<leader>aA", ":%GpNew<cr>", { desc = "quick chat with buffer" })
+
 vim.keymap.set("n", "<leader>ac", "<cmd>GpChatToggle<cr>", { desc = "toggle [c]hat" })
 vim.keymap.set("n", "<leader>aC", "<cmd>GpChatNew<cr>", { desc = "new [C]hat" })
+
 vim.keymap.set("n", "<leader>av", "<cmd>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
+vim.keymap.set("v", "<leader>av", "<cmd>'<,'>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
+vim.keymap.set("n", "<leader>aV", "<cmd>%GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
+
 vim.keymap.set("n", "<leader>as", "<cmd>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
+vim.keymap.set("v", "<leader>as", "<cmd>'<,'>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
+vim.keymap.set("n", "<leader>aS", "<cmd>%GpChatNew split<cr>", { desc = "new chat (horizontal)" })
+
 vim.keymap.set("n", "<leader>ao", "<cmd>GpAppend<cr>", { desc = "insert below" })
 vim.keymap.set("n", "<leader>aO", "<cmd>GpPrepend<cr>", { desc = "insert above" })
-vim.keymap.set({ "v", "x" }, "<leader>ap", ":'<,'>GpChatPaste<cr>", { desc = "paste selection to chat" })
-vim.keymap.set({ "v", "x" }, "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selection" })
-vim.keymap.set({ "v", "x" }, "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
-vim.keymap.set({ "v", "x" }, "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
-vim.keymap.set({ "v", "x" }, "<leader>ae", ":'<,'>GpExplain<cr>", { desc = "explain selection" })
-vim.keymap.set({ "v", "x" }, "<leader>an", ":'<,'>GpSuggestNaming<cr>", { desc = "suggest naming" })
+vim.keymap.set("v", "<leader>ap", ":'<,'>GpChatPaste<cr>", { desc = "paste selection to chat" })
+vim.keymap.set("v", "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selection" })
+vim.keymap.set("v", "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
+vim.keymap.set("v", "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
+vim.keymap.set("v", "<leader>ae", ":'<,'>GpExplain<cr>", { desc = "explain selection" })
+vim.keymap.set("v", "<leader>an", ":'<,'>GpSuggestNaming<cr>", { desc = "suggest naming" })

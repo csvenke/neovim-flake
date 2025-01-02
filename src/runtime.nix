@@ -72,7 +72,7 @@ with pkgs;
   typescript-language-server
 
   ### Angular ###
-  angular-language-server
+  (pkgs.callPackage ./packages/ngserver.nix { })
 
   ### Tailwindcss ###
   tailwindcss-language-server

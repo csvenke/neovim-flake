@@ -86,7 +86,20 @@ local function add_worktree()
     end
 
     vim.system({ "git", "worktree", "add", input }, { cwd = root }):wait()
+
+    local shared_dir = root .. "/.shared"
+    if vim.fn.isdirectory(shared_dir) == 1 then
+      vim.system({ "cp", "-r", shared_dir .. "/.", new_worktree }):wait()
+    end
+
+    local has_direnv = vim.fn.executable("direnv")
+    local has_envrc = vim.fn.isdirectory(new_worktree .. "/.envrc") == 1
+    if has_direnv and has_envrc then
+      vim.system({ "direnv", "allow", new_worktree }):wait()
+    end
+
     change_working_directory(new_worktree)
+
     vim.notify_once("Switched to worktree " .. new_worktree)
   end)
 end

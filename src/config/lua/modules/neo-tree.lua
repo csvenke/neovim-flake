@@ -38,4 +38,5 @@ require("neo-tree").setup({
 
 vim.keymap.set("n", "<leader>e", function()
   require("neo-tree.command").execute({ source = "filesystem", toggle = true })
+  vim.api.nvim_exec_autocmds("VimResized", {})
 end, { desc = "file [e]xplorer" })

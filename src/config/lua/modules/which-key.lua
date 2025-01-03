@@ -15,4 +15,5 @@ wk.add({
   { "<leader>q", group = "[q]uit" },
   { "<leader>s", group = "[s]earch" },
   { "<leader>t", group = "[t]est" },
+  { "<leader>l", group = "logs" },
 })

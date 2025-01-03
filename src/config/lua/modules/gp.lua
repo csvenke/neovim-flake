@@ -81,6 +81,19 @@ require("gp").setup({
   providers = providers,
   agents = agents,
   hooks = {
+    ChatFinder = function()
+      require("telescope.builtin").live_grep({
+        prompt_title = "Search gp chats",
+        cwd = require("gp").config.chat_dir,
+        default_text = "topic: ",
+        vimgrep_arguments = {
+          "rg",
+          "--column",
+          "--smart-case",
+          "--sortr=modified",
+        },
+      })
+    end,
     Explain = function(plugin, params)
       local template = "I have the following code from {{filename}}:\n\n"
         .. "```{{filetype}}\n{{selection}}\n```\n\n"
@@ -101,6 +114,8 @@ require("gp").setup({
     end,
   },
 })
+
+vim.keymap.set("n", "<leader>sa", "<cmd>GpChatFinder<cr>", { desc = "[s]earch [a]i chats" })
 
 vim.keymap.set("n", "<leader>aa", "<cmd>GpNew<cr>", { desc = "quick chat" })
 vim.keymap.set("v", "<leader>aa", ":'<,'>GpNew<cr>", { desc = "quick chat with selection" })

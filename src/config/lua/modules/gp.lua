@@ -94,6 +94,15 @@ require("gp").setup({
         },
       })
     end,
+    SquashBugs = function(plugin, params)
+      local template = "I have the following code from {{filename}}:\n\n"
+        .. "```{{filetype}}\n{{selection}}\n```\n\n"
+        .. "Find potential issues and/or bugs, if you cant find any respond with 'LGTM'\n"
+        .. "Write response in code comments and nothing else\n"
+      local agent = plugin.get_command_agent()
+
+      plugin.Prompt(params, plugin.Target.prepend, agent, template, nil, nil)
+    end,
     Explain = function(plugin, params)
       local template = "I have the following code from {{filename}}:\n\n"
         .. "```{{filetype}}\n{{selection}}\n```\n\n"
@@ -140,3 +149,4 @@ vim.keymap.set("v", "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below s
 vim.keymap.set("v", "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
 vim.keymap.set("v", "<leader>ae", ":'<,'>GpExplain<cr>", { desc = "explain selection" })
 vim.keymap.set("v", "<leader>an", ":'<,'>GpSuggestNaming<cr>", { desc = "suggest naming" })
+vim.keymap.set("v", "<leader>ab", ":GpSquashBugs<cr>", { desc = "squash bugs" })

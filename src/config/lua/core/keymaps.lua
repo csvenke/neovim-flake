@@ -19,3 +19,7 @@ vim.keymap.set("i", "<C-h>", "<Esc>i", { desc = "Shift left" })
 -- quick fix list
 vim.keymap.set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "qf [n]ext" })
 vim.keymap.set("n", "<C-p>", "<cmd>cprev<cr>", { desc = "qf [p]rev" })
+
+-- remember, no macros
+vim.keymap.set("n", "q", "<Nop>")
+vim.keymap.set("n", "Q", "<Nop>")

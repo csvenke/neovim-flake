@@ -94,7 +94,7 @@ require("gp").setup({
         },
       })
     end,
-    SquashBugs = function(plugin, params)
+    FindBugs = function(plugin, params)
       local template = "I have the following code from {{filename}}:\n\n"
         .. "```{{filetype}}\n{{selection}}\n```\n\n"
         .. "Find potential issues and/or bugs, if you cant find any respond with 'LGTM'\n"
@@ -127,26 +127,34 @@ require("gp").setup({
 vim.keymap.set("n", "<leader>sa", "<cmd>GpChatFinder<cr>", { desc = "[s]earch [a]i chats" })
 
 vim.keymap.set("n", "<leader>aa", "<cmd>GpNew<cr>", { desc = "quick chat" })
-vim.keymap.set("v", "<leader>aa", ":'<,'>GpNew<cr>", { desc = "quick chat with selection" })
-vim.keymap.set("n", "<leader>aA", ":%GpNew<cr>", { desc = "quick chat with buffer" })
+vim.keymap.set("v", "<leader>aa", ":GpNew<cr>", { desc = "quick chat with selection" })
+vim.keymap.set("n", "<leader>aA", "<cmd>%GpNew<cr>", { desc = "quick chat with buffer" })
 
 vim.keymap.set("n", "<leader>ac", "<cmd>GpChatToggle<cr>", { desc = "toggle [c]hat" })
 vim.keymap.set("n", "<leader>aC", "<cmd>GpChatNew<cr>", { desc = "new [C]hat" })
 
 vim.keymap.set("n", "<leader>av", "<cmd>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
-vim.keymap.set("v", "<leader>av", "<cmd>'<,'>GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
+vim.keymap.set("v", "<leader>av", ":GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
 vim.keymap.set("n", "<leader>aV", "<cmd>%GpChatNew vsplit<cr>", { desc = "new chat (vertical)" })
 
 vim.keymap.set("n", "<leader>as", "<cmd>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
-vim.keymap.set("v", "<leader>as", "<cmd>'<,'>GpChatNew split<cr>", { desc = "new chat (horizontal)" })
+vim.keymap.set("v", "<leader>as", ":GpChatNew split<cr>", { desc = "new chat (horizontal)" })
 vim.keymap.set("n", "<leader>aS", "<cmd>%GpChatNew split<cr>", { desc = "new chat (horizontal)" })
 
-vim.keymap.set("n", "<leader>ao", "<cmd>GpAppend<cr>", { desc = "insert below" })
-vim.keymap.set("n", "<leader>aO", "<cmd>GpPrepend<cr>", { desc = "insert above" })
-vim.keymap.set("v", "<leader>ap", ":'<,'>GpChatPaste<cr>", { desc = "paste selection to chat" })
-vim.keymap.set("v", "<leader>ar", ":'<,'>GpRewrite<cr>", { desc = "rewrite selection" })
-vim.keymap.set("v", "<leader>ao", ":'<,'>GpAppend<cr>", { desc = "insert below selection" })
-vim.keymap.set("v", "<leader>aO", ":'<,'>GpPrepend<cr>", { desc = "insert above selection" })
-vim.keymap.set("v", "<leader>ae", ":'<,'>GpExplain<cr>", { desc = "explain selection" })
-vim.keymap.set("v", "<leader>an", ":'<,'>GpSuggestNaming<cr>", { desc = "suggest naming" })
-vim.keymap.set("v", "<leader>ab", ":GpSquashBugs<cr>", { desc = "squash bugs" })
+vim.keymap.set("v", "<leader>ar", ":GpRewrite<cr>", { desc = "rewrite selection" })
+vim.keymap.set("n", "<leader>aR", "<cmd>%GpRewrite<cr>", { desc = "rewrite buffer (dangerous)" })
+
+vim.keymap.set("n", "<leader>ao", "<cmd>GpAppend<cr>", { desc = "write below" })
+vim.keymap.set("v", "<leader>ao", ":GpAppend<cr>", { desc = "write below selection" })
+
+vim.keymap.set("n", "<leader>aO", "<cmd>GpPrepend<cr>", { desc = "write above" })
+vim.keymap.set("v", "<leader>aO", ":GpPrepend<cr>", { desc = "write above selection" })
+
+vim.keymap.set("v", "<leader>ap", ":GpChatPaste<cr>", { desc = "paste selection to chat" })
+vim.keymap.set("n", "<leader>aP", "<cmd>%GpChatPaste<cr>", { desc = "paste buffer to chat" })
+
+vim.keymap.set("v", "<leader>ae", ":GpExplain<cr>", { desc = "explain selection" })
+vim.keymap.set("v", "<leader>an", ":GpSuggestNaming<cr>", { desc = "suggest naming for selection" })
+
+vim.keymap.set("v", "<leader>ab", ":GpFindBugs<cr>", { desc = "find bugs for selection" })
+vim.keymap.set("n", "<leader>aB", "<cmd>%GpFindBugs<cr>", { desc = "find bugs for buffer (dangerous)" })

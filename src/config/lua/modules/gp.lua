@@ -99,25 +99,35 @@ require("gp").setup({
         .. "```{{filetype}}\n{{selection}}\n```\n\n"
         .. "Find potential issues and/or bugs, if you cant find any respond with 'LGTM'\n"
         .. "Write response in code comments and nothing else\n"
-      local agent = plugin.get_command_agent()
+      local agent = plugin.get_chat_agent()
 
       plugin.Prompt(params, plugin.Target.prepend, agent, template, nil, nil)
+    end,
+    Question = function(plugin, params)
+      local template = "I have the following code from {{filename}}:\n\n"
+        .. "```{{filetype}}\n{{selection}}\n```\n\n"
+        .. "```{{command}}}```\n\n"
+        .. "Write the response to the question above in code comments and nothing else\n"
+      local agent = plugin.get_chat_agent()
+
+      plugin.Prompt(params, plugin.Target.prepend, agent, template, "🤖 " .. agent.name)
     end,
     Explain = function(plugin, params)
       local template = "I have the following code from {{filename}}:\n\n"
         .. "```{{filetype}}\n{{selection}}\n```\n\n"
         .. "Please respond by explaining the code above\n"
-        .. "Write the explaination in comments and nothing else\n"
-      local agent = plugin.get_command_agent()
+        .. "Write response in code comments and nothing else\n"
+      local agent = plugin.get_chat_agent()
 
       plugin.Prompt(params, plugin.Target.prepend, agent, template, nil, nil)
     end,
     SuggestNaming = function(plugin, params)
       local template = "I have the following code from {{filename}}:\n\n"
         .. "```{{filetype}}\n{{selection}}\n```\n\n"
-        .. "Give 5 alternative names that clearly describe the selected function/class/variable's purpose\n"
-        .. "Write suggestions in only comments\n"
-      local agent = plugin.get_command_agent()
+        .. "Suggest naming alternatives that clearly describe the selected function/class/variable's purpose\n"
+        .. "Prefer short, simple and elegant names if possible\n"
+        .. "Write response in code comments and nothing else\n"
+      local agent = plugin.get_chat_agent()
 
       plugin.Prompt(params, plugin.Target.prepend, agent, template, nil, nil)
     end,
@@ -158,3 +168,5 @@ vim.keymap.set("v", "<leader>an", ":GpSuggestNaming<cr>", { desc = "suggest nami
 
 vim.keymap.set("v", "<leader>ab", ":GpFindBugs<cr>", { desc = "find bugs for selection" })
 vim.keymap.set("n", "<leader>aB", "<cmd>%GpFindBugs<cr>", { desc = "find bugs for buffer (dangerous)" })
+
+vim.keymap.set("v", "<leader>aq", ":GpQuestion<cr>", { desc = "question about selection" })

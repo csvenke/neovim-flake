@@ -14,6 +14,9 @@ let
     buildInputs = [ git ];
   };
   overrideNeovim = neovim.override {
+    withNodeJs = false;
+    withRuby = false;
+    withPython3 = false;
     configure = {
       packages.all.start = [ config ];
     };

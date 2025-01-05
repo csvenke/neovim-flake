@@ -45,27 +45,44 @@ end
 local function change_working_directory(path)
   local current_path = vim.fn.expand("%:.")
   local editable_path = vim.fn.filereadable(current_path) == 1 and current_path or "."
-  vim.cmd("cd " .. path)
+
+  vim.cmd("wa")
   vim.cmd("clearjumps")
+  vim.cmd("cd " .. path)
   vim.cmd("edit " .. editable_path)
 end
 
 local function switch_worktree()
   select_worktree("Switch worktree", function(worktree)
+    if vim.fn.getcwd() == worktree then
+      return
+    end
+
     change_working_directory(worktree)
-    vim.notify_once("Switched to worktree " .. worktree)
+    vim.notify("Switched to worktree " .. worktree)
   end)
 end
 
 local function remove_worktree()
   select_worktree("Remove worktree", function(worktree)
     if vim.fn.getcwd() == worktree then
-      vim.notify_once("Can't remove active worktree")
+      vim.notify("Can't remove active worktree")
       return
     end
 
     vim.system({ "git", "worktree", "remove", worktree }):wait()
-    vim.notify_once("Removed worktree " .. worktree)
+
+    if vim.fn.isdirectory(worktree) == 1 then
+      local choice =
+        vim.fn.confirm("Worktree contains modified or untracked files, use --force to delete it?", "&Yes\n&No", 2)
+      if choice == 1 then
+        vim.system({ "git", "worktree", "remove", "--force", worktree }):wait()
+      end
+    end
+
+    if vim.fn.isdirectory(worktree) == 0 then
+      vim.notify("Removed worktree " .. worktree)
+    end
   end)
 end
 
@@ -81,7 +98,7 @@ local function add_worktree()
     local new_worktree = string.format("%s/%s", root, input)
 
     if vim.fn.isdirectory(new_worktree) == 1 then
-      vim.notify_once("Worktree already exists")
+      vim.notify("Worktree already exists")
       return
     end
 
@@ -92,15 +109,15 @@ local function add_worktree()
       vim.system({ "cp", "-r", shared_dir .. "/.", new_worktree }):wait()
     end
 
-    local has_direnv = vim.fn.executable("direnv")
-    local has_envrc = vim.fn.isdirectory(new_worktree .. "/.envrc") == 1
+    local has_direnv = vim.fn.executable("direnv") == 1
+    local has_envrc = vim.fn.filereadable(new_worktree .. "/.envrc") == 1
     if has_direnv and has_envrc then
       vim.system({ "direnv", "allow", new_worktree }):wait()
     end
 
     change_working_directory(new_worktree)
 
-    vim.notify_once("Switched to worktree " .. new_worktree)
+    vim.notify("Switched to worktree " .. new_worktree)
   end)
 end
 

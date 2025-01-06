@@ -48,8 +48,16 @@ local function change_working_directory(path)
 
   vim.cmd("wa")
   vim.cmd("clearjumps")
+
+  vim.lsp.stop_client(vim.lsp.get_clients(), true)
+
   vim.cmd("cd " .. path)
   vim.cmd("edit " .. editable_path)
+
+  vim.defer_fn(function()
+    vim.cmd("LspRestart")
+    vim.cmd("e!")
+  end, 200)
 end
 
 local function switch_worktree()

@@ -10,7 +10,7 @@ let
     direnv-vim
 
     # Treesitter
-    nvim-treesitter.withAllGrammars
+    nvim-treesitter
     nvim-treesitter-context
     nvim-ts-autotag
 

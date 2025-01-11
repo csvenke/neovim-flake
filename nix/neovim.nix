@@ -9,7 +9,7 @@
 let
   config = vimUtils.buildVimPlugin {
     name = "config";
-    src = ./config;
+    src = ../src;
     dependencies = callPackage ./plugins.nix { };
     buildInputs = [ git ];
   };
@@ -19,6 +19,10 @@ let
     withPython3 = false;
     configure = {
       packages.all.start = [ config ];
+      customRC = # vim
+        ''
+          lua require("config")
+        '';
     };
   };
 in

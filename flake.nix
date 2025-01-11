@@ -31,7 +31,7 @@
               inputs.css-variables-language-server.overlays.default
             ];
           };
-          neovim = pkgs.callPackage ./src/neovim.nix { };
+          neovim = pkgs.callPackage ./nix/neovim.nix { };
         in
         {
           overlayAttrs = {

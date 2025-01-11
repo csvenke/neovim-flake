@@ -37,7 +37,7 @@ require("blink.cmp").setup({
 
 local lspconfig = require("lspconfig")
 local capabilities = require("blink.cmp").get_lsp_capabilities()
-local servers = require("modules.lsp.servers")
+local servers = require("config.modules.lsp.servers")
 
 for server, config in pairs(servers) do
   config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     local buffer = event.buf
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    local map = require("util").make_map_buffer(buffer)
+    local map = require("config.util").make_map_buffer(buffer)
 
     map("gd", vim.lsp.buf.definition, "[g]oto [d]efinition(s)")
     map("gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")

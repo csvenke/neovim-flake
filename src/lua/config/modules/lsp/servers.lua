@@ -61,13 +61,13 @@ local servers = {
       vim.keymap.set(
         "n",
         "<leader>co",
-        require("util").make_code_action("source.organizeImports.ts"),
+        require("config.util").make_code_action("source.organizeImports.ts"),
         { desc = "[c]ode [o]rganize imports" }
       )
       vim.keymap.set(
         "n",
         "<leader>cR",
-        require("util").make_code_action("source.removeUnused.ts"),
+        require("config.util").make_code_action("source.removeUnused.ts"),
         { desc = "[c]ode [R]emove unused imports" }
       )
     end,
@@ -101,7 +101,7 @@ local servers = {
       },
     },
     on_attach = function(_, buffer)
-      local map = require("util").make_map_buffer(buffer)
+      local map = require("config.util").make_map_buffer(buffer)
       local omnisharp = require("omnisharp_extended")
 
       map("gd", omnisharp.telescope_lsp_definition, "[g]oto [d]efinition (omnisharp)")

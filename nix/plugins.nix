@@ -55,8 +55,6 @@ let
     nvim-notify
     noice-nvim
     lualine-nvim
-    nvim-navic
-    barbecue-nvim
 
     # Keymaps
     which-key-nvim

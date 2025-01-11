@@ -39,8 +39,11 @@ vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[s]earch [b]uffers"
 vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[s]earch [w]ord" })
 vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[s]earch [d]iagnostics" })
 vim.keymap.set("n", "<leader>so", builtin.vim_options, { desc = "[s]earch vim [o]ptions" })
+vim.keymap.set("n", "<leader>sc", builtin.quickfix, { desc = "[s]earch qui[c]kfix" })
 vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Find in files (Grep)" })
 vim.keymap.set("n", "<leader>?", builtin.live_grep, { desc = "Find in files (Grep)" })
 vim.keymap.set("n", "<leader>:", builtin.command_history, { desc = "Command history" })
 vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[s]earch recent files" })
 vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "[s]earch [f]iles" })
+
+require("modules.telescope.multigrep").setup()

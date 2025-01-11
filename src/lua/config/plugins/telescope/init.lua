@@ -46,4 +46,4 @@ vim.keymap.set("n", "<leader>:", builtin.command_history, { desc = "Command hist
 vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[s]earch recent files" })
 vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "[s]earch [f]iles" })
 
-require("config.modules.telescope.multigrep").setup()
+require("config.plugins.telescope.multigrep").setup()

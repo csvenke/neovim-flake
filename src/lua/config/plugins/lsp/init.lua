@@ -37,7 +37,7 @@ require("blink.cmp").setup({
 
 local lspconfig = require("lspconfig")
 local capabilities = require("blink.cmp").get_lsp_capabilities()
-local servers = require("config.modules.lsp.servers")
+local servers = require("config.plugins.lsp.servers")
 
 for server, config in pairs(servers) do
   config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})

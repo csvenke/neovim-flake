@@ -21,19 +21,16 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move right" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move down" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move up" })
 
--- shifting
-vim.keymap.set("i", "<C-k>", "<Up>", { desc = "Shift up" })
-vim.keymap.set("i", "<C-j>", "<Down>", { desc = "Shift down" })
+-- programming shortcuts
 vim.keymap.set("i", "<C-l>", "<Right>", { desc = "Shift right" })
 vim.keymap.set("i", "<C-h>", "<Left>", { desc = "Shift left" })
+vim.keymap.set("i", "<C-j>", "{}<Left>", { desc = "{" })
+vim.keymap.set("i", "<C-k>", "[]<Left>", { desc = "[" })
+vim.keymap.set("i", "<C-o>", "()<Left>", { desc = "(" })
 
 -- move selected lines
-vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected down" })
-vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected up" })
-
--- programmer shortcuts
-vim.keymap.set("i", "<C-i>", "{}<Left>", { desc = "{" })
-vim.keymap.set("i", "<C-o>", "[]<Left>", { desc = "[" })
+vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected down", silent = true })
+vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected up", silent = true })
 
 -- quickfix list
 vim.keymap.set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "qf [n]ext" })

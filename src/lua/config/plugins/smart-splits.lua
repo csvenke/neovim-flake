@@ -6,7 +6,6 @@ smartsplits.setup({
     "quickfix",
     "prompt",
   },
-  ignored_filetypes = { "neo-tree" },
 })
 
 vim.keymap.set("n", "<C-k>", smartsplits.move_cursor_up, { desc = "Move up" })

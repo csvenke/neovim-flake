@@ -1,8 +1,3 @@
-require("nordic").setup({
-  on_highlight = function(highlights, palette)
-    highlights.NeoTreeTitleBar = { fg = palette.yellow.dim }
-    highlights.NeoTreeGitUntracked = { fg = palette.white0 }
-  end,
-})
+require("nordic").setup({})
 
 vim.cmd.colorscheme("nordic")

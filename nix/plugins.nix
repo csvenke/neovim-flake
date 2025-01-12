@@ -62,7 +62,7 @@ let
     # Navigation
     oil-nvim
     harpoon2
-    neo-tree-nvim
+    nvim-tree-lua
     smart-splits-nvim
 
     # Startup

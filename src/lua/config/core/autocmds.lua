@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd("VimResized", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
+  group = vim.api.nvim_create_augroup("user-close-with-q", { clear = true }),
   pattern = {
     "help",
     "lspinfo",
@@ -33,7 +33,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
+  group = vim.api.nvim_create_augroup("user-auto-create-dir", { clear = true }),
   callback = function(event)
     local is_protocol = event.match:match("^%w%w+:[\\/][\\/]")
     if is_protocol then

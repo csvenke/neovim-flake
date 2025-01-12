@@ -7,11 +7,6 @@ require("telescope").setup({
       },
     },
   },
-  pickers = {
-    find_files = {
-      find_command = { "rg", "--files", "--sortr=modified" },
-    },
-  },
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown({}),

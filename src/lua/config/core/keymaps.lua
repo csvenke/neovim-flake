@@ -27,6 +27,10 @@ vim.keymap.set("i", "<C-j>", "<Down>", { desc = "Shift down" })
 vim.keymap.set("i", "<C-l>", "<Right>", { desc = "Shift right" })
 vim.keymap.set("i", "<C-h>", "<Left>", { desc = "Shift left" })
 
+-- move selected lines
+vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected down" })
+vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected up" })
+
 -- programmer shortcuts
 vim.keymap.set("i", "<C-i>", "{}<Left>", { desc = "{" })
 vim.keymap.set("i", "<C-o>", "[]<Left>", { desc = "[" })

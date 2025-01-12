@@ -2,6 +2,10 @@ local wk = require("which-key")
 
 wk.add({
   {
+    mode = { "n" },
+    { "<C-t>", group = "+tab" },
+  },
+  {
     mode = { "n", "v" },
     { "<leader>a", group = "ai" },
   },

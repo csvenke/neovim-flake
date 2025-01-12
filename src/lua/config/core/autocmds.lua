@@ -45,3 +45,10 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(directory_path, "p")
   end,
 })
+
+vim.api.nvim_create_autocmd({ "VimEnter", "TabEnter", "TabLeave", "TabNew", "TabClosed" }, {
+  group = vim.api.nvim_create_augroup("user-auto-show-tabline", { clear = true }),
+  callback = function()
+    vim.opt.showtabline = #vim.fn.gettabinfo() > 1 and 2 or 0
+  end,
+})

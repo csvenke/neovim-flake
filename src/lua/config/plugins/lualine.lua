@@ -2,7 +2,11 @@ require("lualine").setup({
   options = {
     theme = "auto",
     globalstatus = true,
-    icons_enabled = true
+    icons_enabled = true,
   },
-  extensions = { "neo-tree", "trouble" },
+  tabline = {
+    lualine_z = {
+      { "tabs", show_modified_status = false },
+    },
+  },
 })

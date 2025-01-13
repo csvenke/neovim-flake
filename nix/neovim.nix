@@ -1,32 +1,21 @@
 {
-  neovim,
-  git,
-  vimUtils,
   callPackage,
-  writeShellApplication,
+  vimUtils,
+  git,
 }:
 
 let
-  config = vimUtils.buildVimPlugin {
+  mkNeovim = callPackage ./packages/mkNeovim.nix { };
+
+  configAsPlugin = vimUtils.buildVimPlugin {
     name = "config";
     src = ../src;
     dependencies = callPackage ./plugins.nix { };
     buildInputs = [ git ];
   };
-  overrideNeovim = neovim.override {
-    withNodeJs = false;
-    withRuby = false;
-    withPython3 = false;
-    configure = {
-      packages.all.start = [ config ];
-    };
-  };
 in
 
-writeShellApplication {
-  name = "nvim";
-  runtimeInputs = callPackage ./runtime.nix { };
-  text = ''
-    ${overrideNeovim}/bin/nvim "$@"
-  '';
+mkNeovim {
+  extraPlugins = [ configAsPlugin ];
+  extraPackages = callPackage ./runtime.nix { };
 }

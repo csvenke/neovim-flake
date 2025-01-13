@@ -1,6 +1,9 @@
 -- clear search highlighting
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>")
 
+-- preserve clipboard when pasting
+vim.keymap.set("x", "p", '"_dP')
+
 -- disable macros
 vim.keymap.set("n", "q", "<Nop>")
 vim.keymap.set("n", "Q", "<Nop>")

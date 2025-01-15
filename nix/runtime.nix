@@ -21,11 +21,6 @@ with pkgs;
 
   ### Git ###
   git
-  lazygit
-  delta
-
-  ### Lazygit ###
-  lazygit
 
   ### Telescope ###
   fzf

@@ -22,7 +22,20 @@ local function open_popup()
   os.execute(command)
 end
 
+local function open_lazygit()
+  if vim.fn.executable("lazygit") == 0 then
+    vim.notify("Lazygit not installed")
+    return
+  end
+
+  os.execute("tmux popup -w100% -h100% -d $PWD -E 'lazygit'")
+end
+
+-- terminal
 vim.keymap.set("n", "tt", open_horizontal_split, { desc = "[t]mux horizontal split" })
 vim.keymap.set("n", "ts", open_horizontal_split, { desc = "[t]mux horizontal split" })
 vim.keymap.set("n", "tv", open_vertical_split, { desc = "[t]mux vertical split" })
 vim.keymap.set("n", "tp", open_popup, { desc = "[t]mux popup" })
+
+-- git
+vim.keymap.set("n", "<leader>gg", open_lazygit, { desc = "[g]it [g]ui" })

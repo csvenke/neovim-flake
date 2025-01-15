@@ -41,7 +41,6 @@ let
     telescope-ui-select-nvim
 
     # Git
-    lazygit-nvim
     diffview-nvim
     gitsigns-nvim
 

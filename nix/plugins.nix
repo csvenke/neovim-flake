@@ -73,6 +73,7 @@ let
 
     # Misc
     mini-nvim
+    snacks-nvim
   ];
 
   # https://github.com/NixNeovim/NixNeovimPlugins

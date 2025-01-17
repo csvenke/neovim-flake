@@ -35,19 +35,4 @@ vim.keymap.set("n", "<leader>dd", function()
   dapui.toggle({ reset = true })
 end, { desc = "toggle [d]ebug ui" })
 
--- dotnet
-dap.adapters.coreclr = {
-  type = "executable",
-  command = "netcoredbg",
-  args = { "--interpreter=vscode" },
-}
-dap.configurations.cs = {
-  {
-    type = "coreclr",
-    name = "launch - netcoredbg",
-    request = "launch",
-    program = function()
-      return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
-    end,
-  },
-}
+require("config.plugins.debug.netcoredbg").setup()

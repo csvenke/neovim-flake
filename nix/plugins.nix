@@ -63,6 +63,7 @@ let
     harpoon2
     nvim-tree-lua
     smart-splits-nvim
+    flash-nvim
 
     # Startup
     alpha-nvim

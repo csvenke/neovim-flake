@@ -1,6 +1,11 @@
 require("snacks").setup({
-  bigfile = {
-    enabled = true,
+  bigfile = {},
+  notifier = {},
+  quickfile = {},
+  input = {
+    win = {
+      relative = "cursor",
+    },
   },
 })
 

@@ -1,4 +1,12 @@
 require("noice").setup({
+  cmdline = {
+    view = "cmdline",
+  },
+  views = {
+    confirm = {
+      backend = "snacks",
+    },
+  },
   lsp = {
     hover = {
       silent = true,
@@ -28,7 +36,7 @@ require("noice").setup({
     },
   },
   presets = {
-    command_palette = true,
+    bottom_search = true,
     long_message_to_split = true,
   },
 })

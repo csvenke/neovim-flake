@@ -1,85 +1,30 @@
-local function file_exists(filename)
-  local file = io.open(filename, "r")
-  if file then
-    file:close()
-    return true
-  else
-    return false
-  end
-end
-
-local default_chat_agent = nil
-local default_command_agent = nil
-local providers = {}
-local agents = {}
-
-local openai_api_key_path = os.getenv("HOME") .. "/.vault/openai-api-key.txt"
-local anthropic_api_key_path = os.getenv("HOME") .. "/.vault/anthropic-api-key.txt"
-
-if file_exists(openai_api_key_path) then
-  default_chat_agent = "OpenAiChat"
-  default_command_agent = "OpenAiCode"
-
-  providers.openai = {
-    endpoint = "https://api.openai.com/v1/chat/completions",
-    secret = { "cat", openai_api_key_path },
-  }
-  table.insert(agents, {
-    provider = "openai",
-    name = "OpenAiChat",
-    chat = true,
-    command = false,
-    model = { model = "gpt-4o", temperature = 1.1, top_p = 1 },
-    system_prompt = require("gp.defaults").chat_system_prompt,
-  })
-  table.insert(agents, {
-    provider = "openai",
-    name = "OpenAiCode",
-    chat = false,
-    command = true,
-    model = { model = "gpt-4o-mini", temperature = 0.7, top_p = 1 },
-    system_prompt = require("gp.defaults").code_system_prompt,
-  })
-end
-
-if file_exists(anthropic_api_key_path) then
-  default_chat_agent = "AnthropicChat"
-  default_command_agent = "AnthropicCode"
-
-  providers.anthropic = {
-    endpoint = "https://api.anthropic.com/v1/messages",
-    secret = { "cat", anthropic_api_key_path },
-  }
-  table.insert(agents, {
-    provider = "anthropic",
-    name = "AnthropicChat",
-    chat = true,
-    command = false,
-    model = { model = "claude-3-5-sonnet-20241022", temperature = 0.8, top_p = 1 },
-    system_prompt = require("gp.defaults").chat_system_prompt,
-  })
-  table.insert(agents, {
-    provider = "anthropic",
-    name = "AnthropicCode",
-    chat = false,
-    command = true,
-    model = { model = "claude-3-5-sonnet-20241022", temperature = 0.7, top_p = 1 },
-    system_prompt = require("gp.defaults").code_system_prompt,
-  })
-end
-
-if default_chat_agent == nil then
-  return
-end
-if default_command_agent == nil then
-  return
-end
-
 require("gp").setup({
-  default_chat_agent = default_chat_agent,
-  default_command_agent = default_command_agent,
-  providers = providers,
-  agents = agents,
+  default_chat_agent = "AnthropicChat",
+  default_command_agent = "AnthropicCode",
+  providers = {
+    anthropic = {
+      endpoint = "https://api.anthropic.com/v1/messages",
+      secret = os.getenv("ANTHROPIC_API_KEY"),
+    },
+  },
+  agents = {
+    {
+      provider = "anthropic",
+      name = "AnthropicChat",
+      chat = true,
+      command = false,
+      model = { model = "claude-3-5-sonnet-20241022", temperature = 0.8, top_p = 1 },
+      system_prompt = require("gp.defaults").chat_system_prompt,
+    },
+    {
+      provider = "anthropic",
+      name = "AnthropicCode",
+      chat = false,
+      command = true,
+      model = { model = "claude-3-5-sonnet-20241022", temperature = 0.7, top_p = 1 },
+      system_prompt = require("gp.defaults").code_system_prompt,
+    },
+  },
   hooks = {
     ChatFinder = function()
       require("telescope.builtin").live_grep({

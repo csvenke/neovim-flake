@@ -14,6 +14,7 @@ require("nvim-tree").setup({
     vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("close"))
     vim.keymap.set("n", "s", api.node.open.horizontal, opts("open horizontal"))
     vim.keymap.set("n", "v", api.node.open.vertical, opts("open vertical"))
+    vim.keymap.set("n", "y", api.fs.copy.node, opts("copy"))
     vim.keymap.set("n", ".", api.tree.change_root_to_node, opts("change cwd"))
   end,
   notify = {

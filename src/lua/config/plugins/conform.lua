@@ -26,6 +26,7 @@ conform.setup({
     scss = { "prettier" },
     less = { "prettier" },
     html = { "prettier" },
+    htmlangular = { "prettier" },
     json = { "prettier" },
     jsonc = { "prettier" },
     yaml = { "prettier" },

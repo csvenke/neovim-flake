@@ -159,7 +159,9 @@ local servers = {
     },
   },
 
-  html = {},
+  html = {
+    filetypes = { "html", "htmlangular", "templ" },
+  },
   cssls = {},
   css_variables = {},
   eslint = {},

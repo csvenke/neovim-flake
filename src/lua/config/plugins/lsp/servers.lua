@@ -82,7 +82,15 @@ local servers = {
     end,
   },
 
-  angularls = {},
+  angularls = {
+    before_init = function()
+      vim.filetype.add({
+        pattern = {
+          [".*%.component%.html"] = "htmlangular",
+        },
+      })
+    end,
+  },
 
   omnisharp = {
     cmd = { "OmniSharp" },

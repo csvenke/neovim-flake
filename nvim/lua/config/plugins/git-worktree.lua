@@ -94,35 +94,46 @@ local function remove_worktree()
   end)
 end
 
+---@param root string
+---@param worktree string
+local function copy_shared(root, worktree)
+  local shared_dir = root .. "/.shared"
+
+  if vim.fn.isdirectory(shared_dir) == 1 then
+    vim.system({ "cp", "-r", shared_dir .. "/.", worktree }):wait()
+  end
+end
+
+---@param worktree string
+local function direnv_setup(worktree)
+  local has_direnv = vim.fn.executable("direnv") == 1
+  local has_envrc = vim.fn.filereadable(worktree .. "/.envrc") == 1
+
+  if has_direnv and has_envrc then
+    vim.system({ "direnv", "allow", worktree }):wait()
+  end
+end
+
 local function add_worktree()
   vim.ui.input({
-    prompt = "Create worktree",
+    prompt = "Add worktree",
   }, function(input)
     if input == nil then
       return
     end
 
-    local root = get_root_worktree()
-    local new_worktree = string.format("%s/%s", root, input)
+    local root_worktree = get_root_worktree()
+    local new_worktree = string.format("%s/%s", root_worktree, input)
 
     if vim.fn.isdirectory(new_worktree) == 1 then
       vim.notify("Worktree already exists")
       return
     end
 
-    vim.system({ "git", "worktree", "add", input }, { cwd = root }):wait()
+    vim.system({ "git", "worktree", "add", input }, { cwd = root_worktree }):wait()
 
-    local shared_dir = root .. "/.shared"
-    if vim.fn.isdirectory(shared_dir) == 1 then
-      vim.system({ "cp", "-r", shared_dir .. "/.", new_worktree }):wait()
-    end
-
-    local has_direnv = vim.fn.executable("direnv") == 1
-    local has_envrc = vim.fn.filereadable(new_worktree .. "/.envrc") == 1
-    if has_direnv and has_envrc then
-      vim.system({ "direnv", "allow", new_worktree }):wait()
-    end
-
+    copy_shared(root_worktree, new_worktree)
+    direnv_setup(new_worktree)
     change_working_directory(new_worktree)
 
     vim.notify("Switched to worktree " .. new_worktree)

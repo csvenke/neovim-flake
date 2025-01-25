@@ -13,7 +13,7 @@ require("gp").setup({
       name = "AnthropicChat",
       chat = true,
       command = false,
-      model = { model = "claude-3-5-sonnet-20241022", temperature = 0.8, top_p = 1 },
+      model = { model = "claude-3-5-sonnet-latest" },
       system_prompt = require("gp.defaults").chat_system_prompt,
     },
     {
@@ -21,7 +21,7 @@ require("gp").setup({
       name = "AnthropicCode",
       chat = false,
       command = true,
-      model = { model = "claude-3-5-sonnet-20241022", temperature = 0.7, top_p = 1 },
+      model = { model = "claude-3-5-sonnet-latest" },
       system_prompt = require("gp.defaults").code_system_prompt,
     },
   },

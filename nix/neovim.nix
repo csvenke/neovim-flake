@@ -9,7 +9,7 @@ let
 
   configAsPlugin = vimUtils.buildVimPlugin {
     name = "config";
-    src = ../src;
+    src = ../nvim;
     dependencies = callPackage ./plugins.nix { };
     buildInputs = [ git ];
   };

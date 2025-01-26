@@ -53,12 +53,6 @@ vim.opt.listchars = {
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
--- File handling
-vim.opt.undofile = true
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.writebackup = false
-
 -- Error bells
 vim.opt.errorbells = false
 vim.opt.visualbell = false

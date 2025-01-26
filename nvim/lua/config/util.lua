@@ -26,4 +26,25 @@ function M.make_code_action(name)
   end
 end
 
+---@return string[]
+function M.git_worktree_list()
+  local output = vim.fn.system("git worktree list")
+  local worktrees = vim.split(output, "\n", { trimempty = true })
+  return worktrees
+end
+
+---@return string[]
+function M.get_worktrees()
+  local worktrees = M.git_worktree_list()
+  table.remove(worktrees, 1)
+  return worktrees
+end
+
+---@return string
+function M.get_root_worktree()
+  local worktrees = M.git_worktree_list()
+  local first = table.remove(worktrees, 1)
+  return first:match("^%S+")
+end
+
 return M

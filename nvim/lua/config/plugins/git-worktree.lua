@@ -1,28 +1,9 @@
----@return string[]
-local function git_worktree_list()
-  local output = vim.fn.system("git worktree list")
-  local worktrees = vim.split(output, "\n", { trimempty = true })
-  return worktrees
-end
-
----@return string[]
-local function get_worktrees()
-  local worktrees = git_worktree_list()
-  table.remove(worktrees, 1)
-  return worktrees
-end
-
----@return string
-local function get_root_worktree()
-  local worktrees = git_worktree_list()
-  local first = table.remove(worktrees, 1)
-  return first:match("^%S+")
-end
+local util = require("config.util")
 
 ---@param prompt string
 ---@param on_select fun(path: string)
 local function select_worktree(prompt, on_select)
-  local worktrees = get_worktrees()
+  local worktrees = util.get_worktrees()
 
   if #worktrees == 0 then
     vim.notify("No worktrees found")
@@ -122,7 +103,7 @@ local function add_worktree()
       return
     end
 
-    local root_worktree = get_root_worktree()
+    local root_worktree = util.get_root_worktree()
     local new_worktree = string.format("%s/%s", root_worktree, input)
 
     if vim.fn.isdirectory(new_worktree) == 1 then

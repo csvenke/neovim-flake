@@ -65,6 +65,14 @@ function M.setup()
         local dll_path = get_nearest_dll_path()
         return vim.fn.input("Path to dll", dll_path)
       end,
+      cwd = function()
+        local info = find_project_info()
+        if info ~= nil then
+          return info.path
+        end
+
+        return vim.fn.getcwd()
+      end,
     },
   }
 end

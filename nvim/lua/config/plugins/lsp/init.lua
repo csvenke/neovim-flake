@@ -14,9 +14,11 @@ require("blink.cmp").setup({
     use_nvim_cmp_as_default = true,
     nerd_font_variant = "mono",
   },
+  cmdline = {
+    enabled = false,
+  },
   sources = {
     default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-    cmdline = {},
     providers = {
       lazydev = {
         name = "LazyDev",

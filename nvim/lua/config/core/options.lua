@@ -56,3 +56,10 @@ vim.opt.splitbelow = true
 -- Error bells
 vim.opt.errorbells = false
 vim.opt.visualbell = false
+
+-- Filetypes
+vim.filetype.add({
+  pattern = {
+    [".*%.component%.html"] = "htmlangular",
+  },
+})

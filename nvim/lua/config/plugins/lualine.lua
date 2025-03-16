@@ -6,7 +6,13 @@ require("lualine").setup({
   },
   tabline = {
     lualine_z = {
-      { "tabs", show_modified_status = false },
+      {
+        "tabs",
+        show_modified_status = false,
+        cond = function()
+          return #vim.fn.gettabinfo() > 1
+        end,
+      },
     },
   },
 })

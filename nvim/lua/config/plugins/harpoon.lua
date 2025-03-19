@@ -1,6 +1,15 @@
 local harpoon = require("harpoon")
 
-harpoon.setup({})
+harpoon.setup({
+  global_settings = {
+    -- Use the git worktree root directory as part of the filename for mark storage
+    mark_file = function()
+      local git_root = vim.fn.system("git rev-parse --show-toplevel"):gsub("\n", "")
+      local worktree_name = git_root:match("[^/]+$") or ""
+      return vim.fn.stdpath("data") .. "/harpoon-" .. worktree_name .. ".json"
+    end,
+  },
+})
 
 vim.keymap.set("n", "<M-a>", function()
   harpoon:list():add()

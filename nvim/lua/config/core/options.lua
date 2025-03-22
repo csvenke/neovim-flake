@@ -57,6 +57,15 @@ vim.opt.splitbelow = true
 vim.opt.errorbells = false
 vim.opt.visualbell = false
 
+-- Disable external file change warnings
+vim.opt.autoread = true
+vim.opt.autowriteall = true
+
+-- Disable swap files
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.writebackup = false
+
 -- Filetypes
 vim.filetype.add({
   pattern = {

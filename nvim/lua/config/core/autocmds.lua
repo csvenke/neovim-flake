@@ -52,3 +52,13 @@ vim.api.nvim_create_autocmd({ "VimEnter", "TabEnter", "TabLeave", "TabNew", "Tab
     vim.opt.showtabline = #vim.fn.gettabinfo() > 1 and 2 or 0
   end,
 })
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = vim.api.nvim_create_augroup("user-auto-reload", { clear = true }),
+  command = "silent! checktime",
+})
+
+vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
+  group = vim.api.nvim_create_augroup("user-auto-save", { clear = true }),
+  command = "silent! wa",
+})

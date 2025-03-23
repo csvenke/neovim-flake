@@ -5,10 +5,15 @@ vim.g.maplocalleader = "\\"
 -- General editor behavior
 vim.g.autoformat = false
 vim.opt.autowrite = true
+vim.opt.autowriteall = true
+vim.opt.autoread = true
 vim.opt.mouse = "a"
 vim.opt.showmode = false
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
+vim.opt.confirm = false
+vim.opt.scrollbind = false
+vim.opt.cursorbind = false
 
 -- Clipboard configuration
 vim.schedule(function()
@@ -57,14 +62,15 @@ vim.opt.splitbelow = true
 vim.opt.errorbells = false
 vim.opt.visualbell = false
 
--- Disable external file change warnings
-vim.opt.autoread = true
-vim.opt.autowriteall = true
-
 -- Disable swap files
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
+
+-- Disable external file change warnings
+vim.opt.autoread = true
+vim.opt.confirm = false
+vim.opt.readonly = false
 
 -- Filetypes
 vim.filetype.add({

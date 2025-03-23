@@ -14,7 +14,7 @@ vim.keymap.set("n", "<leader>qQ", "<cmd>qa<cr>", { desc = "[q]uit (without savin
 vim.keymap.set("n", "<C-q>", "<cmd>q<cr>", { desc = "[q]uit" })
 
 -- saving
-vim.keymap.set({ "n", "i" }, "<C-s>", "<cmd>w<cr>", { desc = "[s]ave" })
+vim.keymap.set({ "n", "i" }, "<C-s>", "<cmd>wa<cr>", { desc = "[s]ave" })
 vim.api.nvim_create_user_command("W", "w", {})
 vim.api.nvim_create_user_command("Wa", "wa", {})
 vim.api.nvim_create_user_command("WA", "wa", {})

@@ -19,7 +19,9 @@ local function open_popup()
   local name = string.gsub(data.stdout or "popup", "%W", "")
   local command = string.format("tmux popup -w80%% -h80%% -d $PWD -E 'tmux attach -t %s || tmux new -s %s'", name, name)
 
+  vim.cmd("wa")
   os.execute(command)
+  vim.cmd("checktime")
 end
 
 local function open_lazygit()
@@ -28,7 +30,9 @@ local function open_lazygit()
     return
   end
 
+  vim.cmd("wa")
   os.execute("tmux popup -w100% -h100% -d $PWD -E 'lazygit'")
+  vim.cmd("checktime")
 end
 
 -- terminal

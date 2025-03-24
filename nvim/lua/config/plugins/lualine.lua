@@ -3,15 +3,13 @@ require("lualine").setup({
     theme = "auto",
     globalstatus = true,
     icons_enabled = true,
+    always_show_tabline = false,
   },
   tabline = {
     lualine_z = {
       {
         "tabs",
         show_modified_status = false,
-        cond = function()
-          return #vim.fn.gettabinfo() > 1
-        end,
       },
     },
   },

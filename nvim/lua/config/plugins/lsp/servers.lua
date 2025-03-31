@@ -19,7 +19,7 @@ local servers = {
       end
 
       client.config.settings.nixd.nixpkgs.expr = "import (builtins.getFlake (toString ./.)).inputs.nixpkgs {}"
-      client.notify("workspace/didChangeConfiguration", {
+      client:notify("workspace/didChangeConfiguration", {
         settings = client.config.settings,
       })
     end,

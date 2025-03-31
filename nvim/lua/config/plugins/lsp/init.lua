@@ -63,7 +63,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("<leader>cr", vim.lsp.buf.rename, "[c]ode [r]ename")
     map("<leader>cd", vim.diagnostic.open_float, "[c]ode [d]iagnostic")
 
-    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
       local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
       vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -87,7 +87,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
-    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
       map("<leader>ch", function()
         local toggle = not vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
         vim.lsp.inlay_hint.enable(toggle)

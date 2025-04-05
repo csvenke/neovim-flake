@@ -9,6 +9,19 @@ require("snacks").setup({
   },
 })
 
+local zen = require("snacks.zen")
+
+vim.keymap.set("n", "<leader>z", function()
+  zen.zen({
+    toggles = {
+      dim = false,
+    },
+    win = {
+      width = 180,
+    },
+  })
+end, { desc = "[z]en mode" })
+
 local bufdelete = require("snacks.bufdelete")
 
 vim.keymap.set("n", "<leader>bd", function()

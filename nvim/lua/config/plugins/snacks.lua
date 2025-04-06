@@ -17,7 +17,7 @@ vim.keymap.set("n", "<leader>z", function()
       dim = false,
     },
     win = {
-      width = 180,
+      width = 160,
     },
   })
 end, { desc = "[z]en mode" })

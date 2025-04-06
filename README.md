@@ -1,9 +1,5 @@
 # neovim flake
 
-<p align="center">
-    <img src=".github/assets/neovim-screenshot.png" />
-</p>
-
 ## Requirements
 
 - [nix](https://nixos.org/download)

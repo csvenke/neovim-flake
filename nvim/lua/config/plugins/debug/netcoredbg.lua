@@ -65,6 +65,12 @@ function M.setup()
         local dll_path = get_nearest_dll_path()
         return vim.fn.input("Path to dll", dll_path)
       end,
+      env = function()
+        return {
+          ASPNETCORE_ENVIRONMENT = "Development",
+          ASPNETCORE_URLS = "",
+        }
+      end,
       cwd = function()
         local info = find_project_info()
         if info ~= nil then

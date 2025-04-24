@@ -198,11 +198,11 @@
         "poetry2nix": "poetry2nix"
       },
       "locked": {
-        "lastModified": 1745270039,
-        "narHash": "sha256-HJsb/OdycH0Dlv4X+haxqc4pkYb4namut/JDvqP2X/c=",
+        "lastModified": 1745431361,
+        "narHash": "sha256-3SOem1AsfPr31FjVrRJNreDZoTyBH8HyRDcRrOtaZ5c=",
         "owner": "jooooscha",
         "repo": "nixpkgs-vim-extra-plugins",
-        "rev": "00871d7e455e24ecde48ce1e9c195ba8a9483320",
+        "rev": "9d32cd105f98d0130c4056b1f7bdf5d04d08d226",
         "type": "github"
       },
       "original": {

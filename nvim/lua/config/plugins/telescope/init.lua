@@ -18,11 +18,6 @@ require("telescope").load_extension("ui-select")
 
 local builtin = require("telescope.builtin")
 
-vim.lsp.handlers["textDocument/definition"] = builtin.lsp_definitions
-vim.lsp.handlers["textDocument/references"] = builtin.lsp_references
-vim.lsp.handlers["textDocument/implementation"] = builtin.lsp_implementations
-vim.lsp.handlers["textDocument/typeDefinition"] = builtin.lsp_type_definitions
-
 vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [h]elp" })
 vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[s]earch [k]eymaps" })
 vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [f]iles" })

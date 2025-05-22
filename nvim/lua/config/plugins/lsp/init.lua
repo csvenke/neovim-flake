@@ -49,31 +49,31 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
   callback = function(event)
-    local buffer = event.buf
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    local map = require("config.util").make_map_buffer(buffer)
+    local map = require("config.util").make_map_buffer(event.buf)
+    local telescope = require("telescope.builtin")
 
-    map("gd", vim.lsp.buf.definition, "[g]oto [d]efinition(s)")
-    map("gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
-    map("gi", vim.lsp.buf.implementation, "[g]oto [i]mplementation(s)")
-    map("gr", vim.lsp.buf.references, "[g]oto [r]eference(s)")
+    map("gd", telescope.lsp_definitions, "[g]oto [d]efinition(s)")
+    map("gi", telescope.lsp_implementations, "[g]oto [i]mplementation(s)")
+    map("gr", telescope.lsp_references, "[g]oto [r]eference(s)")
     map("K", vim.lsp.buf.hover, "Hover documentation")
-    map("<leader>D", vim.lsp.buf.type_definition, "type [D]efinition(s)")
+    map("<leader>D", telescope.lsp_type_definitions, "type [D]efinition(s)")
     map("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction", { "n", "x" })
     map("<leader>cr", vim.lsp.buf.rename, "[c]ode [r]ename")
     map("<leader>cd", vim.diagnostic.open_float, "[c]ode [d]iagnostic")
+
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
 
     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
       local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
       vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-        buffer = buffer,
+        buffer = event.buf,
         group = highlight_augroup,
         callback = vim.lsp.buf.document_highlight,
       })
 
       vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        buffer = buffer,
+        buffer = event.buf,
         group = highlight_augroup,
         callback = vim.lsp.buf.clear_references,
       })
@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
       map("<leader>ch", function()
-        local toggle = not vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
+        local toggle = not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
         vim.lsp.inlay_hint.enable(toggle)
       end, "[c]ode [h]int")
     end

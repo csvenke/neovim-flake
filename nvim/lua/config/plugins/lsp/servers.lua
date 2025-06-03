@@ -1,7 +1,6 @@
---- @type table<string, lspconfig.Config>
+--- @type table<string, vim.lsp.Config>
 local servers = {
   nixd = {
-    cmd = { "nixd" },
     settings = {
       nixd = {
         nixpkgs = {
@@ -18,6 +17,7 @@ local servers = {
         return
       end
 
+      ---@diagnostic disable-next-line: undefined-field
       client.config.settings.nixd.nixpkgs.expr = "import (builtins.getFlake (toString ./.)).inputs.nixpkgs {}"
       client:notify("workspace/didChangeConfiguration", {
         settings = client.config.settings,
@@ -50,42 +50,17 @@ local servers = {
 
   ts_ls = {
     init_options = {
+      hostInfo = "neovim",
       preferences = {
         importModuleSpecifierPreference = "relative",
         importModuleSpecifierEnding = "minimal",
       },
     },
-    root_dir = require("lspconfig").util.root_pattern("package.json"),
-    single_file_support = false,
-    on_attach = function()
-      vim.keymap.set(
-        "n",
-        "<leader>co",
-        require("config.util").make_code_action("source.organizeImports.ts"),
-        { desc = "[c]ode [o]rganize imports" }
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>cR",
-        require("config.util").make_code_action("source.removeUnused.ts"),
-        { desc = "[c]ode [R]emove unused imports" }
-      )
-    end,
-  },
-
-  denols = {
-    root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
-    on_attach = function()
-      vim.g.markdown_fenced_languages = {
-        "ts=typescript",
-      }
-    end,
   },
 
   angularls = {},
 
   omnisharp = {
-    cmd = { "OmniSharp" },
     settings = {
       FormattingOptions = {
         EnableEditorConfigSupport = true,
@@ -93,11 +68,6 @@ local servers = {
       },
       RoslynExtensionsOptions = {
         EnableAnalyzersSupport = true,
-        EnableImportCompletion = false,
-        AnalyzeOpenDocumentsOnly = false,
-      },
-      Sdk = {
-        IncludePrereleases = true,
       },
     },
     on_attach = function(_, buffer)
@@ -176,14 +146,7 @@ local servers = {
 
   gleam = {},
 
-  tailwindcss = {
-    root_dir = require("lspconfig").util.root_pattern(
-      "tailwind.config.js",
-      "tailwind.config.cjs",
-      "tailwind.config.mjs",
-      "tailwind.config.ts"
-    ),
-  },
+  tailwindcss = {},
 }
 
 return servers

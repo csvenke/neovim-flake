@@ -90,29 +90,11 @@ local servers = {
   ruff = {},
 
   yamlls = {
-    on_attach = function(client)
-      client.server_capabilities.documentFormattingProvider = true
-    end,
-    on_new_config = function(new_config)
-      new_config.settings.yaml.schemas = new_config.settings.yaml.schemas or {}
-      vim.list_extend(new_config.settings.yaml.schemas, require("schemastore").yaml.schemas())
-    end,
-    capabilities = {
-      textDocument = {
-        foldingRange = {
-          dynamicRegistration = false,
-          lineFoldingOnly = true,
-        },
-      },
-    },
     settings = {
-      redhat = { telemetry = { enabled = false } },
       yaml = {
-        keyOrdering = false,
-        format = {
-          enable = true,
-        },
-        validate = true,
+        format = { enable = true },
+        validate = { enable = true },
+        schemas = require("schemastore").yaml.schemas(),
         schemaStore = {
           enable = false,
           url = "",
@@ -128,16 +110,11 @@ local servers = {
   css_variables = {},
   eslint = {},
   jsonls = {
-    on_new_config = function(new_config)
-      new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-      vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-    end,
     settings = {
       json = {
-        format = {
-          enable = true,
-        },
+        format = { enable = true },
         validate = { enable = true },
+        schemas = require("schemastore").json.schemas(),
       },
     },
   },

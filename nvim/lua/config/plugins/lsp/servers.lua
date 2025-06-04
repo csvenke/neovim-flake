@@ -42,9 +42,7 @@ local servers = {
 
   hls = {},
 
-  jdtls = {
-    cmd = { "jdtls" },
-  },
+  jdtls = {},
 
   rust_analyzer = {},
 

@@ -18,12 +18,17 @@ require("blink.cmp").setup({
     enabled = false,
   },
   sources = {
-    default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+    default = { "avante", "lazydev", "lsp", "path", "snippets", "buffer" },
     providers = {
       lazydev = {
         name = "LazyDev",
         module = "lazydev.integrations.blink",
         score_offset = 100,
+      },
+      avante = {
+        name = "Avante",
+        module = "blink-cmp-avante",
+        opts = {},
       },
     },
   },

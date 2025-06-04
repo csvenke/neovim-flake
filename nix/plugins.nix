@@ -30,6 +30,7 @@ let
 
     # Autocomplete
     friendly-snippets
+    blink-cmp-avante
     blink-cmp
 
     # Formatting
@@ -75,15 +76,15 @@ let
     # Misc
     mini-nvim
     snacks-nvim
+
+    # LLMs
+    avante-nvim
   ];
 
   # https://github.com/NixNeovim/NixNeovimPlugins
   extraPlugins = with pkgs.vimExtraPlugins; [
     # Themes
     nordic-alexczyl
-
-    # LLMs
-    gp-nvim
   ];
 in
 

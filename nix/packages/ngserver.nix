@@ -16,6 +16,7 @@ let
   v16 = mkAngularLanguageServer "16.2.0" "sha256-tGaH6Kg4rpR5JMmLHqde4lmJ0Bo1mMgUrjW3fbZebqs=";
   v17 = mkAngularLanguageServer "17.3.2" "sha256-rqPGS9Fs+5QX94uW4Ttx7O8hlzo0g1aWFpKHsz1+7gg=";
   v18 = mkAngularLanguageServer "18.2.0" "sha256-rl04nqSSBMjZfPW8Y+UtFLFLDFd5FSxJs3S937mhDWE=";
+  v19 = mkAngularLanguageServer "19.2.4" "sha256-LJpv7ZVnJrPb4Ty0H250WcliCoJS4lXc878BTYHfJ+8=";
   latest = pkgs.angular-language-server;
 in
 
@@ -44,6 +45,9 @@ pkgs.writeShellApplication {
           ;;
         18)
           echo "${v18}/bin/ngserver"
+          ;;
+        19)
+          echo "${v19}/bin/ngserver"
           ;;
         *)
           echo "${latest}/bin/ngserver"

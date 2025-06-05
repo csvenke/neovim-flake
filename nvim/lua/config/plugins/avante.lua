@@ -10,7 +10,6 @@ require("avante").setup({
   },
   windows = {
     position = "smart",
-    width = 50,
     edit = {
       start_insert = false,
     },

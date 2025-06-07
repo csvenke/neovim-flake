@@ -1,12 +1,12 @@
 local alpha = require("alpha")
 local dashboard = require("alpha.themes.dashboard")
 local theta = require("alpha.themes.theta")
-local util = require("config.util")
+local utils = require("config.utils")
 
 theta.file_icons.provider = "devicons"
 theta.buttons.val = {}
 
-local worktrees = util.get_worktrees()
+local worktrees = utils.get_worktrees()
 
 if not vim.tbl_isempty(worktrees) then
   vim.api.nvim_create_autocmd("ColorScheme", {

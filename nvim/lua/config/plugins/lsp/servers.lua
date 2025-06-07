@@ -1,3 +1,5 @@
+local utils = require("config.utils")
+
 --- @type table<string, vim.lsp.Config>
 local servers = {
   nixd = {
@@ -69,7 +71,7 @@ local servers = {
       },
     },
     on_attach = function(_, buffer)
-      local map = require("config.util").make_map_buffer(buffer)
+      local map = utils.make_map_buffer(buffer)
       local omnisharp = require("omnisharp_extended")
 
       map("gd", omnisharp.telescope_lsp_definition, "[g]oto [d]efinition (omnisharp)")

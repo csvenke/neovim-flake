@@ -1,3 +1,5 @@
+local utils = require("config.utils")
+
 require("fidget").setup({})
 require("lazydev").setup({
   library = {
@@ -52,7 +54,7 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
   callback = function(event)
-    local map = require("config.util").make_map_buffer(event.buf)
+    local map = utils.make_map_buffer(event.buf)
     local telescope = require("telescope.builtin")
 
     map("gd", telescope.lsp_definitions, "[g]oto [d]efinition(s)")

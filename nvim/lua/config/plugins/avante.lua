@@ -4,8 +4,7 @@ require("avante").setup({
   providers = {
     claude = {
       endpoint = "https://api.anthropic.com",
-      model = "claude-3-7-sonnet-latest",
-      disabled_tools = { "web_search" },
+      model = "claude-sonnet-4-20250514",
     },
   },
   windows = {

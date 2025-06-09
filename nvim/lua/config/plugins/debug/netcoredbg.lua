@@ -28,27 +28,9 @@ local function find_project_info()
   return nil
 end
 
----@return string
-local function get_nearest_dll_path()
-  local info = find_project_info()
-
-  if info == nil then
-    return vim.fn.getcwd() .. "/bin/Debug"
-  end
-
-  local debug_path = info.path .. "/bin/Debug"
-  local dll_file_name = info.name .. ".dll"
-  local dll_files = vim.fn.globpath(debug_path, "**/" .. dll_file_name, false, true)
-
-  if #dll_files == 0 then
-    return debug_path
-  end
-
-  return dll_files[1]
-end
-
 function M.setup()
   local dap = require("dap")
+  local utils = require("dap.utils")
 
   dap.adapters.coreclr = {
     type = "executable",
@@ -59,20 +41,37 @@ function M.setup()
   dap.configurations.cs = {
     {
       type = "coreclr",
-      name = "launch - netcoredbg",
-      request = "launch",
-      program = function()
-        local dll_path = get_nearest_dll_path()
-        return vim.fn.input("Path to dll", dll_path)
-      end,
-      env = function()
-        return {
-          ASPNETCORE_ENVIRONMENT = "Development",
-          ASPNETCORE_URLS = "",
-        }
+      name = "attach - netcoredbg",
+      request = "attach",
+      justMyCode = false,
+      sourceFileMap = {
+        ["/build/source"] = "${workspaceFolder}",
+      },
+      symbolOptions = {
+        searchPaths = { "~/symbols", "${workspaceFolder}/symbols" },
+        searchMicrosoftSymbolServer = true,
+        searchNuGetOrgSymbolServer = true,
+      },
+      processId = function()
+        local info = find_project_info()
+
+        if info ~= nil then
+          local procs = utils.get_processes({
+            filter = function(proc)
+              return vim.endswith(proc.name, info.name)
+            end,
+          })
+
+          if procs[1] ~= nil then
+            return procs[1].pid
+          end
+        end
+
+        return utils.pick_process()
       end,
       cwd = function()
         local info = find_project_info()
+
         if info ~= nil then
           return info.path
         end

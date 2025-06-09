@@ -22,8 +22,7 @@ vim.api.nvim_create_user_command("WA", "wa", {})
 -- tab management
 vim.keymap.set("n", "<S-l>", "<cmd>tabnext<cr>", { desc = "previous tab" })
 vim.keymap.set("n", "<S-h>", "<cmd>tabprevious<cr>", { desc = "next tab" })
-vim.keymap.set("n", "<C-t>n", "<cmd>tabnew<cr>", { desc = "Create new tab" })
-vim.keymap.set("n", "<C-t>o", "<cmd>tabonly<cr>", { desc = "Close other tabs" })
+vim.keymap.set("n", "<C-w>t", "<cmd>tabnew<cr>", { desc = "New tab" })
 
 -- split navigation
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move left" })

@@ -55,19 +55,16 @@ function M.setup()
       processId = function()
         local info = find_project_info()
 
-        if info ~= nil then
-          local procs = utils.get_processes({
-            filter = function(proc)
-              return vim.endswith(proc.name, info.name)
-            end,
-          })
+        return utils.pick_process({
+          prompt = "Attach to process",
+          filter = function(proc)
+            if info == nil then
+              return true
+            end
 
-          if procs[1] ~= nil then
-            return procs[1].pid
-          end
-        end
-
-        return utils.pick_process()
+            return vim.endswith(proc.name, info.name)
+          end,
+        })
       end,
       cwd = function()
         local info = find_project_info()

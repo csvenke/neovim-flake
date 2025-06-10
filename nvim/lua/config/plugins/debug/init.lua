@@ -35,8 +35,12 @@ dapui.setup({
   },
 })
 
-dap.listeners.before.attach.dapui_config = dapui.open
-dap.listeners.before.launch.dapui_config = dapui.open
+dap.listeners.before.attach.dapui_config = function()
+  dapui.open({ reset = true })
+end
+dap.listeners.before.launch.dapui_config = function()
+  dapui.open({ reset = true })
+end
 dap.listeners.before.event_terminated.dapui_config = dapui.close
 dap.listeners.before.event_exited.dapui_config = dapui.close
 

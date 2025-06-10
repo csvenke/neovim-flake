@@ -55,6 +55,7 @@ let
     nvim-notify
     noice-nvim
     lualine-nvim
+    rest-nvim
 
     # Keymaps
     which-key-nvim

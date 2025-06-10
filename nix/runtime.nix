@@ -19,6 +19,9 @@ with pkgs;
   xdg-utils
   xclip
 
+  ### Rest ###
+  jq
+
   ### Git ###
   git
 

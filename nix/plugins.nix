@@ -79,6 +79,7 @@ let
     snacks-nvim
 
     # LLMs
+    render-markdown-nvim
     avante-nvim
   ];
 

@@ -15,6 +15,7 @@ wk.add({
     { "<leader>c", group = "code" },
   },
   { "<leader>d", group = "debug" },
+  { "<leader>D", group = "database" },
   { "<leader>g", group = "git" },
   { "<leader>q", group = "quit" },
   { "<leader>s", group = "search" },

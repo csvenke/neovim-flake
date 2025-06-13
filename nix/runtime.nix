@@ -79,4 +79,7 @@ with pkgs;
   csharpier
   omnisharp-roslyn
   netcoredbg
+
+  ### Database
+  sqlcmd
 ]

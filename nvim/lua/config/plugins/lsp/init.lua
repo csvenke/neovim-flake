@@ -20,7 +20,12 @@ require("blink.cmp").setup({
     enabled = false,
   },
   sources = {
-    default = { "avante", "lazydev", "lsp", "path", "snippets", "buffer" },
+    default = { "lsp", "path", "snippets", "buffer" },
+    per_filetype = {
+      AvanteInput = { "avante", "buffer" },
+      lua = { "lazydev", "lsp", "path", "snippets", "buffer" },
+      sql = { "dadbod", "snippets", "buffer" },
+    },
     providers = {
       lazydev = {
         name = "LazyDev",
@@ -31,6 +36,10 @@ require("blink.cmp").setup({
         name = "Avante",
         module = "blink-cmp-avante",
         opts = {},
+      },
+      dadbod = {
+        name = "Dadbod",
+        module = "vim_dadbod_completion.blink",
       },
     },
   },

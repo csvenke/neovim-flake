@@ -81,6 +81,11 @@ let
     # LLMs
     render-markdown-nvim
     avante-nvim
+
+    # Database
+    vim-dadbod
+    vim-dadbod-ui
+    vim-dadbod-completion
   ];
 
   # https://github.com/NixNeovim/NixNeovimPlugins

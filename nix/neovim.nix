@@ -1,7 +1,6 @@
 {
   callPackage,
   vimUtils,
-  git,
 }:
 
 let
@@ -11,7 +10,7 @@ let
     name = "config";
     src = ../nvim;
     dependencies = callPackage ./plugins.nix { };
-    buildInputs = [ git ];
+    buildInputs = callPackage ./runtime.nix { };
   };
 in
 

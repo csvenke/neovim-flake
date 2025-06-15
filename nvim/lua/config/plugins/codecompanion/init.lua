@@ -14,13 +14,13 @@ require("codecompanion").setup({
       provider = "default",
     },
     diff = {
-      provider = "mini_diff",
+      enabled = false,
     },
     chat = {
       intro_message = "",
       show_header_separator = true,
       show_settings = true,
-      show_references = false,
+      show_references = true,
       keymaps = {
         send = {
           modes = { n = "<CR>", i = "<C-s>" },
@@ -35,9 +35,6 @@ require("codecompanion").setup({
     anthropic = function()
       return require("codecompanion.adapters").extend("anthropic", {
         schema = {
-          extended_output = {
-            default = false,
-          },
           extended_thinking = {
             default = false,
           },
@@ -48,9 +45,19 @@ require("codecompanion").setup({
   strategies = {
     chat = {
       adapter = "anthropic",
+      tools = {
+        opts = {
+          auto_submit_errors = true,
+          auto_submit_success = true,
+        },
+      },
     },
     inline = {
       adapter = "anthropic",
+      opts = {
+        auto_submit = true,
+        auto_apply = true,
+      },
       keymaps = {
         accept_change = {
           modes = { n = "<leader>aY" },
@@ -59,10 +66,6 @@ require("codecompanion").setup({
         reject_change = {
           modes = { n = "<leader>aN" },
           description = "Reject the suggested change",
-        },
-        stop = {
-          modes = { n = "<leader>aS" },
-          description = "Stop the inline assistant",
         },
       },
     },

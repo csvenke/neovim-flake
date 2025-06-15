@@ -4,10 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    vim-extra-plugins = {
-      url = "github:jooooscha/nixpkgs-vim-extra-plugins";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     css-variables-language-server = {
       url = "github:csvenke/css-variables-language-server-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,7 +23,6 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              inputs.vim-extra-plugins.overlays.default
               inputs.css-variables-language-server.overlays.default
             ];
           };

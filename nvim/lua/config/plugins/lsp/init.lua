@@ -22,20 +22,15 @@ require("blink.cmp").setup({
   sources = {
     default = { "lsp", "path", "snippets", "buffer" },
     per_filetype = {
-      AvanteInput = { "avante", "buffer" },
       lua = { "lazydev", "lsp", "path", "snippets", "buffer" },
       sql = { "dadbod", "snippets", "buffer" },
+      codecompanion = { "codecompanion" },
     },
     providers = {
       lazydev = {
         name = "LazyDev",
         module = "lazydev.integrations.blink",
         score_offset = 100,
-      },
-      avante = {
-        name = "Avante",
-        module = "blink-cmp-avante",
-        opts = {},
       },
       dadbod = {
         name = "Dadbod",

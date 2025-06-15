@@ -22,32 +22,13 @@ local function select_worktree(prompt, on_select)
   end)
 end
 
----@param path string
-local function change_working_directory(path)
-  local current_path = vim.fn.expand("%:.")
-  local editable_path = vim.fn.filereadable(current_path) == 1 and current_path or "."
-
-  vim.cmd("wa")
-  vim.cmd("clearjumps")
-
-  vim.lsp.stop_client(vim.lsp.get_clients(), true)
-
-  vim.cmd("cd " .. path)
-  vim.cmd("edit " .. editable_path)
-
-  vim.defer_fn(function()
-    vim.cmd("LspRestart")
-    vim.cmd("e!")
-  end, 200)
-end
-
 local function switch_worktree()
   select_worktree("Switch worktree", function(worktree)
     if vim.fn.getcwd() == worktree then
       return
     end
 
-    change_working_directory(worktree)
+    utils.change_working_directory(worktree)
     vim.notify("Switched to worktree " .. worktree)
   end)
 end
@@ -115,7 +96,7 @@ local function add_worktree()
 
     copy_shared(root_worktree, new_worktree)
     direnv_setup(new_worktree)
-    change_working_directory(new_worktree)
+    utils.change_working_directory(new_worktree)
 
     vim.notify("Switched to worktree " .. new_worktree)
   end)

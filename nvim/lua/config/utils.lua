@@ -47,4 +47,23 @@ function M.get_root_worktree()
   return first:match("^%S+")
 end
 
+---@param path string
+function M.change_working_directory(path)
+  local current_path = vim.fn.expand("%:.")
+  local editable_path = vim.fn.filereadable(current_path) == 1 and current_path or "."
+
+  vim.cmd("wa")
+  vim.cmd("clearjumps")
+
+  vim.lsp.stop_client(vim.lsp.get_clients(), true)
+
+  vim.cmd("cd " .. path)
+  vim.cmd("edit " .. editable_path)
+
+  vim.defer_fn(function()
+    vim.cmd("LspRestart")
+    vim.cmd("e!")
+  end, 200)
+end
+
 return M

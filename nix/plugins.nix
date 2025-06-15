@@ -88,10 +88,17 @@ let
     vim-dadbod-completion
   ];
 
-  # https://github.com/NixNeovim/NixNeovimPlugins
-  extraPlugins = with pkgs.vimExtraPlugins; [
-    # Themes
-    nordic-alexczyl
+  extraPlugins = with pkgs; [
+    (vimUtils.buildVimPlugin {
+      pname = "nordic";
+      version = "2025-06-15";
+      src = fetchFromGitHub {
+        owner = "AlexvZyl";
+        repo = "nordic.nvim";
+        rev = "6afe957722fb1b0ec7ca5fbea5a651bcca55f3e1";
+        sha256 = "sha256-NY4kjeq01sMTg1PZeVVa2Vle4KpLwWEv4y34cDQ6JMU=";
+      };
+    })
   ];
 in
 

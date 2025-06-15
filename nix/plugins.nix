@@ -53,6 +53,8 @@ let
     nvim-notify
     noice-nvim
     lualine-nvim
+
+    # Rest
     rest-nvim
 
     # Keymaps

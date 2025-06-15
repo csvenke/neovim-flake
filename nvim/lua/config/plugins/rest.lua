@@ -1,3 +1,5 @@
+vim.g.loaded_rest_nvim = true
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "http",
   callback = function()

@@ -47,6 +47,8 @@ let
     neotest
     neotest-plenary
     neotest-jest
+    neotest-vitest
+    neotest-dotnet
 
     # Ui
     nui-nvim

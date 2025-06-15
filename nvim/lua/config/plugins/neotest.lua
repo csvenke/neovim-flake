@@ -10,6 +10,8 @@ neotest.setup({
         return vim.fn.getcwd()
       end,
     }),
+    require("neotest-vitest"),
+    require("neotest-dotnet"),
   },
 })
 
@@ -20,3 +22,7 @@ end, { desc = "[t]est nearest" })
 vim.keymap.set("n", "<leader>tf", function()
   neotest.run.run(vim.fn.expand("%"))
 end, { desc = "[t]est current [f]ile" })
+
+vim.keymap.set("n", "<leader>ts", function()
+  neotest.summary.toggle()
+end, { desc = "[t]est toggle [s]ummary" })

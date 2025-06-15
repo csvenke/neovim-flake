@@ -43,7 +43,6 @@ let
 
     # Git
     diffview-nvim
-    gitsigns-nvim
 
     # Test
     neotest
@@ -76,7 +75,6 @@ let
 
     # Misc
     mini-nvim
-    snacks-nvim
 
     # LLMs
     render-markdown-nvim

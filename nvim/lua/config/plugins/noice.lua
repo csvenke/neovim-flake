@@ -2,11 +2,6 @@ require("noice").setup({
   cmdline = {
     view = "cmdline",
   },
-  views = {
-    confirm = {
-      backend = "snacks",
-    },
-  },
   lsp = {
     hover = {
       silent = true,

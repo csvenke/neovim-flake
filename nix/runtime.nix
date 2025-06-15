@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, callPackage }:
 
 with pkgs;
 [
@@ -70,7 +70,7 @@ with pkgs;
   typescript-language-server
 
   ### Angular ###
-  (pkgs.callPackage ./packages/ngserver.nix { })
+  (callPackage ./packages/ngserver.nix { })
 
   ### Tailwindcss ###
   tailwindcss-language-server

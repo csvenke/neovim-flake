@@ -30,7 +30,6 @@ let
 
     # Autocomplete
     friendly-snippets
-    blink-cmp-avante
     blink-cmp
 
     # Formatting
@@ -78,7 +77,7 @@ let
 
     # LLMs
     render-markdown-nvim
-    avante-nvim
+    codecompanion-nvim
 
     # Database
     vim-dadbod

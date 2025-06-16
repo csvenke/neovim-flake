@@ -6,6 +6,32 @@ require("render-markdown").setup({
   heading = {
     backgrounds = {},
   },
+  overrides = {
+    filetype = {
+      codecompanion = {
+        html = {
+          tag = {
+            buf = {
+              icon = "󰈙 ",
+              highlight = "Special",
+            },
+            file = {
+              icon = "󰈔 ",
+              highlight = "Special",
+            },
+            tool = {
+              icon = "⚡",
+              highlight = "Special",
+            },
+            help = {
+              icon = "󰋖 ",
+              highlight = "Special",
+            },
+          },
+        },
+      },
+    },
+  },
 })
 
 require("codecompanion").setup({

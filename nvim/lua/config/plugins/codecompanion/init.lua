@@ -21,11 +21,6 @@ require("codecompanion").setup({
       show_header_separator = true,
       show_settings = true,
       show_references = true,
-      keymaps = {
-        send = {
-          modes = { n = "<CR>", i = "<C-s>" },
-        },
-      },
     },
   },
   adapters = {
@@ -46,18 +41,29 @@ require("codecompanion").setup({
     chat = {
       adapter = "anthropic",
       tools = {
-        opts = {
-          auto_submit_errors = true,
-          auto_submit_success = true,
+        tools = {
+          opts = {
+            auto_submit = false,
+            auto_submit_errors = true,
+            auto_submit_success = true,
+          },
+        },
+      },
+      variables = {
+        ["buffer"] = {
+          opts = {
+            default_params = "watch",
+          },
+        },
+        ["viewport"] = {
+          opts = {
+            default_params = "watch",
+          },
         },
       },
     },
     inline = {
       adapter = "anthropic",
-      opts = {
-        auto_submit = true,
-        auto_apply = true,
-      },
       keymaps = {
         accept_change = {
           modes = { n = "<leader>aY" },

@@ -3,13 +3,7 @@ local neotest = require("neotest")
 neotest.setup({
   adapters = {
     require("neotest-plenary"),
-    require("neotest-jest")({
-      jestCommand = "npm test --",
-      env = { CI = true },
-      cwd = function()
-        return vim.fn.getcwd()
-      end,
-    }),
+    require("neotest-jest"),
     require("neotest-vitest"),
     require("neotest-dotnet"),
   },

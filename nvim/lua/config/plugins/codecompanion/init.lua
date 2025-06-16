@@ -73,6 +73,15 @@ require("codecompanion").setup({
       adapter = "anthropic",
     },
   },
+  extensions = {
+    history = {
+      enabled = true,
+      opts = {
+        keymap = "<leader>ah",
+        picker = "telescope",
+      },
+    },
+  },
 })
 
 require("config.plugins.codecompanion.hooks"):setup()
@@ -82,3 +91,4 @@ vim.keymap.set({ "v" }, "<leader>aa", ":'<,'>CodeCompanion<cr>", { desc = "[a]i 
 vim.keymap.set({ "n", "v" }, "<leader>an", "<cmd>CodeCompanionChat<cr>", { desc = "[a]i [n]ew chat" })
 vim.keymap.set({ "n", "v" }, "<leader>at", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "[a]i [t]oggle chat" })
 vim.keymap.set({ "n", "v" }, "<leader>ap", "<cmd>CodeCompanionAction<cr>", { desc = "[a]i action [p]alette" })
+vim.keymap.set("n", "<leader>ah", "<cmd>CodeCompanionHistory<cr>", { desc = "[a] chat [h]istory" })

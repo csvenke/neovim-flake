@@ -82,6 +82,7 @@ let
     # LLMs
     render-markdown-nvim
     codecompanion-nvim
+    codecompanion-history-nvim
 
     # Database
     vim-dadbod

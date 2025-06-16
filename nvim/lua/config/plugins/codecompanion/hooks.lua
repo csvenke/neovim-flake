@@ -29,9 +29,19 @@ function M:setup()
   vim.api.nvim_create_autocmd({ "User" }, {
     pattern = "CodeCompanionInline*",
     group = group,
-    callback = function(request)
-      if request.match == "CodeCompanionInlineFinished" then
-        require("conform").format({ bufnr = request.buf })
+    callback = function(args)
+      if args.match == "CodeCompanionInlineFinished" then
+        require("conform").format({ bufnr = args.buf, async = true })
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd({ "User" }, {
+    pattern = "CodeCompanionToolFinished",
+    group = group,
+    callback = function(args)
+      if args.data and args.data.status == "success" then
+        require("conform").format({ bufnr = args.buf, async = true })
       end
     end,
   })

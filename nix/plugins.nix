@@ -77,7 +77,10 @@ let
     nvim-web-devicons
 
     # Misc
-    mini-nvim
+    mini-bufremove
+    mini-pairs
+    mini-ai
+    mini-diff
 
     # LLMs
     render-markdown-nvim

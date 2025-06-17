@@ -5,6 +5,7 @@ require("render-markdown").setup({
   },
   heading = {
     backgrounds = {},
+    icons = { "|> " },
   },
   overrides = {
     filetype = {
@@ -66,13 +67,15 @@ require("codecompanion").setup({
   strategies = {
     chat = {
       adapter = "anthropic",
+      roles = {
+        llm = "🤖 Assistant",
+        user = "🧑‍💻 User",
+      },
       tools = {
-        tools = {
-          opts = {
-            auto_submit = false,
-            auto_submit_errors = true,
-            auto_submit_success = true,
-          },
+        opts = {
+          auto_submit = false,
+          auto_submit_errors = true,
+          auto_submit_success = true,
         },
       },
       variables = {

@@ -62,3 +62,10 @@ vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
   group = vim.api.nvim_create_augroup("user-auto-save", { clear = true }),
   command = "silent! wa",
 })
+
+vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("rightbelow copen")
+  end,
+})

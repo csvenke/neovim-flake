@@ -3,7 +3,7 @@ local progress = require("fidget.progress")
 local M = {}
 
 function M:setup()
-  local group = vim.api.nvim_create_augroup("CodeCompanionFidgetHooks", {})
+  local group = vim.api.nvim_create_augroup("user-codecompanion-hooks", {})
 
   vim.api.nvim_create_autocmd({ "User" }, {
     pattern = "CodeCompanionRequestStarted",

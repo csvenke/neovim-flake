@@ -44,13 +44,12 @@ require("diffview").setup({
   hooks = {
     diff_buf_read = function()
       vim.opt_local.foldenable = false
-      vim.cmd("set diffopt+=context:99999")
+      vim.opt_local.culopt = "number"
+      vim.opt_local.fillchars:append({ diff = " " })
+      vim.opt_local.diffopt:append("context:999")
     end,
   },
 })
-
-vim.opt.culopt = "number"
-vim.opt.fillchars:append({ diff = " " })
 
 vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "[g]it [d]iff view" })
 vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "[g]it [h]istory (current file)" })

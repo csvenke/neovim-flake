@@ -25,7 +25,7 @@ require("render-markdown").setup({
               highlight = "Special",
             },
             help = {
-              icon = "󰋖 ",
+              icon = "󰘥 ",
               highlight = "Special",
             },
           },

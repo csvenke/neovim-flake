@@ -12,7 +12,6 @@ vim.opt.showmode = false
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 vim.opt.confirm = false
-vim.opt.scrollbind = false
 vim.opt.cursorbind = false
 
 -- Clipboard configuration
@@ -42,7 +41,7 @@ vim.opt.shiftwidth = 2
 vim.opt.smarttab = true
 vim.opt.smartindent = true
 vim.opt.breakindent = true
-vim.cmd("set nowrap")
+vim.opt.wrap = false
 
 -- Special characters display
 vim.opt.list = true
@@ -68,8 +67,6 @@ vim.opt.backup = false
 vim.opt.writebackup = false
 
 -- Disable external file change warnings
-vim.opt.autoread = true
-vim.opt.confirm = false
 vim.opt.readonly = false
 
 -- Filetypes

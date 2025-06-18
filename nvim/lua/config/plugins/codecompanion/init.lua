@@ -28,6 +28,10 @@ require("render-markdown").setup({
               icon = "󰘥 ",
               highlight = "Special",
             },
+            user = {
+              icon = "",
+              highlight = "Special",
+            },
           },
         },
       },

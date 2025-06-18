@@ -2,7 +2,7 @@ local dap = require("dap")
 local dapui = require("dapui")
 require("nvim-dap-virtual-text").setup({})
 
-local highlight_augroup = vim.api.nvim_create_augroup("DapHighlights", { clear = true })
+local highlight_augroup = vim.api.nvim_create_augroup("user-dap-highlights", { clear = true })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = highlight_augroup,

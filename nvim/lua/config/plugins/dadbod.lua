@@ -21,7 +21,7 @@ vim.keymap.set("n", "<leader>Dt", dbui_tab, { desc = "[D]BUI [t]oggle" })
 vim.keymap.set("n", "<leader>DT", dbui_tab, { desc = "[D]BUI [t]oggle" })
 vim.keymap.set("n", "<leader>Da", "<cmd>DBUIAddConnection<cr>", { desc = "[D]BUI [a]dd connection" })
 
-local group = vim.api.nvim_create_augroup("user-dadbod-hooks", {})
+local group = vim.api.nvim_create_augroup("user-dadbod-hooks", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "dbui", "sql", "dbout" },

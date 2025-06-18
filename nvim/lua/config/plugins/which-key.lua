@@ -1,21 +1,11 @@
 local wk = require("which-key")
 
 wk.add({
-  {
-    mode = { "n" },
-    { "<C-t>", group = "+tab" },
-  },
-  {
-    mode = { "n", "v" },
-    { "<leader>a", group = "ai" },
-  },
+  { "<leader>a", group = "ai", mode = { "n", "v" } },
   { "<leader>b", group = "buffer" },
-  {
-    mode = { "n", "v" },
-    { "<leader>c", group = "code" },
-  },
+  { "<leader>c", group = "code", mode = { "n", "v" } },
   { "<leader>d", group = "debug" },
-  { "<leader>D", group = "database" },
+  { "<leader>D", group = "Database" },
   { "<leader>g", group = "git" },
   { "<leader>q", group = "quit" },
   { "<leader>s", group = "search" },

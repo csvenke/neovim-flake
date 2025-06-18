@@ -1,22 +1,20 @@
+local group = vim.api.nvim_create_augroup("user-core-hooks", { clear = true })
+
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("user-highlight-yank", { clear = true }),
+  group = group,
   callback = function()
     vim.highlight.on_yank()
   end,
 })
 
 vim.api.nvim_create_autocmd("VimResized", {
-  group = vim.api.nvim_create_augroup("user-resize-splits", { clear = true }),
+  group = group,
   callback = function()
-    local current_tab = vim.fn.tabpagenr()
-    vim.cmd("tabdo wincmd =")
-    vim.cmd("tabnext " .. current_tab)
+    vim.cmd("wincmd =")
   end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("user-close-with-q", { clear = true }),
   pattern = {
     "help",
     "lspinfo",
@@ -26,6 +24,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "startuptime",
     "checkhealth",
   },
+  group = group,
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
@@ -33,7 +32,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  group = vim.api.nvim_create_augroup("user-auto-create-dir", { clear = true }),
+  group = group,
   callback = function(event)
     local is_protocol = event.match:match("^%w%w+:[\\/][\\/]")
     if is_protocol then
@@ -47,24 +46,25 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 vim.api.nvim_create_autocmd({ "VimEnter", "TabEnter", "TabLeave", "TabNew", "TabClosed" }, {
-  group = vim.api.nvim_create_augroup("user-auto-show-tabline", { clear = true }),
+  group = group,
   callback = function()
     vim.opt.showtabline = #vim.fn.gettabinfo() > 1 and 2 or 0
   end,
 })
 
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-  group = vim.api.nvim_create_augroup("user-auto-reload", { clear = true }),
+  group = group,
   command = "silent! checktime",
 })
 
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
-  group = vim.api.nvim_create_augroup("user-auto-save", { clear = true }),
+  group = group,
   command = "silent! wa",
 })
 
 vim.api.nvim_create_autocmd("QuickFixCmdPost", {
   pattern = "*",
+  group = group,
   callback = function()
     vim.cmd("rightbelow copen")
   end,

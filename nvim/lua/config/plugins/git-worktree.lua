@@ -1,5 +1,14 @@
 local utils = require("config.utils")
 
+---@param worktree_line string
+---@return string name
+---@return string extra
+local function parse_worktree_line(worktree_line)
+  local path, extra = worktree_line:match("^(%S+)%s*(.*)")
+  local name = path:match("([^/]+)$")
+  return name, extra
+end
+
 ---@param prompt string
 ---@param on_select fun(path: string)
 local function select_worktree(prompt, on_select)
@@ -10,8 +19,19 @@ local function select_worktree(prompt, on_select)
     return
   end
 
+  -- calculate max worktree name length
+  local max_name_length = 0
+  for _, worktree in ipairs(worktrees) do
+    local name = parse_worktree_line(worktree)
+    max_name_length = math.max(max_name_length, #name)
+  end
+
   vim.ui.select(worktrees, {
     prompt = prompt,
+    format_item = function(worktree)
+      local name, extra = parse_worktree_line(worktree)
+      return string.format("%-" .. max_name_length .. "s | %s", name, extra)
+    end,
   }, function(choice)
     if choice == nil then
       return

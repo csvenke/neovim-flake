@@ -56,8 +56,8 @@ let
     noice-nvim
     lualine-nvim
 
-    # Rest
-    rest-nvim
+    # Http client
+    kulala-nvim
 
     # Keymaps
     which-key-nvim

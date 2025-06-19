@@ -19,8 +19,12 @@ with pkgs;
   xdg-utils
   xclip
 
-  ### Rest ###
+  ### Http client ###
   jq
+  grpcurl
+  websocat
+  libxml2
+  openssl
 
   ### Git ###
   git

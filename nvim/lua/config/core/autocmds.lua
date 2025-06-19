@@ -59,7 +59,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
   group = group,
-  command = "silent! wa",
+  command = "silent! update",
 })
 
 vim.api.nvim_create_autocmd("QuickFixCmdPost", {

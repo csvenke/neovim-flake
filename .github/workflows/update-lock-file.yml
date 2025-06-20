@@ -20,5 +20,5 @@ jobs:
             dependencies
             automated
             automerge
-          commit-msg: "feat(deps): update plugin and runtime dependencies"
+          commit-msg: "chore(deps): update plugin and runtime dependencies"
           token: ${{ secrets.GH_REPO_PAT }}

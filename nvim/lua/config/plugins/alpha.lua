@@ -1,12 +1,12 @@
 local alpha = require("alpha")
 local dashboard = require("alpha.themes.dashboard")
 local theta = require("alpha.themes.theta")
-local utils = require("config.utils")
+local git = require("config.lib.git")
 
 theta.file_icons.provider = "devicons"
 theta.buttons.val = {}
 
-local worktrees = utils.get_worktrees()
+local worktrees = git.get_worktrees()
 
 if not vim.tbl_isempty(worktrees) then
   vim.api.nvim_create_autocmd("ColorScheme", {
@@ -31,12 +31,10 @@ if not vim.tbl_isempty(worktrees) then
 
   for i, worktree in ipairs(worktrees) do
     local git_icon = "󰊢"
-    local worktree_path = worktree:match("^%S+")
-    local worktree_name = vim.fn.fnamemodify(worktree_path, ":t")
     local worktree_shortcut = shortcuts[i] or "-"
 
-    local keybind = string.format("<cmd>cd %s | edit .<cr>", worktree_path)
-    local text = string.format("%s  %s", git_icon, worktree_name)
+    local keybind = string.format("<cmd>cd %s | edit .<cr>", worktree.path)
+    local text = string.format("%s  %s", git_icon, worktree.name)
     local button = dashboard.button(worktree_shortcut, text, keybind)
 
     button.opts.hl = {

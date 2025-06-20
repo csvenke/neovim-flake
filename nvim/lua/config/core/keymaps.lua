@@ -42,7 +42,3 @@ vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected down", 
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected up", silent = true })
 vim.keymap.set("v", "<C-h>", "<gv", { desc = "Move selected left", silent = true })
 vim.keymap.set("v", "<C-l>", ">gv", { desc = "Move selected right", silent = true })
-
--- quickfix list
-vim.keymap.set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "qf [n]ext" })
-vim.keymap.set("n", "<C-p>", "<cmd>cprev<cr>", { desc = "qf [p]rev" })

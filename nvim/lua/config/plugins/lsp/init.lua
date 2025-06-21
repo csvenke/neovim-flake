@@ -1,6 +1,5 @@
 local utils = require("config.utils")
 
-require("fidget").setup({})
 require("lazydev").setup({
   library = {
     { path = "${3rd}/luv/library", words = { "vim%.uv" } },

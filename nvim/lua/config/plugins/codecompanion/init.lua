@@ -12,26 +12,16 @@ require("render-markdown").setup({
       codecompanion = {
         html = {
           tag = {
-            buf = {
-              icon = "󰈙 ",
-              highlight = "Special",
-            },
-            file = {
-              icon = "󰈔 ",
-              highlight = "Special",
-            },
-            tool = {
-              icon = "⚡",
-              highlight = "Special",
-            },
-            help = {
-              icon = "󰘥 ",
-              highlight = "Special",
-            },
-            user = {
-              icon = "",
-              highlight = "Special",
-            },
+            buf = { icon = "󰈙 ", highlight = "Special" },
+            file = { icon = "󰈔 ", highlight = "Special" },
+            tool = { icon = "⚡", highlight = "Special" },
+            help = { icon = "󰘥 ", highlight = "Special" },
+            image = { icon = " ", highlight = "Special" },
+            symbols = { icon = " ", highlight = "Special" },
+            url = { icon = "󰖟 ", highlight = "Special" },
+            var = { icon = " ", highlight = "Special" },
+            prompt = { icon = " ", highlight = "Special" },
+            group = { icon = " ", highlight = "Special" },
           },
         },
       },
@@ -80,17 +70,10 @@ require("codecompanion").setup({
           auto_submit = false,
           auto_submit_errors = true,
           auto_submit_success = true,
-        },
-      },
-      variables = {
-        ["buffer"] = {
-          opts = {
-            default_params = "watch",
-          },
-        },
-        ["viewport"] = {
-          opts = {
-            default_params = "watch",
+          default_tools = {
+            "grep_search",
+            "read_file",
+            "file_search",
           },
         },
       },

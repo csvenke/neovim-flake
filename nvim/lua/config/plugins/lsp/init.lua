@@ -1,5 +1,3 @@
-local utils = require("config.utils")
-
 require("lazydev").setup({
   library = {
     { path = "${3rd}/luv/library", words = { "vim%.uv" } },
@@ -57,8 +55,17 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
   callback = function(event)
-    local map = utils.make_map_buffer(event.buf)
     local telescope = require("telescope.builtin")
+
+    --- @param keys string
+    --- @param func fun()
+    --- @param desc? string
+    --- @param mode? string|table
+    local function map(keys, func, desc, mode)
+      mode = mode or "n"
+      desc = desc or ""
+      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
+    end
 
     map("gd", telescope.lsp_definitions, "[g]oto [d]efinition(s)")
     map("gD", telescope.lsp_type_definitions, "type [D]efinition(s)")
@@ -72,6 +79,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("<leader>cd", vim.diagnostic.open_float, "[c]ode [d]iagnostic")
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+    if client and client.name == "omnisharp" then
+      local omnisharp = require("omnisharp_extended")
+
+      map("gd", omnisharp.telescope_lsp_definition, "[g]oto [d]efinition (omnisharp)")
+      map("gi", omnisharp.telescope_lsp_implementation, "[g]oto [i]mplementation (omnisharp)")
+      map("gr", omnisharp.telescope_lsp_references, "[g]oto [r]eferences (omnisharp)")
+      map("<leader>D", omnisharp.telescope_lsp_type_definition, "type [D]efinition (omnisharp)")
+    end
 
     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
       local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })

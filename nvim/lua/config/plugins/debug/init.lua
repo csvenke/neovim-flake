@@ -2,17 +2,7 @@ local dap = require("dap")
 local dapui = require("dapui")
 require("nvim-dap-virtual-text").setup({})
 
-local highlight_augroup = vim.api.nvim_create_augroup("user-dap-highlights", { clear = true })
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-  group = highlight_augroup,
-  callback = function()
-    vim.cmd([[
-      highlight DapStop guifg=#E7C173 gui=bold
-      highlight DapBreak guifg=#B74E58 gui=bold
-    ]])
-  end,
-})
+local group = vim.api.nvim_create_augroup("user-dap-hooks", { clear = true })
 
 vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DapBreak", numhl = "DapBreak" })
 vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "DapBreak", numhl = "DapBreak" })
@@ -67,3 +57,23 @@ vim.keymap.set("n", "<leader>d=", function()
 end, { desc = "reset [d]ebug ui" })
 
 require("config.plugins.debug.netcoredbg").setup()
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = group,
+  callback = function()
+    vim.cmd([[
+      highlight DapStop guifg=#E7C173 gui=bold
+      highlight DapBreak guifg=#B74E58 gui=bold
+    ]])
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "dapui_breakpoints", "dapui_stacks", "dapui_scopes", "dapui_watches" },
+  group = group,
+  callback = function(event)
+    vim.keymap.set("n", "<C-q>", function()
+      require("dapui").close()
+    end, { buffer = event.buf, desc = "[d]ebug close" })
+  end,
+})

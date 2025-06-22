@@ -1,21 +1,14 @@
 local alpha = require("alpha")
 local dashboard = require("alpha.themes.dashboard")
 local theta = require("alpha.themes.theta")
-local utils = require("config.utils")
+local Git = require("config.lib.git")
 
 theta.file_icons.provider = "devicons"
 theta.buttons.val = {}
 
-local worktrees = utils.get_worktrees()
+local worktrees = Git:get_worktrees()
 
 if not vim.tbl_isempty(worktrees) then
-  vim.api.nvim_create_autocmd("ColorScheme", {
-    pattern = "*",
-    callback = function()
-      vim.api.nvim_set_hl(0, "AlphaGitIcon", { fg = "#d08770" })
-    end,
-  })
-
   local shortcuts = { "q", "w", "e", "r", "a", "s", "d", "f", "z", "x", "c", "v" }
   local val = {}
 
@@ -31,12 +24,9 @@ if not vim.tbl_isempty(worktrees) then
 
   for i, worktree in ipairs(worktrees) do
     local git_icon = "󰊢"
-    local worktree_path = worktree:match("^%S+")
-    local worktree_name = vim.fn.fnamemodify(worktree_path, ":t")
     local worktree_shortcut = shortcuts[i] or "-"
-
-    local keybind = string.format("<cmd>cd %s | edit .<cr>", worktree_path)
-    local text = string.format("%s  %s", git_icon, worktree_name)
+    local keybind = string.format("<cmd>cd %s | edit .<cr>", worktree.path)
+    local text = string.format("%s  %s", git_icon, worktree.name)
     local button = dashboard.button(worktree_shortcut, text, keybind)
 
     button.opts.hl = {
@@ -60,6 +50,16 @@ if not vim.tbl_isempty(worktrees) then
 end
 
 alpha.setup(theta.config)
+
+local group = vim.api.nvim_create_augroup("user-alpha-hooks", { clear = true })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  group = group,
+  callback = function()
+    vim.api.nvim_set_hl(0, "AlphaGitIcon", { fg = "#d08770" })
+  end,
+})
 
 vim.cmd([[
     autocmd FileType alpha setlocal nofoldenable

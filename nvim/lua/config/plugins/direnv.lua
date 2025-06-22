@@ -9,4 +9,8 @@ require("direnv").setup({
     reload = "<Nop>",
     edit = "<Nop>",
   },
+  notifications = {
+    silent_autoload = true,
+    level = vim.log.levels.OFF,
+  },
 })

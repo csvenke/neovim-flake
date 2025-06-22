@@ -5,6 +5,7 @@ require("config.core.autocmds")
 
 --- plugins
 require("config.plugins.theme")
+require("config.plugins.direnv")
 require("config.plugins.alpha")
 require("config.plugins.nvim-tree")
 require("config.plugins.treesitter")

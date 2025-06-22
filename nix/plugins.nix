@@ -6,9 +6,6 @@ let
     plenary-nvim
     vim-sleuth
 
-    # Direnv
-    direnv-vim
-
     # Treesitter
     nvim-treesitter.withAllGrammars
     nvim-treesitter-context
@@ -94,6 +91,18 @@ let
   ];
 
   extraPlugins = with pkgs; [
+    # Direnv
+    (vimUtils.buildVimPlugin {
+      pname = "direnv";
+      version = "2025-06-09";
+      src = fetchFromGitHub {
+        owner = "NotAShelf";
+        repo = "direnv.nvim";
+        rev = "4dfc8758a1deab45e37b7f3661e0fd3759d85788";
+        sha256 = "sha256-KqO8uDbVy4sVVZ6mHikuO+SWCzWr97ZuFRC8npOPJIE=";
+      };
+    })
+    # Theme
     (vimUtils.buildVimPlugin {
       pname = "nordic";
       version = "2025-06-15";

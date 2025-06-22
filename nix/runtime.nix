@@ -19,6 +19,10 @@ with pkgs;
   xdg-utils
   xclip
 
+  ### Direnv ###
+  direnv
+  nix-direnv
+
   ### Http client ###
   jq
   grpcurl

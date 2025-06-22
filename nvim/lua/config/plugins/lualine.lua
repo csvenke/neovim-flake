@@ -5,6 +5,16 @@ require("lualine").setup({
     icons_enabled = true,
     always_show_tabline = false,
   },
+  sections = {
+    lualine_x = {
+      function()
+        return require("direnv").statusline()
+      end,
+      "encoding",
+      "fileformat",
+      "filetype",
+    },
+  },
   tabline = {
     lualine_z = {
       {

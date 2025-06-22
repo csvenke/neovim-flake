@@ -8,7 +8,7 @@ local function switch_worktree()
       Path:cwd(worktree.path)
     end
 
-    vim.notify("Switched to worktree " .. worktree.name)
+    vim.notify("Switched to worktree " .. worktree.path)
   end)
 end
 

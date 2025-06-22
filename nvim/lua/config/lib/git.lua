@@ -23,10 +23,9 @@ local M = {}
 --- @field detached boolean
 --- @field locked boolean
 --- @field prunable boolean
---- @field pretty string
---- @field get_pretty fun(self: Worktree, max_name_length: number): string
+--- @field display string
+--- @field to_display_string fun(self: Worktree, max_name_length: number): string
 --- @field is_active fun(self: Worktree): boolean
---- @field exists fun(self: Worktree): boolean
 
 local Worktree = {}
 Worktree.__index = Worktree
@@ -44,7 +43,7 @@ function Worktree.new(args)
     detached = args.detached or false,
     locked = args.locked or false,
     prunable = args.prunable or false,
-    pretty = "",
+    display = "",
   }, Worktree)
 
   return self
@@ -92,7 +91,7 @@ end
 
 ---@param max_name_length number
 ---@return string
-function Worktree:get_pretty(max_name_length)
+function Worktree:to_display_string(max_name_length)
   ---@param s string
   local function pad(s)
     return string.format("%-" .. max_name_length .. "s", s)
@@ -144,7 +143,7 @@ function M:worktree_list()
   end
 
   for _, worktree in ipairs(worktrees) do
-    worktree.pretty = worktree:get_pretty(max_name_length + 2)
+    worktree.display = worktree:to_display_string(max_name_length + 2)
   end
 
   return worktrees
@@ -225,7 +224,7 @@ function M:select_worktree(prompt, on_select)
     prompt = prompt,
     ---@param worktree Worktree
     format_item = function(worktree)
-      return worktree.pretty
+      return worktree.display
     end,
   }, function(worktree)
     if worktree ~= nil then

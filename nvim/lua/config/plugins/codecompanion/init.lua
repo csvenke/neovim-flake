@@ -108,8 +108,38 @@ require("codecompanion").setup({
 
 require("config.plugins.codecompanion.hooks"):setup()
 
-vim.keymap.set({ "n" }, "<leader>aa", "<cmd>CodeCompanion<cr>", { desc = "[a]i [a]sk" })
-vim.keymap.set({ "v" }, "<leader>aa", ":'<,'>CodeCompanion<cr>", { desc = "[a]i [a]sk" })
+vim.keymap.set({ "n" }, "<leader>aa", function()
+  vim.ui.input({ prompt = "⚡Ask" }, function(input)
+    if input ~= nil and input ~= "" then
+      vim.cmd("CodeCompanionChat " .. input)
+    end
+  end)
+end, { desc = "[a]i [a]sk" })
+
+vim.keymap.set({ "v" }, "<leader>aa", function()
+  vim.ui.input({ prompt = "⚡Ask" }, function(input)
+    if input ~= nil and input ~= "" then
+      vim.cmd("'<,'>CodeCompanionChat " .. input)
+    end
+  end)
+end, { desc = "[a]i [a]sk" })
+
+vim.keymap.set({ "n" }, "<leader>ae", function()
+  vim.ui.input({ prompt = "⚡Edit (buffer)" }, function(input)
+    if input ~= nil and input ~= "" then
+      vim.cmd("%CodeCompanion " .. input)
+    end
+  end)
+end, { desc = "[a]i [e]dit" })
+
+vim.keymap.set({ "v" }, "<leader>ae", function()
+  vim.ui.input({ prompt = "⚡Edit (selection)" }, function(input)
+    if input ~= nil and input ~= "" then
+      vim.cmd("'<,'>CodeCompanion " .. input)
+    end
+  end)
+end, { desc = "[a]i [e]dit" })
+
 vim.keymap.set({ "n", "v" }, "<leader>an", "<cmd>CodeCompanionChat<cr>", { desc = "[a]i [n]ew chat" })
 vim.keymap.set({ "n", "v" }, "<leader>at", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "[a]i [t]oggle chat" })
 vim.keymap.set({ "n", "v" }, "<leader>ap", "<cmd>CodeCompanionAction<cr>", { desc = "[a]i action [p]alette" })

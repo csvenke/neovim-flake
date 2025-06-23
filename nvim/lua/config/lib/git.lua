@@ -92,9 +92,12 @@ end
 ---@param max_name_length number
 ---@return string
 function Worktree:to_display_string(max_name_length)
+  local detached_label = "(detached HEAD)"
+  local max_name_or_detached_length = math.max(max_name_length, #detached_label)
+
   ---@param s string
   local function pad(s)
-    return string.format("%-" .. max_name_length .. "s", s)
+    return string.format("%-" .. max_name_or_detached_length .. "s", s)
   end
 
   local extra = {}
@@ -104,7 +107,7 @@ function Worktree:to_display_string(max_name_length)
   end
 
   if self.detached then
-    table.insert(extra, pad("(detached HEAD)"))
+    table.insert(extra, pad(detached_label))
   elseif self.branch then
     table.insert(extra, pad(string.format("[%s]", self.branch)))
   end
@@ -166,6 +169,7 @@ function M:worktree_add(cwd, path, callback)
     callback(new_worktree)
   end
 end
+
 ---
 ---@param worktree Worktree
 function M:worktree_remove(worktree)
@@ -183,7 +187,7 @@ function M:worktree_remove(worktree)
 
   if Path:is_dir(worktree.path) then
     local choice =
-      vim.fn.confirm("Worktree contains modified or untracked files, use --force to delete it?", "&Yes\n&No", 2)
+        vim.fn.confirm("Worktree contains modified or untracked files, use --force to delete it?", "&Yes\n&No", 2)
     if choice == 1 then
       vim.system({ "git", "worktree", "remove", "--force", worktree.path }):wait()
     end

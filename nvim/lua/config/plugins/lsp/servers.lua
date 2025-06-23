@@ -98,9 +98,13 @@ local servers = {
   html = {
     filetypes = { "html", "htmlangular", "templ" },
   },
+
   cssls = {},
+
   css_variables = {},
+
   eslint = {},
+
   jsonls = {
     settings = {
       json = {
@@ -112,8 +116,6 @@ local servers = {
   },
 
   taplo = {},
-
-  gleam = {},
 
   tailwindcss = {},
 }

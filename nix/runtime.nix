@@ -88,6 +88,15 @@ with pkgs;
   omnisharp-roslyn
   netcoredbg
 
-  ### Database
+  ### Java ###
+  jdt-language-server
+
+  ### Haskell ###
+  haskell-language-server
+
+  ### Rust ###
+  rust-analyzer
+
+  ### Database ###
   sqlcmd
 ]

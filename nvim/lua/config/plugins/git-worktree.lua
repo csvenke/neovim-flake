@@ -1,14 +1,10 @@
+local Direnv = require("config.lib.direnv")
 local Path = require("config.lib.path")
 local Git = require("config.lib.git")
-local Direnv = require("config.lib.direnv")
 
 local function switch_worktree()
-  Git:select_worktree("Switch worktree", function(worktree)
-    if not worktree:is_active() then
-      Path:cwd(worktree.path)
-    end
-
-    vim.notify("Switched to worktree " .. worktree.path)
+  Git:worktree_select("Switch worktree", function(worktree)
+    Git:worktree_switch(worktree)
   end)
 end
 
@@ -24,16 +20,13 @@ local function add_worktree()
 
     Git:worktree_add(root.path, choice, function(new_worktree)
       Path:copy(root.path .. "/.shared", new_worktree)
-      Direnv:allow(new_worktree)
-      Path:cwd(new_worktree)
-
-      vim.notify("Switched to worktree " .. new_worktree)
+      Direnv:allow_if_available(new_worktree)
     end)
   end)
 end
 
 local function remove_worktree()
-  Git:select_worktree("Remove worktree", function(worktree)
+  Git:worktree_select("Remove worktree", function(worktree)
     Git:worktree_remove(worktree)
   end)
 end

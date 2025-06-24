@@ -80,6 +80,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
+    if client and client.name == "ts_ls" then
+      vim.keymap.set("n", "<leader>cA", "<cmd>LspTypescriptSourceAction<cr>", { desc = "[c]ode [A]ction" })
+    end
+
     if client and client.name == "omnisharp" then
       local omnisharp = require("omnisharp_extended")
 

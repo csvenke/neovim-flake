@@ -58,7 +58,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local telescope = require("telescope.builtin")
 
     --- @param keys string
-    --- @param func fun()
+    --- @param func string|fun()
     --- @param desc? string
     --- @param mode? string|table
     local function map(keys, func, desc, mode)
@@ -81,7 +81,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
     if client and client.name == "ts_ls" then
-      vim.keymap.set("n", "<leader>cA", "<cmd>LspTypescriptSourceAction<cr>", { desc = "[c]ode [A]ction" })
+      map("<leader>cA", "<cmd>LspTypescriptSourceAction<cr>", "[c]ode [A]ction")
     end
 
     if client and client.name == "omnisharp" then

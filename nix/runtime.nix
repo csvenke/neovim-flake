@@ -68,17 +68,19 @@ with pkgs;
 
   ### Json, eslint, markdown, css, html ###
   vscode-langservers-extracted
-  css-variables-language-server
+  (callPackage ./packages/css-variables { })
   vscode-extensions.dbaeumer.vscode-eslint
 
   ### Prettier ###
   prettierd
 
+  prettier
+
   ### Javascript/Typescript ###
   typescript-language-server
 
   ### Angular ###
-  (callPackage ./packages/ngserver.nix { })
+  (callPackage ./packages/angularls { })
 
   ### Tailwindcss ###
   tailwindcss-language-server

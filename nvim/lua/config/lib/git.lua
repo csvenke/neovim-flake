@@ -52,7 +52,7 @@ end
 
 ---@param entry string
 ---@return Worktree
-function Worktree.fromEntry(entry)
+function Worktree.from_entry(entry)
   local path = entry:match("worktree ([^\n]+)")
   local name = nil
   if path then
@@ -139,7 +139,7 @@ function M:worktree_list()
   local wrapper_length = 2
 
   for _, entry in ipairs(entries) do
-    local worktree = Worktree.fromEntry(entry)
+    local worktree = Worktree.from_entry(entry)
 
     if not worktree.bare then
       max_name_length = math.max(max_name_length, #worktree.name)

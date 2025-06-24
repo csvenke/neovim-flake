@@ -1,20 +1,12 @@
-{
-  callPackage,
-  vimUtils,
-}:
+{ callPackage }:
 
 let
-  mkNeovim = callPackage ./packages/mkNeovim.nix { };
-
-  configAsPlugin = vimUtils.buildVimPlugin {
-    name = "config";
-    src = ../nvim;
-    dependencies = callPackage ./plugins.nix { };
-    buildInputs = callPackage ./runtime.nix { };
-  };
+  configureNeovim = callPackage ./lib/configureNeovim.nix { };
 in
 
-mkNeovim {
-  extraPlugins = [ configAsPlugin ];
+configureNeovim {
+  name = "config";
+  lua = ../nvim;
+  extraPlugins = callPackage ./plugins.nix { };
   extraPackages = callPackage ./runtime.nix { };
 }

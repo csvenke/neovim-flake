@@ -3,9 +3,12 @@
   wrapNeovimUnstable,
   neovimUtils,
   neovim-unwrapped,
+  vimUtils,
 }:
 
 {
+  lua,
+  name,
   extraPlugins ? [ ],
   extraPackages ? [ ],
 }:
@@ -15,7 +18,14 @@ let
     withNodeJs = false;
     withRuby = false;
     withPython3 = false;
-    plugins = extraPlugins;
+    plugins = [
+      (vimUtils.buildVimPlugin {
+        name = name;
+        src = lua;
+        dependencies = extraPlugins;
+        buildInputs = extraPackages;
+      })
+    ];
   };
   wrappedNeovim = wrapNeovimUnstable neovim-unwrapped neovimConfig;
 in

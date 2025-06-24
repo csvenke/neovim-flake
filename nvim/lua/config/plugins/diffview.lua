@@ -51,6 +51,7 @@ require("diffview").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "[g]it [d]iff view" })
+vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen --selected-file<cr>", { desc = "[g]it [d]iff view" })
+vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewOpen<cr>", { desc = "[g]it [d]iff view" })
 vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "[g]it [h]istory (current file)" })
 vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "[g]it [H]istory" })

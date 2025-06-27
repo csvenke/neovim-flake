@@ -14,7 +14,7 @@
         inputs.flake-parts.flakeModules.easyOverlay
       ];
       perSystem =
-        { config, system, ... }:
+        { system, ... }:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -28,15 +28,12 @@
           packages = {
             default = neovim;
           };
-          checks = {
-            check-health =
-              pkgs.runCommandLocal "check-health"
-                {
-                  nativeBuildInputs = [ config.packages.default ];
-                }
-                ''
-                  nvim --headless "+checkhealth" +qa | tee $out
-                '';
+          devShells = {
+            ci = pkgs.mkShell {
+              packages = with pkgs; [
+                just
+              ];
+            };
           };
         };
     };

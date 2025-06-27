@@ -11,8 +11,20 @@ permissions:
   pull-requests: write
 
 jobs:
+  health-check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - run: nix flake check -v
+      - run: nix develop .#ci --command just test
+
   release:
     runs-on: ubuntu-latest
+    needs: [health-check]
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:

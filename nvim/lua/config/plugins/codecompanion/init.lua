@@ -117,7 +117,7 @@ vim.keymap.set({ "n" }, "<leader>aa", function()
 end, { desc = "[a]i [a]sk" })
 
 vim.keymap.set({ "v" }, "<leader>aa", function()
-  vim.ui.input({ prompt = "⚡Ask" }, function(input)
+  vim.ui.input({ prompt = "⚡Ask (selected)" }, function(input)
     if input ~= nil and input ~= "" then
       vim.cmd("'<,'>CodeCompanionChat " .. input)
     end

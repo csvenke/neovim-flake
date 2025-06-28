@@ -1,3 +1,5 @@
+local Git = require("config.lib.git")
+
 require("telescope").setup({
   defaults = {
     layout_strategy = "flex",
@@ -18,6 +20,14 @@ require("telescope").load_extension("ui-select")
 
 local builtin = require("telescope.builtin")
 
+local function find_files_smart()
+  if Git:is_inside_worktree() then
+    builtin.git_files({ show_untracked = true })
+  else
+    builtin.find_files()
+  end
+end
+
 vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [h]elp" })
 vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[s]earch [k]eymaps" })
 vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [f]iles" })
@@ -35,6 +45,6 @@ vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Find in files (Gre
 vim.keymap.set("n", "<leader>?", builtin.live_grep, { desc = "Find in files (Grep)" })
 vim.keymap.set("n", "<leader>:", builtin.command_history, { desc = "Command history" })
 vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[s]earch recent files" })
-vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "[s]earch [f]iles" })
+vim.keymap.set("n", "<leader><leader>", find_files_smart, { desc = "[s]earch [f]iles" })
 
 require("config.plugins.telescope.multigrep").setup()

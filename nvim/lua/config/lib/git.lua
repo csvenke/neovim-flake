@@ -344,4 +344,10 @@ function M:worktree_select(prompt, on_select)
   end)
 end
 
+---@return boolean
+function M:is_inside_worktree()
+  local git_check = vim.fn.system("git rev-parse --is-inside-work-tree 2>/dev/null")
+  return vim.v.shell_error == 0 and git_check:match("true")
+end
+
 return M

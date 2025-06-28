@@ -16,10 +16,15 @@ local function add_worktree()
       return
     end
 
-    local root = Git:get_bare_worktree()
+    local bare_worktree = Git:get_bare_worktree()
 
-    Git:worktree_add(root.path, choice, function(new_worktree)
-      Path:copy(root.path .. "/.shared", new_worktree)
+    if not bare_worktree then
+      vim.notify("No bare worktree found")
+      return
+    end
+
+    Git:worktree_add(bare_worktree.path, choice, function(new_worktree)
+      Path:copy(bare_worktree.path .. "/.shared", new_worktree)
       Direnv:allow_if_available(new_worktree)
     end)
   end)

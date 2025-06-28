@@ -314,11 +314,34 @@ function M:get_worktrees()
   return worktrees
 end
 
----@return Worktree
+---@return Worktree|nil
 function M:get_bare_worktree()
   local worktrees = self:worktree_list()
-  local first = table.remove(worktrees, 1)
-  return first
+
+  if #worktrees == 1 then
+    return table.remove(worktrees, 1)
+  end
+
+  for _, worktree in ipairs(worktrees) do
+    if worktree.bare then
+      return worktree
+    end
+  end
+
+  return nil
+end
+
+---@return Worktree|nil
+function M:get_active_worktree()
+  local worktrees = self:worktree_list()
+
+  for _, worktree in ipairs(worktrees) do
+    if worktree:is_active() then
+      return worktree
+    end
+  end
+
+  return nil
 end
 
 ---@param prompt string

@@ -1,3 +1,5 @@
+local Git = require("config.lib.git")
+
 local function is_inside_tmux()
   return os.getenv("TMUX") ~= nil
 end
@@ -15,8 +17,35 @@ local function open_vertical_split()
 end
 
 local function open_popup()
-  local data = vim.system({ "basename", os.getenv("PWD") }, { text = true }):wait()
-  local name = string.gsub(data.stdout or "popup", "%W", "")
+  ---@param name string
+  local function parse_name(name)
+    return string.gsub(name, "%W", "")
+  end
+
+  local worktrees = Git:get_worktrees()
+
+  if #worktrees > 1 then
+    local bare_worktree = Git:get_bare_worktree()
+    if not bare_worktree then
+      return
+    end
+
+    local active_worktree = Git:get_active_worktree()
+    if not active_worktree then
+      return
+    end
+
+    name = parse_name(bare_worktree.name) .. "_" .. parse_name(active_worktree.name)
+  else
+    local data = vim.system({ "basename", vim.fn.getcwd() }, { text = true }):wait()
+
+    if data.stdout then
+      name = parse_name(data.stdout) .. "_" .. "popup"
+    else
+      name = "popup"
+    end
+  end
+
   local command = string.format("tmux popup -w90%% -h90%% -d $PWD -E 'tmux attach -t %s || tmux new -s %s'", name, name)
 
   vim.cmd("wa")

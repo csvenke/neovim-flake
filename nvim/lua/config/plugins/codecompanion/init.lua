@@ -40,8 +40,11 @@ require("codecompanion").setup({
     chat = {
       intro_message = "",
       show_header_separator = true,
-      show_settings = true,
-      show_references = true,
+      show_settings = false,
+      show_references = false,
+      default_tools = {
+        "read",
+      },
     },
   },
   adapters = {
@@ -62,18 +65,34 @@ require("codecompanion").setup({
     chat = {
       adapter = "anthropic",
       roles = {
-        llm = "🤖 Assistant",
-        user = "🧑‍💻 User",
+        user = "🧑‍💻 (You)",
+        llm = "🤖 Claude",
+      },
+      keymaps = {
+        send = {
+          modes = { n = "<cr>", i = "<Nop>" },
+        },
       },
       tools = {
         opts = {
           auto_submit = false,
           auto_submit_errors = true,
           auto_submit_success = true,
-          default_tools = {
-            "grep_search",
-            "read_file",
-            "file_search",
+        },
+        groups = {
+          ["read"] = {
+            description = "Read",
+            tools = { "grep_search", "read_file", "file_search" },
+            opts = {
+              collapse_tools = true,
+            },
+          },
+          ["write"] = {
+            description = "Write",
+            tools = { "create_file", "insert_edit_into_file" },
+            opts = {
+              collapse_tools = true,
+            },
           },
         },
       },

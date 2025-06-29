@@ -39,6 +39,7 @@ let
 
     # Git
     diffview-nvim
+    gitsigns-nvim
 
     # Test
     neotest
@@ -77,7 +78,6 @@ let
     mini-bufremove
     mini-pairs
     mini-ai
-    mini-diff
 
     # LLMs
     render-markdown-nvim

@@ -14,12 +14,10 @@
         inputs.flake-parts.flakeModules.easyOverlay
       ];
       perSystem =
-        { config, system, ... }:
+        { pkgs, ... }:
         let
-          pkgs = import nixpkgs {
-            inherit system;
-          };
           neovim = pkgs.callPackage ./nix/neovim.nix { };
+          scripts = pkgs.callPackage ./scripts.nix { };
         in
         {
           overlayAttrs = {
@@ -29,14 +27,30 @@
             default = neovim;
           };
           checks = {
-            check-health =
-              pkgs.runCommandLocal "check-health"
+            checkhealth = pkgs.runCommandLocal "checkhealth" { } ''
+              ${neovim}/bin/nvim --headless "+checkhealth" +qa | tee $out
+            '';
+            codequality =
+              pkgs.runCommandLocal "codequality"
                 {
-                  nativeBuildInputs = [ config.packages.default ];
+                  nativeBuildInputs = [
+                    scripts.format
+                    scripts.lint
+                  ];
                 }
                 ''
-                  nvim --headless "+checkhealth" +qa | tee $out
+                  cd ${./.}
+                  format --check && lint
+                  mkdir -p $out
                 '';
+          };
+          devShells = {
+            default = pkgs.mkShell {
+              packages = [
+                scripts.format
+                scripts.lint
+              ];
+            };
           };
         };
     };

@@ -19,34 +19,45 @@ end
 local function open_popup()
   ---@param name string
   local function parse_name(name)
-    return string.gsub(name, "%W", "")
+    local parsed = string.gsub(name, "%W", "")
+    return parsed
+  end
+  local function get_popup_name()
+    local worktrees = Git.worktree_list()
+
+    if #worktrees > 1 then
+      local bare_worktree = Git.get_bare_worktree(worktrees)
+      local active_worktree = Git.get_active_worktree(worktrees)
+
+      if bare_worktree and active_worktree then
+        local parts = {}
+
+        table.insert(parts, parse_name(bare_worktree.name))
+        table.insert(parts, "popup")
+
+        if bare_worktree.name ~= active_worktree.name then
+          table.insert(parts, parse_name(active_worktree.name))
+        end
+
+        return table.concat(parts, "_")
+      end
+    end
+
+    local directory_name = vim.fs.basename(vim.fn.getcwd())
+
+    if directory_name then
+      local parts = {}
+      table.insert(parts, parse_name(directory_name))
+      table.insert(parts, "popup")
+      return table.concat(parts, "_")
+    end
+
+    return "popup"
   end
 
-  local worktrees = Git:get_worktrees()
-
-  if #worktrees > 1 then
-    local bare_worktree = Git:get_bare_worktree()
-    if not bare_worktree then
-      return
-    end
-
-    local active_worktree = Git:get_active_worktree()
-    if not active_worktree then
-      return
-    end
-
-    name = parse_name(bare_worktree.name) .. "_" .. parse_name(active_worktree.name)
-  else
-    local data = vim.system({ "basename", vim.fn.getcwd() }, { text = true }):wait()
-
-    if data.stdout then
-      name = parse_name(data.stdout) .. "_" .. "popup"
-    else
-      name = "popup"
-    end
-  end
-
-  local command = string.format("tmux popup -w90%% -h90%% -d $PWD -E 'tmux attach -t %s || tmux new -s %s'", name, name)
+  local popup_name = get_popup_name()
+  local command =
+    string.format("tmux popup -w90%% -h90%% -d $PWD -E 'tmux attach -t %s || tmux new -s %s'", popup_name, popup_name)
 
   vim.cmd("wa")
   os.execute(command)

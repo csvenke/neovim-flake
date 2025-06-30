@@ -6,7 +6,7 @@ local Git = require("config.lib.git")
 theta.file_icons.provider = "devicons"
 theta.buttons.val = {}
 
-local worktrees = Git:get_worktrees()
+local worktrees = Git.get_worktrees()
 
 if not vim.tbl_isempty(worktrees) then
   local shortcuts = { "q", "w", "e", "r", "a", "s", "d", "f", "z", "x", "c", "v" }

@@ -21,7 +21,7 @@ require("telescope").load_extension("ui-select")
 local builtin = require("telescope.builtin")
 
 local function find_files_smart()
-  if Git:is_inside_worktree() then
+  if Git.is_inside_worktree() then
     builtin.git_files({ show_untracked = true })
   else
     builtin.find_files()

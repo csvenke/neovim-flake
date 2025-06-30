@@ -1,142 +1,17 @@
 local Path = require("config.lib.path")
-local Text = require("config.lib.text")
+local Worktree = require("config.lib.worktree")
 
 local M = {}
 
---- @class WorktreeArgs
---- @field name? string
---- @field path? string
---- @field sha? string
---- @field short_sha? string
---- @field branch? string|nil
---- @field bare? boolean
---- @field detached? boolean
---- @field locked? boolean
---- @field prunable? boolean
-
---- @class Worktree
---- @field name string
---- @field path string
---- @field sha string
---- @field short_sha string
---- @field branch string|nil
---- @field bare boolean
---- @field detached boolean
---- @field locked boolean
---- @field prunable boolean
---- @field display string
---- @field to_display_string fun(self: Worktree, max_name_length: number, max_branch_length: number): string
---- @field is_active fun(self: Worktree): boolean
-
-local Worktree = {}
-Worktree.__index = Worktree
-
----@param args WorktreeArgs
----@return Worktree
-function Worktree.new(args)
-  local self = setmetatable({
-    name = args.name or "",
-    path = args.path or "",
-    sha = args.sha or "0000000000000000000000000000000000000000",
-    short_sha = args.short_sha or "0000000",
-    branch = args.branch,
-    bare = args.bare or false,
-    detached = args.detached or false,
-    locked = args.locked or false,
-    prunable = args.prunable or false,
-    display = "",
-  }, Worktree)
-
-  return self
-end
-
----@param entry string
----@return Worktree
-function Worktree.from_entry(entry)
-  local path = entry:match("worktree ([^\n]+)")
-  local name = nil
-  if path then
-    path = path
-    name = path:match("([^/]+)$")
-  end
-
-  local head = entry:match("HEAD ([^\n]+)")
-  local sha = nil
-  local short_sha = nil
-  if head then
-    sha = head
-    short_sha = head:sub(1, 7)
-  end
-
-  local branch = entry:match("branch ([^\n]+)")
-  if branch then
-    branch = branch:match("refs/heads/(.+)") or branch
-  end
-
-  local function hasFlag(flag)
-    return entry:find(flag) ~= nil
-  end
-
-  return Worktree.new({
-    name = name,
-    path = path,
-    sha = sha,
-    short_sha = short_sha,
-    branch = branch,
-    bare = hasFlag("bare"),
-    detached = hasFlag("detached"),
-    locked = hasFlag("locked"),
-    prunable = hasFlag("prunable"),
-  })
-end
-
----@param max_name_length number
----@param max_branch_length number
----@return string
-function Worktree:to_display_string(max_name_length, max_branch_length)
-  local items = {}
-
-  if self.name then
-    table.insert(items, "󰊢 ")
-    table.insert(items, Text.pad_right(self.name, max_name_length))
-    table.insert(items, "|")
-  end
-
-  if self.short_sha then
-    table.insert(items, self.short_sha)
-  end
-
-  if self.detached then
-    table.insert(items, Text.pad_right("(detached HEAD)", max_branch_length))
-  elseif self.branch then
-    table.insert(items, Text.pad_right(string.format("[%s]", self.branch), max_branch_length))
-  end
-
-  if self.locked then
-    table.insert(items, "locked")
-  end
-
-  if self.prunable then
-    table.insert(items, "prunable")
-  end
-
-  return table.concat(items, " ")
-end
-
-function Worktree:is_active()
-  return vim.fn.getcwd() == self.path
-end
-
-function M:worktree_list()
+function M.worktree_list()
   local output = vim.fn.system("git worktree list --porcelain")
   local entries = vim.split(output, "\n\n", { trimempty = true })
-
-  ---@type Worktree[]
-  local worktrees = {}
-
   local max_name_length = 0
   local max_branch_length = 0
   local wrapper_length = 2
+
+  ---@type Worktree[]
+  local worktrees = {}
 
   for _, entry in ipairs(entries) do
     local worktree = Worktree.from_entry(entry)
@@ -163,126 +38,72 @@ end
 
 ---@param cwd string
 ---@param path string
----@param on_success fun(path: string)
-function M:worktree_add(cwd, path, on_success)
-  local notification = vim.notify("Adding worktree...", vim.log.levels.INFO, {
-    title = "Git",
-  })
-
+---@return string?
+---@return string?
+function M.worktree_add(cwd, path)
   local new_worktree = string.format("%s/%s", cwd, path)
 
-  if Path:is_dir(new_worktree) then
-    vim.notify("Worktree already exists", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+  if Path.is_directory(new_worktree) then
+    return nil, "Worktree already exists"
   end
 
   vim.system({ "git", "worktree", "add", path }, { cwd = cwd }):wait()
 
   vim.wait(3000, function()
-    return Path:is_dir(new_worktree)
+    return Path.is_directory(new_worktree)
   end)
 
-  if not Path:is_dir(new_worktree) then
-    vim.notify("Adding worktree... FAIL", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+  if not Path.is_directory(new_worktree) then
+    return nil, "Failed to add worktree"
   end
 
-  on_success(new_worktree)
-
-  vim.notify("Adding worktree... DONE", vim.log.levels.INFO, {
-    title = "Git",
-    replace = notification and notification.id,
-  })
+  return new_worktree, nil
 end
 
 ---@param worktree Worktree
-function M:worktree_switch(worktree)
-  local notification = vim.notify("Switching worktree...", vim.log.levels.INFO, {
-    title = "Git",
-  })
-
+---@return Worktree?
+---@return string?
+function M.worktree_switch(worktree)
   if worktree.prunable then
-    vim.notify("Can't switch to prunable worktree", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+    return nil, "Can't switch to prunable worktree"
   end
-
-  if not Path:is_dir(worktree.path) then
-    vim.notify("Can't switch to worktree that does not exist", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+  if not Path.is_directory(worktree.path) then
+    return nil, "Can't switch to worktree that does not exist"
   end
-
   if worktree:is_active() then
-    vim.notify("Can't switch to active worktree", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+    return nil, "Can't switch to active worktree"
   end
 
-  Path:change_current_directory(worktree.path)
+  Path.change_current_directory(worktree.path)
 
   vim.wait(3000, function()
     return worktree:is_active()
   end)
 
-  if worktree:is_active() then
-    vim.notify("Switching worktree... DONE", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-  else
-    vim.notify("Switching worktree... FAIL", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
+  if not worktree:is_active() then
+    return nil, "Failed to switch to worktree"
   end
+
+  return worktree
 end
 
 ---@param worktree Worktree
-function M:worktree_remove(worktree)
-  local notification = vim.notify("Removing worktree...", vim.log.levels.INFO, {
-    title = "Git",
-  })
-
-  if not Path:is_dir(worktree.path) then
-    vim.notify("Worktree does not exist", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+---@return Worktree?
+---@return string?
+function M.worktree_remove(worktree)
+  if not Path.is_directory(worktree.path) then
+    return nil, "Worktree does not exist"
   end
-
   if worktree.locked then
-    vim.notify("Can't remove locked worktree", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+    return nil, "Can't remove locked worktree"
   end
-
   if worktree:is_active() then
-    vim.notify("Can't remove active worktree", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-    return
+    return nil, "Can't remove active worktree"
   end
 
   vim.system({ "git", "worktree", "remove", worktree.path }):wait()
 
-  if Path:is_dir(worktree.path) then
+  if Path.is_directory(worktree.path) then
     local choice =
       vim.fn.confirm("Worktree contains modified or untracked files, use --force to delete it?", "&Yes\n&No", 2)
     if choice == 1 then
@@ -290,22 +111,17 @@ function M:worktree_remove(worktree)
     end
   end
 
-  if not Path:is_dir(worktree.path) then
-    vim.notify("Removing worktree... DONE", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
-  else
-    vim.notify("Removing worktree... FAIL", vim.log.levels.INFO, {
-      title = "Git",
-      replace = notification and notification.id,
-    })
+  if Path.is_directory(worktree.path) then
+    return nil, "Failed to remove worktree"
   end
+
+  return worktree
 end
 
 ---@return Worktree[]
-function M:get_worktrees()
-  local worktrees = self:worktree_list()
+function M.get_worktrees()
+  local worktrees = M.worktree_list()
+
   table.remove(worktrees, 1)
   table.sort(worktrees, function(a, b)
     return a.name < b.name
@@ -314,10 +130,9 @@ function M:get_worktrees()
   return worktrees
 end
 
----@return Worktree|nil
-function M:get_bare_worktree()
-  local worktrees = self:worktree_list()
-
+---@param worktrees Worktree[]
+---@return Worktree?
+function M.get_bare_worktree(worktrees)
   if #worktrees == 1 then
     return table.remove(worktrees, 1)
   end
@@ -331,10 +146,9 @@ function M:get_bare_worktree()
   return nil
 end
 
----@return Worktree|nil
-function M:get_active_worktree()
-  local worktrees = self:worktree_list()
-
+---@param worktrees Worktree[]
+---@return Worktree?
+function M.get_active_worktree(worktrees)
   for _, worktree in ipairs(worktrees) do
     if worktree:is_active() then
       return worktree
@@ -344,31 +158,37 @@ function M:get_active_worktree()
   return nil
 end
 
----@param prompt string
----@param on_select fun(worktree: Worktree)
-function M:worktree_select(prompt, on_select)
-  local worktrees = self:get_worktrees()
+---@class WorktreeSelectArgs
+---@field prompt string
+---@field on_select fun(worktree: Worktree)
+---@field on_empty fun()
+
+---@param args WorktreeSelectArgs
+function M.worktree_select(args)
+  local worktrees = M.get_worktrees()
 
   if #worktrees == 0 then
-    vim.notify("No worktrees found")
+    if args.on_empty then
+      args.on_empty()
+    end
     return
   end
 
   vim.ui.select(worktrees, {
-    prompt = prompt,
+    prompt = args.prompt,
     ---@param worktree Worktree
     format_item = function(worktree)
       return worktree.display
     end,
   }, function(worktree)
     if worktree then
-      on_select(worktree)
+      args.on_select(worktree)
     end
   end)
 end
 
 ---@return boolean
-function M:is_inside_worktree()
+function M.is_inside_worktree()
   local git_check = vim.fn.system("git rev-parse --is-inside-work-tree 2>/dev/null")
   return vim.v.shell_error == 0 and git_check:match("true")
 end

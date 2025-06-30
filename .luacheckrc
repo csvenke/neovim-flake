@@ -1,0 +1,3 @@
+self = false
+
+globals = { "vim" }

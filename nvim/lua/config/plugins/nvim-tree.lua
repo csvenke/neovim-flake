@@ -24,6 +24,7 @@ require("nvim-tree").setup({
       window_picker = {
         enable = false,
       },
+      resize_window = false,
     },
   },
   sync_root_with_cwd = true,

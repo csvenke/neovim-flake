@@ -38,16 +38,26 @@ end
 
 ---@param cwd string
 ---@param path string
+---@param branch string?
 ---@return string?
 ---@return string?
-function M.worktree_add(cwd, path)
+function M.worktree_add(cwd, path, branch)
   local new_worktree = string.format("%s/%s", cwd, path)
 
   if Path.is_directory(new_worktree) then
     return nil, "Worktree already exists"
   end
 
-  vim.system({ "git", "worktree", "add", path }, { cwd = cwd }):wait()
+  local git_cmd = { "git", "worktree", "add" }
+
+  if branch then
+    table.insert(git_cmd, "-b")
+    table.insert(git_cmd, branch)
+  end
+
+  table.insert(git_cmd, path)
+
+  vim.system(git_cmd, { cwd = cwd }):wait()
 
   vim.wait(3000, function()
     return Path.is_directory(new_worktree)

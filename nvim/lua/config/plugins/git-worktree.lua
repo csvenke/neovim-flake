@@ -40,6 +40,11 @@ local function add_worktree()
     if choice == nil then
       return
     end
+
+    local choices = vim.split(choice, "%s+", { plain = false })
+    local path = choices[1]
+    local branch = choices[2]
+
     local notification = vim.notify("Adding worktree...", vim.log.levels.INFO, {
       title = NOTIFY_TITLE,
     })
@@ -56,7 +61,7 @@ local function add_worktree()
       return
     end
 
-    local new_worktree, err = Git.worktree_add(bare_worktree.path, choice)
+    local new_worktree, err = Git.worktree_add(bare_worktree.path, path, branch)
 
     if not new_worktree then
       vim.notify(err --[[@as string]], vim.log.levels.INFO, notify_opts)

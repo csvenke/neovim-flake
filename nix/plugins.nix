@@ -54,9 +54,6 @@ let
     noice-nvim
     lualine-nvim
 
-    # Http client
-    kulala-nvim
-
     # Keymaps
     which-key-nvim
 
@@ -91,6 +88,19 @@ let
   ];
 
   extraPlugins = with pkgs; [
+    # Http client
+    # Revision 34beb95b14dab60ef0e7e54bf38c12d98067544a breaks build because it attempts to install treesitter parser
+    (vimUtils.buildVimPlugin rec {
+      pname = "kulala.nvim";
+      version = "v5.2.1";
+      src = fetchFromGitHub {
+        owner = "mistweaverco";
+        repo = "kulala.nvim";
+        rev = version;
+        sha256 = "sha256-kTA2EtLwJbwlgFFWekrQn2B9jnqW8FREqxpvdWTZA+4=";
+        fetchSubmodules = true;
+      };
+    })
     # Direnv
     (vimUtils.buildVimPlugin {
       pname = "direnv";

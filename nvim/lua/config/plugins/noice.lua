@@ -22,11 +22,13 @@ require("noice").setup({
       filter = {
         event = "msg_show",
         any = {
+          { find = "Invalid window id" },
           { find = "%d+L, %d+B" },
           { find = "; after #%d+" },
           { find = "; before #%d+" },
         },
       },
+      opts = { skip = true },
       view = "mini",
     },
   },

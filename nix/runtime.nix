@@ -74,8 +74,6 @@ with pkgs;
   ### Prettier ###
   prettierd
 
-  prettier
-
   ### Javascript/Typescript ###
   typescript-language-server
 

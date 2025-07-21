@@ -10,7 +10,7 @@ require("lazydev").setup({
 require("blink.cmp").setup({
   keymap = {
     preset = "default",
-    ["<cr>"] = { "select_and_accept", "fallback" },
+    ["<Enter>"] = { "select_and_accept", "fallback" },
   },
   appearance = {
     use_nvim_cmp_as_default = true,

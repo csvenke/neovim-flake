@@ -7,8 +7,7 @@
 }:
 
 {
-  lua,
-  name,
+  extraConfig,
   extraPlugins ? [ ],
   extraPackages ? [ ],
 }:
@@ -20,8 +19,8 @@ let
     withPython3 = false;
     plugins = [
       (vimUtils.buildVimPlugin {
-        name = name;
-        src = lua;
+        name = "config";
+        src = extraConfig;
         dependencies = extraPlugins;
         buildInputs = extraPackages;
       })

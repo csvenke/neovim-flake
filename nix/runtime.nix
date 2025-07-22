@@ -1,4 +1,4 @@
-{ pkgs, callPackage }:
+{ pkgs }:
 
 with pkgs;
 [

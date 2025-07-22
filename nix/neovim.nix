@@ -1,12 +1,11 @@
 { callPackage }:
 
 let
-  configureNeovim = callPackage ./lib/configureNeovim.nix { };
+  mkNeovim = callPackage ./lib/mkNeovim.nix { };
 in
 
-configureNeovim {
-  name = "config";
-  lua = ../nvim;
+mkNeovim {
+  extraConfig = ../nvim;
   extraPlugins = callPackage ./plugins.nix { };
   extraPackages = callPackage ./runtime.nix { };
 }

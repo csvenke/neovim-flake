@@ -9,7 +9,7 @@ vim.keymap.set("n", "q", "<Nop>")
 vim.keymap.set("n", "Q", "<Nop>")
 
 -- quitting
-vim.keymap.set("n", "<leader>qq", "<cmd>wqa<cr>", { desc = "[q]uit" })
+vim.keymap.set("n", "<leader>qq", "<cmd>wa | qa<cr>", { desc = "[q]uit" })
 vim.keymap.set("n", "<leader>qQ", "<cmd>qa<cr>", { desc = "[q]uit (without saving)" })
 vim.keymap.set("n", "<C-q>", "<cmd>q<cr>", { desc = "[q]uit" })
 
@@ -42,5 +42,3 @@ vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected down", 
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected up", silent = true })
 vim.keymap.set("v", "<C-h>", "<gv", { desc = "Move selected left", silent = true })
 vim.keymap.set("v", "<C-l>", ">gv", { desc = "Move selected right", silent = true })
-
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

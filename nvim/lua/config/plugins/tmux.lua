@@ -8,14 +8,6 @@ if not is_inside_tmux() then
   return
 end
 
-local function open_horizontal_split()
-  vim.system({ "tmux", "split-window", "-v", "-c", vim.fn.getcwd() })
-end
-
-local function open_vertical_split()
-  vim.system({ "tmux", "split-window", "-h", "-c", vim.fn.getcwd() })
-end
-
 local function open_popup()
   ---@param name string
   local function parse_name(name)
@@ -75,11 +67,5 @@ local function open_lazygit()
   vim.cmd("checktime")
 end
 
--- terminal
-vim.keymap.set("n", "tt", open_horizontal_split, { desc = "[t]mux horizontal split" })
-vim.keymap.set("n", "ts", open_horizontal_split, { desc = "[t]mux horizontal split" })
-vim.keymap.set("n", "tv", open_vertical_split, { desc = "[t]mux vertical split" })
 vim.keymap.set("n", "tp", open_popup, { desc = "[t]mux popup" })
-
--- git
 vim.keymap.set("n", "<leader>gg", open_lazygit, { desc = "[g]it [g]ui" })

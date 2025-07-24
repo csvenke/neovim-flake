@@ -54,12 +54,22 @@ vim.api.nvim_create_autocmd({ "VimEnter", "TabEnter", "TabLeave", "TabNew", "Tab
 
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = group,
-  command = "silent! checktime",
+  callback = function()
+    local is_file_buffer = vim.bo.buftype == ""
+    if is_file_buffer then
+      vim.cmd("silent! checktime")
+    end
+  end,
 })
 
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
   group = group,
-  command = "silent! update",
+  callback = function()
+    local is_file_buffer = vim.bo.buftype == ""
+    if is_file_buffer then
+      vim.cmd("silent! update")
+    end
+  end,
 })
 
 vim.api.nvim_create_autocmd("QuickFixCmdPost", {
@@ -67,14 +77,5 @@ vim.api.nvim_create_autocmd("QuickFixCmdPost", {
   group = group,
   callback = function()
     vim.cmd("rightbelow copen")
-  end,
-})
-
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = group,
-  callback = function()
-    vim.opt.number = false
-    vim.opt.relativenumber = false
-    vim.cmd("startinsert")
   end,
 })

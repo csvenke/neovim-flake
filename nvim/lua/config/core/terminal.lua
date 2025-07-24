@@ -11,6 +11,24 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
+local function create_job(cmd)
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_win_set_buf(0, buf)
+
+  local job_id = vim.fn.jobstart(cmd, {
+    term = true,
+    on_exit = function()
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(buf) then
+          vim.api.nvim_buf_delete(buf, {})
+        end
+      end)
+    end,
+  })
+
+  return job_id
+end
+
 local function open_term_split()
   vim.cmd.split()
   vim.api.nvim_win_set_height(0, 15)
@@ -22,7 +40,21 @@ local function open_term_vsplit()
   vim.cmd.terminal()
 end
 
+local function open_claude_vsplit()
+  if vim.fn.executable("claude") == 0 then
+    vim.notify("claude code not installed")
+    return
+  end
+
+  open_term_vsplit()
+  create_job("claude --continue || claude")
+  vim.bo.filetype = "claude"
+end
+
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "exit [t]erminal mode" })
+
 vim.keymap.set("n", "tt", open_term_split, { desc = "open [t]erminal split (horizontal)" })
 vim.keymap.set("n", "ts", open_term_split, { desc = "open [t]erminal split (horizontal)" })
 vim.keymap.set("n", "tv", open_term_vsplit, { desc = "open [t]erminal split (vertical)" })
+
+vim.keymap.set("n", "<leader>aa", open_claude_vsplit, { desc = "[a]i toggle chat" })

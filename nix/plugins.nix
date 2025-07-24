@@ -76,11 +76,6 @@ let
     mini-pairs
     mini-ai
 
-    # LLMs
-    render-markdown-nvim
-    codecompanion-nvim
-    codecompanion-history-nvim
-
     # Database
     vim-dadbod
     vim-dadbod-ui

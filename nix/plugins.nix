@@ -100,6 +100,7 @@ let
         sha256 = "sha256-kTA2EtLwJbwlgFFWekrQn2B9jnqW8FREqxpvdWTZA+4=";
         fetchSubmodules = true;
       };
+      meta.homepage = "https://github.com/mistweaverco/kulala.nvim";
     })
     # Direnv
     (vimUtils.buildVimPlugin {
@@ -111,6 +112,7 @@ let
         rev = "4dfc8758a1deab45e37b7f3661e0fd3759d85788";
         sha256 = "sha256-KqO8uDbVy4sVVZ6mHikuO+SWCzWr97ZuFRC8npOPJIE=";
       };
+      meta.homepage = "https://github.com/NotAShelf/direnv.nvim";
     })
     # Theme
     (vimUtils.buildVimPlugin {
@@ -122,6 +124,7 @@ let
         rev = "6afe957722fb1b0ec7ca5fbea5a651bcca55f3e1";
         sha256 = "sha256-NY4kjeq01sMTg1PZeVVa2Vle4KpLwWEv4y34cDQ6JMU=";
       };
+      meta.homepage = "https://github.com/AlexvZyl/nordic.nvim";
     })
   ];
 in

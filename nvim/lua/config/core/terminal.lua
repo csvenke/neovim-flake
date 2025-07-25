@@ -57,4 +57,4 @@ vim.keymap.set("n", "tt", open_term_split, { desc = "open [t]erminal split (hori
 vim.keymap.set("n", "ts", open_term_split, { desc = "open [t]erminal split (horizontal)" })
 vim.keymap.set("n", "tv", open_term_vsplit, { desc = "open [t]erminal split (vertical)" })
 
-vim.keymap.set("n", "<leader>aa", open_claude_vsplit, { desc = "[a]i toggle chat" })
+vim.keymap.set("n", "<leader>aa", open_claude_vsplit, { desc = "open [a]i chat" })

@@ -40,21 +40,26 @@ local function open_term_vsplit()
   vim.cmd.terminal()
 end
 
-local function open_claude_vsplit()
-  if vim.fn.executable("claude") == 0 then
-    vim.notify("claude code not installed")
-    return
-  end
-
-  open_term_vsplit()
-  create_job("claude --continue || claude")
-  vim.bo.filetype = "claude"
-end
-
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "exit [t]erminal mode" })
 
 vim.keymap.set("n", "tt", open_term_split, { desc = "open [t]erminal split (horizontal)" })
 vim.keymap.set("n", "ts", open_term_split, { desc = "open [t]erminal split (horizontal)" })
 vim.keymap.set("n", "tv", open_term_vsplit, { desc = "open [t]erminal split (vertical)" })
 
-vim.keymap.set("n", "<leader>aa", open_claude_vsplit, { desc = "open [a]i chat" })
+---@param cmd string
+---@return function
+local function claude(cmd)
+  return function()
+    if vim.fn.executable("claude") == 0 then
+      vim.notify("claude code not installed")
+      return
+    end
+    open_term_vsplit()
+    create_job(cmd)
+    vim.bo.filetype = "claude"
+  end
+end
+
+vim.keymap.set("n", "<leader>aa", claude("claude -c || claude"), { desc = "[a]i toggle chat" })
+vim.keymap.set("n", "<leader>at", claude("claude -c || claude"), { desc = "[a]i toggle chat" })
+vim.keymap.set("n", "<leader>an", claude("claude"), { desc = "[a]i [n]ew chat" })

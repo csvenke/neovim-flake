@@ -3,7 +3,6 @@ local wk = require("which-key")
 wk.add({
   { "<leader>a", group = "ai", mode = { "n", "v" } },
   { "<leader>b", group = "buffer" },
-  { "<leader>c", group = "code", mode = { "n", "v" } },
   { "<leader>d", group = "debug" },
   { "<leader>D", group = "Database" },
   { "<leader>g", group = "git" },

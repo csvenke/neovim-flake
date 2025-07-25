@@ -71,32 +71,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     map("gd", telescope.lsp_definitions, "[g]oto [d]efinition(s)")
-    map("gD", telescope.lsp_type_definitions, "type [D]efinition(s)")
-    map("gi", telescope.lsp_implementations, "[g]oto [i]mplementation(s)")
-    map("gr", telescope.lsp_references, "[g]oto [r]eference(s)")
-    map("K", vim.lsp.buf.hover, "Hover documentation")
-    map("<leader>ss", telescope.lsp_document_symbols, "[s]earch [s]ymbols")
-    map("<leader>sS", telescope.lsp_workspace_symbols, "[s]earch [S]ymbols (workspace)")
-    map("<leader>ca", vim.lsp.buf.code_action, "[c]ode [a]ction", { "n", "x" })
-    map("<leader>cr", vim.lsp.buf.rename, "[c]ode [r]ename")
-    map("<leader>cd", vim.diagnostic.open_float, "[c]ode [d]iagnostic")
+    map("grd", telescope.lsp_definitions, "[g]oto [d]efinition(s)")
+    map("grD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
+    map("grt", telescope.lsp_type_definitions, "[g]oto [t]ype definition(s)")
+    map("gri", telescope.lsp_implementations, "[g]oto [i]mplementation(s)")
+    map("grr", telescope.lsp_references, "[g]oto [r]eference(s)")
+    map("grn", vim.lsp.buf.rename, "[r]e[n]ame")
+    map("gra", vim.lsp.buf.code_action, "[g]oto code [a]ction", { "n", "x" })
+    map("grA", vim.lsp.buf.code_action, "[g]oto code [A]ction (source)")
+    map("gO", telescope.lsp_document_symbols, "Open document symbols")
+    map("gW", telescope.lsp_dynamic_workspace_symbols, "Open workspace symbols")
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
     if client and client.name == "ts_ls" then
-      map("<leader>cA", "<cmd>LspTypescriptSourceAction<cr>", "[c]ode [A]ction")
+      map("grA", "<cmd>LspTypescriptSourceAction<cr>", "[g]oto code [A]ction (source)")
     end
 
     if client and client.name == "omnisharp" then
       local omnisharp = require("omnisharp_extended")
 
-      map("gd", omnisharp.telescope_lsp_definition, "[g]oto [d]efinition (omnisharp)")
-      map("gi", omnisharp.telescope_lsp_implementation, "[g]oto [i]mplementation (omnisharp)")
-      map("gr", omnisharp.telescope_lsp_references, "[g]oto [r]eferences (omnisharp)")
-      map("<leader>D", omnisharp.telescope_lsp_type_definition, "type [D]efinition (omnisharp)")
+      map("gd", omnisharp.telescope_lsp_definitions, "[g]oto [d]efinitions (omnisharp)")
+      map("grd", omnisharp.telescope_lsp_definitions, "[g]oto [d]efinitions (omnisharp)")
+      map("grr", omnisharp.telescope_lsp_references, "[g]oto [r]eferences (omnisharp)")
+      map("gri", omnisharp.telescope_lsp_implementation, "[g]oto [i]mplementations (omnisharp)")
+      map("grt", omnisharp.telescope_lsp_type_definition, "[g]oto [t]ype definitions (omnisharp)")
     end
 
-    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
       local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
       vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -120,19 +122,33 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
-    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-      map("<leader>ch", function()
-        local toggle = not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
-        vim.lsp.inlay_hint.enable(toggle)
-      end, "[c]ode [h]int")
-    end
-
     vim.diagnostic.config({
+      severity_sort = true,
       underline = false,
+      float = { border = "rounded", source = "if_many" },
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = "󰅚 ",
+          [vim.diagnostic.severity.WARN] = "󰀪 ",
+          [vim.diagnostic.severity.INFO] = "󰋽 ",
+          [vim.diagnostic.severity.HINT] = "󰌶 ",
+        },
+      },
       virtual_text = {
         severity = {
           min = vim.diagnostic.severity.WARN,
         },
+        source = "if_many",
+        spacing = 2,
+        format = function(diagnostic)
+          local diagnostic_message = {
+            [vim.diagnostic.severity.ERROR] = diagnostic.message,
+            [vim.diagnostic.severity.WARN] = diagnostic.message,
+            [vim.diagnostic.severity.INFO] = diagnostic.message,
+            [vim.diagnostic.severity.HINT] = diagnostic.message,
+          }
+          return diagnostic_message[diagnostic.severity]
+        end,
       },
     })
   end,

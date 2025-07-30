@@ -69,3 +69,22 @@ end
 
 vim.keymap.set("n", "tp", open_popup, { desc = "[t]mux popup" })
 vim.keymap.set("n", "<leader>gg", open_lazygit, { desc = "[g]it [g]ui" })
+
+local group = vim.api.nvim_create_augroup("user-tmux-hooks", { clear = true })
+
+vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
+  group = group,
+  callback = function()
+    if not Git.is_inside_worktree() then
+      return
+    end
+
+    local bare_worktree = Git.get_bare_worktree(Git.get_worktrees())
+
+    if bare_worktree == nil then
+      return
+    end
+
+    vim.system({ "tmux", "rename-window", bare_worktree.name })
+  end,
+})

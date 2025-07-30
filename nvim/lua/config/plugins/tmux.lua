@@ -79,12 +79,12 @@ vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
       return
     end
 
-    local bare_worktree = Git.get_bare_worktree(Git.get_worktrees())
+    local bare_worktree = Git.get_bare_worktree(Git.worktree_list())
 
     if bare_worktree == nil then
       return
     end
 
-    vim.system({ "tmux", "rename-window", bare_worktree.name })
+    vim.system({ "tmux", "rename-window", " 󰊢 " .. bare_worktree.name }):wait()
   end,
 })

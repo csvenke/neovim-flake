@@ -66,6 +66,9 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.writebackup = false
 
+-- Session data
+vim.opt.shada = { "'10", "<0", "s10", "h" }
+
 -- Disable external file change warnings
 vim.opt.readonly = false
 

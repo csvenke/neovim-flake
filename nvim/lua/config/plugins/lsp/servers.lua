@@ -75,11 +75,17 @@ local servers = {
 
   marksman = {},
 
+  -- Python
   pyright = {
     enabled = true,
   },
-
-  ruff = {},
+  ruff = {
+    on_init = function(client)
+      -- Defer to pyright
+      client.server_capabilities.hoverProvider = false
+      client.server_capabilities.renameProvider = false
+    end,
+  },
 
   yamlls = {
     settings = {

@@ -6,6 +6,7 @@ require("config.core.terminal")
 
 --- plugins
 require("config.plugins.theme")
+require("config.plugins.guess-indent")
 require("config.plugins.direnv")
 require("config.plugins.alpha")
 require("config.plugins.nvim-tree")

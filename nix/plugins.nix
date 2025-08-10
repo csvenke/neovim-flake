@@ -2,9 +2,8 @@
 
 let
   plugins = with pkgs.vimPlugins; [
-    # Core
     plenary-nvim
-    vim-sleuth
+    guess-indent-nvim
 
     # Treesitter
     nvim-treesitter.withAllGrammars

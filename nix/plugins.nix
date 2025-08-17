@@ -41,11 +41,7 @@ let
     gitsigns-nvim
 
     # Test
-    neotest
-    neotest-plenary
-    neotest-jest
-    neotest-vitest
-    neotest-dotnet
+    vim-test
 
     # Ui
     nui-nvim

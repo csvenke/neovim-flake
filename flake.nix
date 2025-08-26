@@ -4,10 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    neovim-nightly-overlay = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -18,14 +14,8 @@
         inputs.flake-parts.flakeModules.easyOverlay
       ];
       perSystem =
-        { system, ... }:
+        { pkgs, ... }:
         let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [
-              inputs.neovim-nightly-overlay.overlays.default
-            ];
-          };
           neovim = pkgs.callPackage ./nix/neovim.nix { };
           scripts = pkgs.callPackage ./scripts.nix { };
         in

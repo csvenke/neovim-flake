@@ -70,6 +70,7 @@ local function add_worktree()
 
     Path.copy_directory(bare_worktree.path .. "/.shared", new_worktree)
     Direnv.allow_if_available(new_worktree)
+    Path.change_current_directory(new_worktree)
 
     vim.notify("Adding worktree... DONE", vim.log.levels.INFO, notify_opts)
   end)

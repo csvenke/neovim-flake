@@ -17,7 +17,7 @@ function M.change_current_directory(path)
   local current_path = vim.fn.expand("%:.")
 
   -- Save all
-  vim.cmd("wa")
+  vim.cmd("silent! wa")
 
   -- Stop all lsp clients and close attached buffers
   local clients = vim.lsp.get_clients()

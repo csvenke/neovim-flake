@@ -33,9 +33,6 @@ with pkgs;
   ### Git ###
   git
 
-  ### Telescope ###
-  fzf
-
   ### Lua ###
   lua-language-server
   stylua

@@ -15,7 +15,9 @@ let
     fidget-nvim
     lazydev-nvim
     nvim-lspconfig
+    ## LSP: Dotnet
     omnisharp-extended-lsp-nvim
+    ## LSP: Java
     nvim-jdtls
 
     # Debug

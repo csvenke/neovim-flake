@@ -77,6 +77,11 @@ let
     vim-dadbod
     vim-dadbod-ui
     vim-dadbod-completion
+
+    # Opencode
+    (opencode-nvim.overrideAttrs (oldAttrs: {
+      dependencies = (oldAttrs.dependencies or [ ]) ++ [ snacks-nvim ];
+    }))
   ];
 
   extraPlugins = with pkgs; [

@@ -95,4 +95,7 @@ with pkgs;
 
   ### Database ###
   sqlcmd
+
+  ### Opencode ###
+  lsof
 ]

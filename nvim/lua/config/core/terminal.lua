@@ -12,6 +12,14 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = group,
+  pattern = "term://*",
+  callback = function()
+    vim.cmd("startinsert")
+  end,
+})
+
 local function create_job(cmd)
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_win_set_buf(0, buf)

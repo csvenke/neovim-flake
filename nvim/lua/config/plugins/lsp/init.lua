@@ -24,7 +24,6 @@ require("blink.cmp").setup({
     per_filetype = {
       lua = { "lazydev", "lsp", "path", "snippets", "buffer" },
       sql = { "dadbod", "snippets", "buffer" },
-      codecompanion = { "codecompanion" },
     },
     providers = {
       lazydev = {

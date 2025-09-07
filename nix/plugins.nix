@@ -77,6 +77,11 @@ let
     vim-dadbod
     vim-dadbod-ui
     vim-dadbod-completion
+
+    # AI
+    render-markdown-nvim
+    codecompanion-nvim
+    codecompanion-history-nvim
   ];
 
   extraPlugins = with pkgs; [

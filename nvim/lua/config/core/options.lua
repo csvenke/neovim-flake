@@ -3,7 +3,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- General editor behavior
-vim.g.autoformat = false
 vim.opt.autowrite = true
 vim.opt.autowriteall = true
 vim.opt.autoread = true

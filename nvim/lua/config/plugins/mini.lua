@@ -17,7 +17,7 @@ local function deleteBufferForce()
   require("mini.bufremove").delete(0, true)
 end
 
-require("mini.pairs").setup()
+require("mini.pairs").setup({})
 
 require("mini.ai").setup({
   mappings = {

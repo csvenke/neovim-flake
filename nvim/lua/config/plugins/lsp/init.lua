@@ -78,14 +78,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("grr", telescope.lsp_references, "[g]oto [r]eference(s)")
     map("grn", vim.lsp.buf.rename, "[r]e[n]ame")
     map("gra", vim.lsp.buf.code_action, "[g]oto code [a]ction", { "n", "x" })
-    map("grA", vim.lsp.buf.code_action, "[g]oto code [A]ction (source)")
+    map("grA", vim.lsp.buf.code_action, "[g]oto code [A]ction (buffer)")
     map("gO", telescope.lsp_document_symbols, "Open document symbols")
     map("gW", telescope.lsp_dynamic_workspace_symbols, "Open workspace symbols")
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
     if client and client.name == "ts_ls" then
-      map("grA", "<cmd>LspTypescriptSourceAction<cr>", "[g]oto code [A]ction (source)")
+      map("grA", "<cmd>LspTypescriptSourceAction<cr>", "[g]oto code [A]ction (buffer)")
     end
 
     if client and client.name == "omnisharp" then

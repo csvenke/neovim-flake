@@ -59,7 +59,12 @@ local servers = {
     },
   },
 
-  angularls = {},
+  angularls = {
+    on_init = function(client)
+      -- Defer to ts_ls
+      client.server_capabilities.referencesProvider = false
+    end,
+  },
 
   omnisharp = {
     settings = {
@@ -79,6 +84,7 @@ local servers = {
   pyright = {
     enabled = true,
   },
+
   ruff = {
     on_init = function(client)
       -- Defer to pyright

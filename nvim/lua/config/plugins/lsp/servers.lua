@@ -32,6 +32,7 @@ local servers = {
           callSnippet = "Replace",
         },
         diagnostics = {
+          globals = { "require", "vim" },
           disable = {
             "missing-fields",
             "duplicate-doc-field",

@@ -81,7 +81,7 @@ let
     # AI
     render-markdown-nvim
     codecompanion-nvim
-    codecompanion-history-nvim
+    codecompanion-spinner-nvim
   ];
 
   extraPlugins = with pkgs; [

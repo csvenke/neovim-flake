@@ -1,0 +1,19 @@
+diff --git a/lua/kulala/config/init.lua b/lua/kulala/config/init.lua
+index f680379..6a81674 100644
+--- a/lua/kulala/config/init.lua
++++ b/lua/kulala/config/init.lua
+@@ -116,6 +116,13 @@ local function setup_treesitter_master()
+ end
+ 
+ local function set_kulala_parser()
++  -- In Nix, parsers are pre-installed, so just register the language
++  local ok = pcall(vim.treesitter.language.add, "kulala_http")
++  if ok then
++    vim.treesitter.language.register("kulala_http", { "http", "rest" })
++    return
++  end
++
+   local parsers = vim.F.npcall(require, "nvim-treesitter.parsers")
+ 
+   if not parsers then
+

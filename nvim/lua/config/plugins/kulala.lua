@@ -7,6 +7,11 @@ kulala.setup({
   ui = {
     default_winbar_panes = { "body", "headers" },
     disable_news_popup = true,
+    win_opts = {
+      wo = {
+        foldenable = false,
+      },
+    },
   },
 })
 

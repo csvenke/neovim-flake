@@ -1,12 +1,25 @@
 { pkgs }:
 
 let
+  kulala-http-grammar = pkgs.tree-sitter.buildGrammar rec {
+    language = "kulala_http";
+    version = "c328aeb219c4b77106917dd2698c90ea9657281b";
+    src = pkgs.fetchFromGitHub {
+      owner = "mistweaverco";
+      repo = "kulala.nvim";
+      rev = version;
+      sha256 = "12vxb24lqw5vpwfy57jd55461wmr6cyg2nq4mh1wk5jvhidlc1im";
+    };
+    location = "lua/tree-sitter";
+    generate = false;
+  };
+
   plugins = with pkgs.vimPlugins; [
     plenary-nvim
     guess-indent-nvim
 
     # Treesitter
-    nvim-treesitter.withAllGrammars
+    (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [ kulala-http-grammar ]))
     nvim-treesitter-context
     nvim-ts-autotag
 
@@ -82,23 +95,16 @@ let
     render-markdown-nvim
     codecompanion-nvim
     codecompanion-spinner-nvim
+
+    # Http client
+    (kulala-nvim.overrideAttrs (oldAttrs: {
+      patches = (oldAttrs.patches or [ ]) ++ [
+        ./patches/kulala-treesitter.patch
+      ];
+    }))
   ];
 
   extraPlugins = with pkgs; [
-    # Http client
-    # Revision 34beb95b14dab60ef0e7e54bf38c12d98067544a breaks build because it attempts to install treesitter parser
-    (vimUtils.buildVimPlugin rec {
-      pname = "kulala.nvim";
-      version = "v5.2.1";
-      src = fetchFromGitHub {
-        owner = "mistweaverco";
-        repo = "kulala.nvim";
-        rev = version;
-        sha256 = "sha256-kTA2EtLwJbwlgFFWekrQn2B9jnqW8FREqxpvdWTZA+4=";
-        fetchSubmodules = true;
-      };
-      meta.homepage = "https://github.com/mistweaverco/kulala.nvim";
-    })
     # Direnv
     (vimUtils.buildVimPlugin {
       pname = "direnv";

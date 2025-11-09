@@ -1,0 +1,134 @@
+###
+@baseUrl = https://jsonplaceholder.typicode.com
+
+###
+
+# Get all posts
+GET {{baseUrl}}/posts
+
+###
+
+# Get a single post
+GET {{baseUrl}}/posts/1
+
+###
+
+# Get comments for a post
+GET {{baseUrl}}/posts/1/comments
+
+###
+
+# Get posts by user
+GET {{baseUrl}}/posts?userId=1
+
+###
+
+# Create a new post
+POST {{baseUrl}}/posts
+Content-Type: application/json
+
+{
+  "title": "My New Post",
+  "body": "This is the content of my post",
+  "userId": 1
+}
+
+###
+
+# Update a post (PUT - replaces entire resource)
+PUT {{baseUrl}}/posts/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "Updated Post Title",
+  "body": "Updated post content",
+  "userId": 1
+}
+
+###
+
+# Update a post (PATCH - partial update)
+PATCH {{baseUrl}}/posts/1
+Content-Type: application/json
+
+{
+  "title": "Partially Updated Title"
+}
+
+###
+
+# Delete a post
+DELETE {{baseUrl}}/posts/1
+
+###
+
+# Get all users
+GET {{baseUrl}}/users
+
+###
+
+# Get a single user
+GET {{baseUrl}}/users/1
+
+###
+
+# Get all albums
+GET {{baseUrl}}/albums
+
+###
+
+# Get photos from an album
+GET {{baseUrl}}/albums/1/photos
+
+###
+
+# Get all todos
+GET {{baseUrl}}/todos
+
+###
+
+# Get user's todos
+GET {{baseUrl}}/todos?userId=1
+
+###
+
+# Get completed todos
+GET {{baseUrl}}/todos?completed=true
+
+###
+
+# Create a new todo
+POST {{baseUrl}}/todos
+Content-Type: application/json
+
+{
+  "title": "Learn Neovim",
+  "completed": false,
+  "userId": 1
+}
+
+###
+
+# Get all comments
+GET {{baseUrl}}/comments
+
+###
+
+# Get comments by post
+GET {{baseUrl}}/comments?postId=1
+
+###
+
+# Nested route - get user's posts
+GET {{baseUrl}}/users/1/posts
+
+###
+
+# Nested route - get user's albums
+GET {{baseUrl}}/users/1/albums
+
+###
+
+# Nested route - get user's todos
+GET {{baseUrl}}/users/1/todos

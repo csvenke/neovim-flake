@@ -15,6 +15,14 @@ local function get_icon(filename)
   return icon or "", hl or ""
 end
 
+local function get_folder_icon()
+  if not has_devicons then
+    return " ", "Directory"
+  end
+
+  return "", "Directory"
+end
+
 ---@param bufnr number
 local function get_relative_path(bufnr)
   local filepath = vim.api.nvim_buf_get_name(bufnr)
@@ -61,20 +69,22 @@ local function format_breadcrumb(bufnr, opts)
 
   local max_depth = opts.max_depth
 
+  local folder_icon, folder_hl = get_folder_icon()
+
   -- Handle deep nesting
   if #parts > max_depth then
-    -- Show first directory
-    table.insert(breadcrumb_parts, "%#Comment#" .. parts[1])
+    -- Show first directory with folder icon
+    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#" .. folder_icon .. " " .. parts[1])
 
     -- Add ellipsis
-    table.insert(breadcrumb_parts, "%#Comment# 󰅂 ")
-    table.insert(breadcrumb_parts, "%#Comment#...")
+    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "# 󰅂 ")
+    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#...")
 
     -- Add separator before parent directory
-    table.insert(breadcrumb_parts, "%#Comment# 󰅂 ")
+    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "# 󰅂 ")
 
-    -- Show parent directory (second to last)
-    table.insert(breadcrumb_parts, "%#Comment#" .. parts[#parts - 1])
+    -- Show parent directory (second to last) with folder icon
+    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#" .. folder_icon .. " " .. parts[#parts - 1])
 
     -- Add separator before filename
     table.insert(breadcrumb_parts, "%#Comment# 󰅂 ")
@@ -90,7 +100,7 @@ local function format_breadcrumb(bufnr, opts)
     -- Normal display for shallow paths
     for i, part in ipairs(parts) do
       if i > 1 then
-        table.insert(breadcrumb_parts, "%#Comment# 󰅂 ")
+        table.insert(breadcrumb_parts, "%#" .. folder_hl .. "# 󰅂 ")
       end
 
       -- Last part (filename) gets an icon
@@ -101,7 +111,7 @@ local function format_breadcrumb(bufnr, opts)
         end
         table.insert(breadcrumb_parts, "%#Normal#" .. part)
       else
-        table.insert(breadcrumb_parts, "%#Comment#" .. part)
+        table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#" .. folder_icon .. " " .. part)
       end
     end
   end

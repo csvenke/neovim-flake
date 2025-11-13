@@ -6,6 +6,7 @@ require("lualine").setup({
     always_show_tabline = false,
   },
   sections = {
+    lualine_c = {},
     lualine_x = {
       function()
         return require("direnv").statusline()

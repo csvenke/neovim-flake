@@ -14,8 +14,14 @@
         inputs.flake-parts.flakeModules.easyOverlay
       ];
       perSystem =
-        { pkgs, ... }:
+        { system, ... }:
         let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              (import ./overlays/default.nix)
+            ];
+          };
           neovim = pkgs.callPackage ./nix/neovim.nix { };
           scripts = pkgs.callPackage ./scripts.nix { };
         in

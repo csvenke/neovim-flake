@@ -89,9 +89,6 @@ with pkgs.vimPlugins;
   telescope-fzf-native-nvim
   telescope-ui-select-nvim
 
-  # test.lua
-  vim-test
-
   # treesitter.lua
   nvim-treesitter.withAllGrammars
   nvim-treesitter-context

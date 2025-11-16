@@ -21,7 +21,6 @@ vim.api.nvim_create_autocmd("FileType", {
     "notify",
     "qf",
     "query",
-    "startuptime",
     "checkhealth",
   },
   group = group,

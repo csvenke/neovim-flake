@@ -101,7 +101,4 @@ with pkgs.vimPlugins;
   codecompanion-nvim
   codecompanion-spinner-nvim
   render-markdown-nvim
-
-  # Diagnostics
-  vim-startuptime
 ]

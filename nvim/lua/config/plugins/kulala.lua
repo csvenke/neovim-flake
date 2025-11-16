@@ -1,5 +1,4 @@
 local kulala = require("kulala")
-local kulala_ui = require("kulala.ui")
 
 kulala.setup({
   kulala_keymaps = false,
@@ -26,9 +25,10 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "json.kulala_ui", "xml.kulala_ui" },
+  pattern = { "json.kulala_ui", "text.kulala_ui", "xml.kulala_ui" },
   group = group,
   callback = function(event)
-    vim.keymap.set("n", "<tab>", kulala_ui.toggle_headers, { buffer = event.buf, desc = "Show next" })
+    local kulala_ui = require("kulala.ui")
+    vim.keymap.set("n", "<tab>", kulala_ui.toggle_headers, { buffer = event.buf, desc = "Toggle headers" })
   end,
 })

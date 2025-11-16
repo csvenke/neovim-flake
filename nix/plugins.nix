@@ -47,8 +47,8 @@ with pkgs.vimPlugins;
   # guess-indent.lua
   guess-indent-nvim
 
-  # harpoon.lua
-  harpoon2
+  # grapple.lua
+  grapple-nvim
 
   # kulala.lua
   kulala-nvim

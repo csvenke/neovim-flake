@@ -9,12 +9,12 @@ let
   kulala-http-grammar = neovimUtils.grammarToPlugin (
     tree-sitter.buildGrammar rec {
       language = "kulala_http";
-      version = "c328aeb219c4b77106917dd2698c90ea9657281b";
+      version = "8676a4ffc654d9f9404b343982390bea568da737";
       src = fetchFromGitHub {
         owner = "mistweaverco";
         repo = "kulala.nvim";
         rev = version;
-        sha256 = "12vxb24lqw5vpwfy57jd55461wmr6cyg2nq4mh1wk5jvhidlc1im";
+        sha256 = "sha256-TXbcy4Pjth9FfBcgnESuSQzdqRsRI5nPUocbNbpV8g4=";
       };
       location = "lua/tree-sitter";
       generate = false;

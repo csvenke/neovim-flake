@@ -55,6 +55,7 @@
               packages = [
                 scripts.format
                 scripts.lint
+                scripts.update
               ];
             };
           };

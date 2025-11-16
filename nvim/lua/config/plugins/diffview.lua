@@ -17,10 +17,6 @@ local file_panel = {
   { "n", "j", actions.next_entry, { desc = "Next" } },
   { "n", "k", actions.prev_entry, { desc = "Previous" } },
   { "n", "<cr>", actions.select_entry, { desc = "Select entry" } },
-  { "n", "s", actions.toggle_stage_entry, { desc = "Toggle stage entry" } },
-  { "n", "S", actions.stage_all, { desc = "Stage all entries" } },
-  { "n", "u", actions.unstage_all, { desc = "Unstage all entries" } },
-  { "n", "d", actions.restore_entry, { desc = "Restore entry" } },
 }
 
 require("diffview").setup({

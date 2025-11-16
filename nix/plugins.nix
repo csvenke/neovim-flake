@@ -3,93 +3,108 @@
 with pkgs.vimPlugins;
 
 [
+  # Plugin dependencies
   plenary-nvim
-  guess-indent-nvim
+  nui-nvim
+  nvim-nio
+  nvim-web-devicons
+  nvim-notify
 
-  # Treesitter
-  nvim-treesitter.withAllGrammars
-  nvim-treesitter-context
-  nvim-ts-autotag
+  # theme.lua
+  nordic-nvim
 
-  # LSP
-  SchemaStore-nvim
-  fidget-nvim
-  lazydev-nvim
-  nvim-lspconfig
-  ## LSP: Dotnet
-  omnisharp-extended-lsp-nvim
-  ## LSP: Java
-  nvim-jdtls
+  # alpha.lua
+  alpha-nvim
 
-  # Debug
+  # conform.lua
+  conform-nvim
+
+  # dadbod.lua
+  vim-dadbod
+  vim-dadbod-completion
+  vim-dadbod-ui
+
+  # debug/
   nvim-dap
   nvim-dap-ui
   nvim-dap-virtual-text
-  nvim-nio
 
-  # Autocomplete
-  friendly-snippets
+  # diffview.lua
+  diffview-nvim
+
+  # direnv.lua
+  direnv-nvim
+
+  # fidget.lua
+  fidget-nvim
+
+  # flash.lua
+  flash-nvim
+
+  # gitsigns.lua
+  gitsigns-nvim
+
+  # guess-indent.lua
+  guess-indent-nvim
+
+  # harpoon.lua
+  harpoon2
+
+  # kulala.lua
+  kulala-nvim
+
+  # lsp/init.lua
+  nvim-lspconfig
+  lazydev-nvim
+  SchemaStore-nvim
+  ## Completion
   blink-cmp
+  friendly-snippets
+  ## Language specific
+  nvim-jdtls
+  omnisharp-extended-lsp-nvim
 
-  # Formatting
-  conform-nvim
+  # lualine.lua
+  lualine-nvim
 
-  # Fuzzy search
+  # mini.lua
+  mini-ai
+  mini-bufremove
+  mini-pairs
+
+  # noice.lua
+  noice-nvim
+
+  # nvim-tree.lua
+  nvim-tree-lua
+
+  # oil.lua
+  oil-nvim
+
+  # smart-splits.lua
+  smart-splits-nvim
+
+  # telescope/init.lua
   telescope-nvim
   telescope-fzf-native-nvim
   telescope-ui-select-nvim
 
-  # Git
-  diffview-nvim
-  gitsigns-nvim
-
-  # Test
+  # test.lua
   vim-test
 
-  # Ui
-  nui-nvim
-  nvim-notify
-  noice-nvim
-  lualine-nvim
+  # treesitter.lua
+  nvim-treesitter.withAllGrammars
+  nvim-treesitter-context
+  nvim-ts-autotag
 
-  # Keymaps
+  # which-key.lua
   which-key-nvim
 
-  # Navigation
-  oil-nvim
-  harpoon2
-  nvim-tree-lua
-  smart-splits-nvim
-  flash-nvim
-
-  # Startup
-  alpha-nvim
-  vim-startuptime
-
-  # Icons
-  nvim-web-devicons
-
-  # Misc
-  mini-bufremove
-  mini-pairs
-  mini-ai
-
-  # Database
-  vim-dadbod
-  vim-dadbod-ui
-  vim-dadbod-completion
-
-  # AI
-  render-markdown-nvim
+  # codecompanion/init.lua
   codecompanion-nvim
   codecompanion-spinner-nvim
+  render-markdown-nvim
 
-  # Http client
-  kulala-nvim
-
-  # Direnv
-  direnv-nvim
-
-  # Theme
-  nordic-nvim
+  # Diagnostics
+  vim-startuptime
 ]

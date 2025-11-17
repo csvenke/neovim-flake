@@ -62,7 +62,7 @@ with pkgs.vimPlugins;
   friendly-snippets
   ## Language specific
   nvim-jdtls
-  omnisharp-extended-lsp-nvim
+  roslyn-nvim
 
   # lualine.lua
   lualine-nvim

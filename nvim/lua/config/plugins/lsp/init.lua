@@ -55,6 +55,8 @@ for server, config in pairs(servers) do
   vim.lsp.enable(server)
 end
 
+require("config.plugins.lsp.roslyn").setup()
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
   callback = function(event)
@@ -88,16 +90,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       map("grA", "<cmd>LspTypescriptSourceAction<cr>", "[g]oto code [A]ction (buffer)")
     end
 
-    if client and client.name == "omnisharp" then
-      local omnisharp = require("omnisharp_extended")
-
-      map("gd", omnisharp.telescope_lsp_definitions, "[g]oto [d]efinitions (omnisharp)")
-      map("grd", omnisharp.telescope_lsp_definitions, "[g]oto [d]efinitions (omnisharp)")
-      map("grr", omnisharp.telescope_lsp_references, "[g]oto [r]eferences (omnisharp)")
-      map("gri", omnisharp.telescope_lsp_implementation, "[g]oto [i]mplementations (omnisharp)")
-      map("grt", omnisharp.telescope_lsp_type_definition, "[g]oto [t]ype definitions (omnisharp)")
-    end
-
     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
       local highlight_augroup = vim.api.nvim_create_augroup("lsp-highlight", { clear = false })
 
@@ -120,6 +112,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
           vim.api.nvim_clear_autocmds({ group = "lsp-highlight", buffer = event2.buf })
         end,
       })
+    end
+
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+      map("<leader>th", function()
+        local enable = not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf })
+        vim.lsp.inlay_hint.enable(enable)
+      end, "[t]oggle inlay [h]ints")
     end
 
     vim.diagnostic.config({

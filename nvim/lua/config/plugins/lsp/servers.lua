@@ -67,18 +67,6 @@ local servers = {
     end,
   },
 
-  omnisharp = {
-    settings = {
-      FormattingOptions = {
-        EnableEditorConfigSupport = true,
-        OrganizeImports = false,
-      },
-      RoslynExtensionsOptions = {
-        EnableAnalyzersSupport = true,
-      },
-    },
-  },
-
   marksman = {},
 
   -- Python

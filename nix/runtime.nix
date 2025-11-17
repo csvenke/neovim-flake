@@ -80,7 +80,7 @@ with pkgs;
 
   ### Dotnet ###
   csharpier
-  omnisharp-roslyn
+  roslyn-ls
   netcoredbg
 
   ### Java ###

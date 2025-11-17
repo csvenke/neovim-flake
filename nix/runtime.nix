@@ -7,7 +7,6 @@ with pkgs;
   ripgrep
   fd
   findutils
-  gnutar
   wget
   curl
   unzip

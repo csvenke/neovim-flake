@@ -73,6 +73,9 @@ vim.opt.readonly = false
 
 -- Filetypes
 vim.filetype.add({
+  extension = {
+    ["http"] = "http",
+  },
   pattern = {
     [".*%.component%.html"] = "htmlangular",
   },

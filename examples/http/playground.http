@@ -1,134 +1,135 @@
-###
+### Variables
+
 @baseUrl = https://jsonplaceholder.typicode.com
 
-###
 
-# Get all posts
-GET {{baseUrl}}/posts
+### Get all posts
 
-###
+GET {{baseUrl}}/posts HTTP/1.1
 
-# Get a single post
-GET {{baseUrl}}/posts/1
 
-###
+### Get a single post
 
-# Get comments for a post
-GET {{baseUrl}}/posts/1/comments
+GET {{baseUrl}}/posts/1 HTTP/1.1
 
-###
 
-# Get posts by user
-GET {{baseUrl}}/posts?userId=1
+### Get comments for a post
 
-###
+GET {{baseUrl}}/posts/1/comments HTTP/1.1
 
-# Create a new post
-POST {{baseUrl}}/posts
+
+### Get posts by user
+
+GET {{baseUrl}}/posts?userId=1 HTTP/1.1
+
+
+### Create a new post
+
+POST {{baseUrl}}/posts HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "My New Post",
   "body": "This is the content of my post",
+  "title": "My New Post",
   "userId": 1
 }
 
-###
 
-# Update a post (PUT - replaces entire resource)
-PUT {{baseUrl}}/posts/1
+### Update a post (PUT - replaces entire resource)
+
+PUT {{baseUrl}}/posts/1 HTTP/1.1
 Content-Type: application/json
 
 {
+  "body": "Updated post content",
   "id": 1,
   "title": "Updated Post Title",
-  "body": "Updated post content",
   "userId": 1
 }
 
-###
 
-# Update a post (PATCH - partial update)
-PATCH {{baseUrl}}/posts/1
+### Update a post (PATCH - partial update)
+
+PATCH {{baseUrl}}/posts/1 HTTP/1.1
 Content-Type: application/json
 
 {
   "title": "Partially Updated Title"
 }
 
-###
 
-# Delete a post
-DELETE {{baseUrl}}/posts/1
+### Delete a post
 
-###
+DELETE {{baseUrl}}/posts/1 HTTP/1.1
 
-# Get all users
-GET {{baseUrl}}/users
 
-###
+### Get all users
 
-# Get a single user
-GET {{baseUrl}}/users/1
+GET {{baseUrl}}/users HTTP/1.1
 
-###
 
-# Get all albums
-GET {{baseUrl}}/albums
+### Get a single user
 
-###
+GET {{baseUrl}}/users/1 HTTP/1.1
 
-# Get photos from an album
-GET {{baseUrl}}/albums/1/photos
 
-###
+### Get all albums
 
-# Get all todos
-GET {{baseUrl}}/todos
+GET {{baseUrl}}/albums HTTP/1.1
 
-###
 
-# Get user's todos
-GET {{baseUrl}}/todos?userId=1
+### Get photos from an album
 
-###
+GET {{baseUrl}}/albums/1/photos HTTP/1.1
 
-# Get completed todos
-GET {{baseUrl}}/todos?completed=true
 
-###
+### Get all todos
 
-# Create a new todo
-POST {{baseUrl}}/todos
+GET {{baseUrl}}/todos HTTP/1.1
+
+
+### Get user's todos
+
+GET {{baseUrl}}/todos?userId=1 HTTP/1.1
+
+
+### Get completed todos
+
+GET {{baseUrl}}/todos?completed=true HTTP/1.1
+
+
+### Create a new todo
+
+POST {{baseUrl}}/todos HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Learn Neovim",
   "completed": false,
+  "title": "Learn Neovim",
   "userId": 1
 }
 
-###
 
-# Get all comments
-GET {{baseUrl}}/comments
+### Get all comments
 
-###
+GET {{baseUrl}}/comments HTTP/1.1
 
-# Get comments by post
-GET {{baseUrl}}/comments?postId=1
 
-###
+### Get comments by post
 
-# Nested route - get user's posts
-GET {{baseUrl}}/users/1/posts
+GET {{baseUrl}}/comments?postId=1 HTTP/1.1
 
-###
 
-# Nested route - get user's albums
-GET {{baseUrl}}/users/1/albums
+### Get user's posts
 
-###
+GET {{baseUrl}}/users/1/posts HTTP/1.1
 
-# Nested route - get user's todos
-GET {{baseUrl}}/users/1/todos
+
+### Get user's albums
+
+GET {{baseUrl}}/users/1/albums HTTP/1.1
+
+
+### Get user's todos
+
+GET {{baseUrl}}/users/1/todos HTTP/1.1

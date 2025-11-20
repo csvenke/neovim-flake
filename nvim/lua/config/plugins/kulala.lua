@@ -12,12 +12,15 @@ kulala.setup({
       },
     },
   },
+  lsp = {
+    filetypes = { "http", "rest" },
+  },
 })
 
 local group = vim.api.nvim_create_augroup("user-kulala-hooks", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "http",
+  pattern = { "http", "rest" },
   group = group,
   callback = function(event)
     vim.keymap.set("n", "<F5>", kulala.run, { buffer = event.buf, desc = "Run request" })

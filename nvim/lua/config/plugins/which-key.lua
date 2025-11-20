@@ -8,7 +8,7 @@ wk.add({
   { "<leader>g", group = "git" },
   { "<leader>q", group = "quit" },
   { "<leader>s", group = "search" },
-  { "<leader>t", group = "test" },
+  { "<leader>t", group = "toggle" },
   { "<leader>w", group = "git worktree" },
   { "<leader>l", group = "logs" },
 })

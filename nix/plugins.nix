@@ -81,6 +81,9 @@ with pkgs.vimPlugins;
   # oil.lua
   oil-nvim
 
+  # toggleterm.lua
+  toggleterm-nvim
+
   # smart-splits.lua
   smart-splits-nvim
 

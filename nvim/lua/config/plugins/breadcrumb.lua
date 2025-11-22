@@ -45,13 +45,13 @@ end
 ---@param opts Options
 local function format_breadcrumb(bufnr, opts)
   -- Skip if buffer is not a normal file
-  local buftype = vim.bo[bufnr].buftype
+  local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufnr })
   if buftype ~= "" then
     return ""
   end
 
   -- Skip special filetypes (oil, terminals, etc.)
-  local filetype = vim.bo[bufnr].filetype
+  local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
   for _, ft in ipairs(opts.excluded_filetypes) do
     if filetype == ft then
       return ""
@@ -116,21 +116,26 @@ local function format_breadcrumb(bufnr, opts)
     end
   end
 
+  -- Bug: Wont return true unless current buffer
+  -- https://github.com/neovim/neovim/issues/32817
+  local is_modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
+  if is_modified then
+    table.insert(breadcrumb_parts, "%#WarningMsg# ● %*")
+  end
+
   return " " .. table.concat(breadcrumb_parts, "") .. " "
 end
 
 ---@param opts Options
 local function update_all_breadcrumbs(opts)
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-    local ok, bufnr = pcall(vim.api.nvim_win_get_buf, winnr)
-    if ok then
-      local breadcrumb = format_breadcrumb(bufnr, opts)
+    local bufnr = vim.api.nvim_win_get_buf(winnr)
+    local breadcrumb = format_breadcrumb(bufnr, opts)
 
-      if breadcrumb ~= "" then
-        pcall(vim.api.nvim_set_option_value, "winbar", breadcrumb, { win = winnr })
-      else
-        pcall(vim.api.nvim_set_option_value, "winbar", "", { win = winnr })
-      end
+    if breadcrumb ~= "" then
+      pcall(vim.api.nvim_set_option_value, "winbar", breadcrumb, { win = winnr })
+    else
+      pcall(vim.api.nvim_set_option_value, "winbar", "", { win = winnr })
     end
   end
 end
@@ -147,18 +152,28 @@ local function setup(opts)
 
   local group = vim.api.nvim_create_augroup("user-breadcrumbs-hooks", { clear = true })
 
-  vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "WinEnter", "DirChanged", "BufWritePost" }, {
+  vim.api.nvim_create_autocmd({
+    "BufEnter",
+    "BufWinEnter",
+    "WinEnter",
+    "DirChanged",
+    "BufModifiedSet",
+  }, {
     group = group,
     callback = function()
-      update_all_breadcrumbs(opts)
+      vim.schedule(function()
+        update_all_breadcrumbs(opts)
+      end)
     end,
   })
 
   vim.api.nvim_create_autocmd("ColorScheme", {
     group = group,
     callback = function()
-      init_highlights()
-      update_all_breadcrumbs(opts)
+      vim.schedule(function()
+        init_highlights()
+        update_all_breadcrumbs(opts)
+      end)
     end,
   })
 

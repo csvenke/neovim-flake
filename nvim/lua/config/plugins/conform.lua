@@ -35,6 +35,7 @@ conform.setup({
     markdown = { "prettier" },
     graphql = { "prettier" },
     handlebars = { "prettier" },
+    kdl = { "kdlfmt" },
   },
   formatters = {
     stylua = {
@@ -73,6 +74,14 @@ conform.setup({
         ".editorconfig",
       }),
       require_cwd = true,
+    },
+    kdlfmt = {
+      command = "kdlfmt",
+      args = { "format", "-" },
+      cwd = require("conform.util").root_file({
+        "kdlfmt.kdl",
+        ".editorconfig",
+      }),
     },
   },
 })

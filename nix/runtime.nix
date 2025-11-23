@@ -53,6 +53,9 @@ with pkgs;
   pyright
   ruff
 
+  ### kdl ###
+  kdlfmt
+
   ### Markdown ###
   marksman
 

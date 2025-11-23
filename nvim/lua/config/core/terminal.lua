@@ -60,7 +60,7 @@ end
 local function open_float_window(term)
   local width = math.floor(vim.o.columns * 0.8)
   local height = math.floor(vim.o.lines * 0.8)
-  local row = math.floor((vim.o.lines - height) / 2)
+  local row = math.floor((vim.o.lines - height) / 2) - 1
   local col = math.floor((vim.o.columns - width) / 2)
 
   term.win = vim.api.nvim_open_win(term.buf, true, {

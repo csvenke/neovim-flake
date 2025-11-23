@@ -18,6 +18,17 @@ require("nordic").setup({
     highlights.CursorLine = {
       bg = visual(palette, 0.03),
     }
+
+    -- Floating terminal highlights
+    ---@diagnostic disable-next-line: inject-field
+    highlights.FloatTermBorder = {
+      fg = palette.cyan.base,
+    }
+
+    ---@diagnostic disable-next-line: inject-field
+    highlights.FloatTermNormal = {
+      bg = palette.gray0,
+    }
   end,
 })
 

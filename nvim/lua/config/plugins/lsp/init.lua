@@ -11,8 +11,6 @@ require("lazydev").setup({
 require("blink.cmp").setup({
   keymap = {
     preset = "default",
-    ["<C-.>"] = { "show", "hide" },
-    ["<C-,>"] = { "show_documentation", "hide_documentation" },
   },
   appearance = {
     use_nvim_cmp_as_default = true,

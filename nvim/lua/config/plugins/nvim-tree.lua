@@ -39,6 +39,7 @@ require("nvim-tree").setup({
   },
   renderer = {
     highlight_git = "all",
+    root_folder_label = false,
     icons = {
       git_placement = "right_align",
     },

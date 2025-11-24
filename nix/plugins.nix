@@ -75,11 +75,11 @@ with pkgs.vimPlugins;
   # noice.lua
   noice-nvim
 
-  # nvim-tree.lua
-  nvim-tree-lua
-
   # oil.lua
   oil-nvim
+
+  # fyler.lua
+  fyler-nvim
 
   # smart-splits.lua
   smart-splits-nvim

@@ -53,6 +53,15 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = group,
+  pattern = "terminal",
+  callback = function(args)
+    vim.keymap.set("n", "q", "<cmd>close!<cr>", { buffer = args.buf, desc = "close popup" })
+    vim.keymap.set("t", "<C-q>", "<cmd>close!<cr>", { buffer = args.buf, desc = "close popup" })
+  end,
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
   group = group,
   pattern = "term://*",

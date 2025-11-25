@@ -87,8 +87,6 @@ local function create_popup_buf(id, cmd, cwd)
     })
   end)
 
-  vim.keymap.set("n", "q", "<cmd>close!<cr>", { buffer = buf, desc = "close popup" })
-
   return buf
 end
 

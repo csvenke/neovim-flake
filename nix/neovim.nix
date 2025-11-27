@@ -1,11 +1,37 @@
-{ callPackage }:
+{
+  lib,
+  wrapNeovimUnstable,
+  neovimUtils,
+  neovim-unwrapped,
+  vimUtils,
+  config,
+}:
+
+assert config ? name || throw "config is missing name";
+assert config ? src || throw "config is missing src";
+assert config ? vimPlugins || throw "config is missing vimPlugins";
+assert config ? dependencies || throw "config is missing dependencies";
 
 let
-  mkNeovim = callPackage ./lib/mkNeovim.nix { };
+  configAsPlugin = vimUtils.buildVimPlugin {
+    name = config.name;
+    src = config.src;
+    dependencies = config.vimPlugins;
+    buildInputs = config.dependencies;
+  };
+
+  neovimConfig =
+    neovimUtils.makeNeovimConfig {
+      plugins = [ configAsPlugin ];
+    }
+    // {
+      wrapperArgs = [
+        "--prefix"
+        "PATH"
+        ":"
+        (lib.makeBinPath config.dependencies)
+      ];
+    };
 in
 
-mkNeovim {
-  extraConfig = ../nvim;
-  extraPlugins = callPackage ./plugins.nix { };
-  extraPackages = callPackage ./runtime.nix { };
-}
+wrapNeovimUnstable neovim-unwrapped neovimConfig

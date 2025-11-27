@@ -22,8 +22,20 @@
               (import ./overlays/default.nix)
             ];
           };
-          neovim = pkgs.callPackage ./nix/neovim.nix { };
-          scripts = pkgs.callPackage ./scripts.nix { };
+          inherit (pkgs)
+            callPackage
+            runCommandLocal
+            mkShell
+            ;
+          neovim = callPackage ./nix/neovim.nix {
+            config = {
+              name = "config";
+              src = ./nvim;
+              vimPlugins = callPackage ./nix/plugins.nix { };
+              dependencies = callPackage ./nix/runtime.nix { };
+            };
+          };
+          scripts = callPackage ./scripts.nix { };
         in
         {
           overlayAttrs = {
@@ -33,30 +45,21 @@
             default = neovim;
           };
           checks = {
-            checkhealth = pkgs.runCommandLocal "checkhealth" { } ''
+            checkhealth = runCommandLocal "checkhealth" { } ''
               ${neovim}/bin/nvim --headless "+checkhealth" +qa | tee $out
             '';
-            codequality =
-              pkgs.runCommandLocal "codequality"
-                {
-                  nativeBuildInputs = [
-                    scripts.format
-                    scripts.lint
-                  ];
-                }
-                ''
-                  cd ${./.}
-                  format --check && lint
-                  mkdir -p $out
-                '';
+            test = runCommandLocal "test" { } ''
+              cd ${./.}
+              ${neovim}/bin/nvim --headless -c "PlenaryBustedDirectory nvim/tests/ {minimal_init = 'nvim/tests/minimal_init.lua'}" | tee $out
+            '';
+            codequality = runCommandLocal "codequality" { nativeBuildInputs = scripts; } ''
+              cd ${./.}
+              format --check && lint | tee $out
+            '';
           };
           devShells = {
-            default = pkgs.mkShell {
-              packages = [
-                scripts.format
-                scripts.lint
-                scripts.update
-              ];
+            default = mkShell {
+              packages = scripts;
             };
           };
         };

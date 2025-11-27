@@ -38,6 +38,12 @@ local servers = {
             "duplicate-doc-field",
           },
         },
+        workspace = {
+          library = {
+            "${3rd}/busted/library",
+            "${3rd}/luassert/library",
+          },
+        },
       },
     },
   },

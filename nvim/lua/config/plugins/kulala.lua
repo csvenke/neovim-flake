@@ -6,6 +6,7 @@ kulala.setup({
   ui = {
     default_winbar_panes = { "body", "headers" },
     disable_news_popup = true,
+    max_response_size = 5242880, -- 5 MB
     win_opts = {
       wo = {
         foldenable = false,

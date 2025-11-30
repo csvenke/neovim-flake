@@ -101,4 +101,7 @@ with pkgs.vimPlugins;
   codecompanion-nvim
   codecompanion-spinner-nvim
   render-markdown-nvim
+
+  # no-neck-pain.lua
+  no-neck-pain-nvim
 ]

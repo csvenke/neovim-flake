@@ -22,7 +22,14 @@
               (import ./overlays/default.nix)
             ];
           };
-          neovim = pkgs.callPackage ./nix/neovim.nix { };
+          neovim = pkgs.callPackage ./nix/neovim.nix {
+            neovimConfig = {
+              name = "config";
+              src = ./nvim;
+              vimPlugins = pkgs.callPackage ./nix/plugins.nix { };
+              dependencies = pkgs.callPackage ./nix/runtime.nix { };
+            };
+          };
           scripts = pkgs.callPackage ./scripts.nix { };
         in
         {
@@ -32,30 +39,11 @@
           packages = {
             default = neovim;
           };
-          checks = {
-            checkhealth = pkgs.runCommandLocal "checkhealth" { } ''
-              ${neovim}/bin/nvim --headless "+checkhealth" +qa | tee $out
-            '';
-            codequality =
-              pkgs.runCommandLocal "codequality"
-                {
-                  nativeBuildInputs = [
-                    scripts.format
-                    scripts.lint
-                  ];
-                }
-                ''
-                  cd ${./.}
-                  format --check && lint
-                  mkdir -p $out
-                '';
-          };
           devShells = {
             default = pkgs.mkShell {
               packages = [
                 scripts.format
                 scripts.lint
-                scripts.update
               ];
             };
           };

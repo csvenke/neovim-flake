@@ -12,7 +12,7 @@ local function open_term_vsplit()
 end
 
 local function open_popup()
-  popup.toggle({ id = ":terminal" })
+  popup.toggle({ id = ":terminal", width = 0.5, height = 0.5 })
 end
 
 local function open_opencode_popup()
@@ -20,7 +20,7 @@ local function open_opencode_popup()
     vim.notify("Missing opencode executable")
     return
   end
-  popup.toggle({ id = ":opencode", cmd = "opencode" })
+  popup.toggle({ id = ":opencode", cmd = "opencode", width = 0.8, height = 0.8 })
 end
 
 local function open_lazygit_popup()
@@ -28,7 +28,7 @@ local function open_lazygit_popup()
     vim.notify("Missing lazygit executable")
     return
   end
-  popup.toggle({ id = ":lazygit", cmd = "lazygit" })
+  popup.toggle({ id = ":lazygit", cmd = "lazygit", width = 0.8, height = 0.8 })
 end
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "exit [t]erminal mode" })

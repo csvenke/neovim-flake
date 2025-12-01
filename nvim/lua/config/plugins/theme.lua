@@ -17,6 +17,12 @@ require("nordic").setup({
     highlights.CursorLine = {
       bg = visual(palette, 0.03),
     }
+    highlights.WinBar = {
+      bg = highlights.Normal.bg,
+    }
+    highlights.WinBarNC = {
+      bg = highlights.Normal.bg,
+    }
 
     -- Floating terminal highlights
     highlights["FloatTermBorder"] = {

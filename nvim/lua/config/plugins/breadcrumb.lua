@@ -1,8 +1,19 @@
----@class Options
+---@class BreadcrumbOpts
 ---@field max_depth number
 ---@field excluded_filetypes string[]
 
 local has_devicons, devicons = pcall(require, "nvim-web-devicons")
+
+local SEPARATOR = " 󰅂 "
+local ELLIPSIS = "..."
+local MODIFIED_INDICATOR = " ● "
+local DIR_ICON = ""
+
+---@param hl string
+---@param text string
+local function hl_text(hl, text)
+  return "%#" .. hl .. "#" .. text
+end
 
 ---@param filename string
 local function get_icon(filename)
@@ -20,7 +31,7 @@ local function get_folder_icon()
     return " ", "Directory"
   end
 
-  return "", "Directory"
+  return DIR_ICON, "Directory"
 end
 
 ---@param bufnr number
@@ -33,7 +44,6 @@ local function get_relative_path(bufnr)
   local cwd = vim.fn.getcwd()
   local relative = vim.fn.fnamemodify(filepath, ":~:.")
 
-  -- If file is outside cwd, show full path relative to home
   if vim.startswith(filepath, cwd) then
     return relative
   else
@@ -41,115 +51,87 @@ local function get_relative_path(bufnr)
   end
 end
 
+---@param part string
+---@param is_file boolean
+local function render_part(part, is_file)
+  if is_file then
+    local icon, hl = get_icon(part)
+    local prefix = (icon ~= "" and hl ~= "") and hl_text(hl, icon .. " ") or ""
+    return prefix .. hl_text("Normal", part)
+  end
+
+  local icon, hl = get_folder_icon()
+  return hl_text(hl, icon .. " " .. part)
+end
+
+---@param parts string[]
+---@param max_depth number
+local function render_path(parts, max_depth)
+  local folder_hl = select(2, get_folder_icon())
+  local sep = hl_text(folder_hl, SEPARATOR)
+
+  if #parts > max_depth then
+    return table.concat({
+      render_part(parts[1], false),
+      sep,
+      hl_text(folder_hl, ELLIPSIS),
+      sep,
+      render_part(parts[#parts - 1], false),
+      hl_text("Comment", SEPARATOR),
+      render_part(parts[#parts], true),
+    }, "")
+  end
+
+  local result = {}
+  for i, part in ipairs(parts) do
+    if i > 1 then
+      table.insert(result, sep)
+    end
+    table.insert(result, render_part(part, i == #parts))
+  end
+  return table.concat(result, "")
+end
+
 ---@param bufnr number
----@param opts Options
+---@param opts BreadcrumbOpts
 local function format_breadcrumb(bufnr, opts)
-  -- Skip if buffer is not a normal file
-  local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufnr })
-  if buftype ~= "" then
+  if vim.api.nvim_get_option_value("buftype", { buf = bufnr }) ~= "" then
     return ""
   end
 
-  -- Skip special filetypes (oil, terminals, etc.)
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
-  for _, ft in ipairs(opts.excluded_filetypes) do
-    if filetype == ft then
-      return ""
-    end
+  if vim.tbl_contains(opts.excluded_filetypes, filetype) then
+    return ""
   end
 
-  -- Get relative path
   local path = get_relative_path(bufnr)
   if not path then
     return ""
   end
 
   local parts = vim.split(path, "/", { plain = true })
-  local breadcrumb_parts = {}
-
-  local max_depth = opts.max_depth
-
-  local folder_icon, folder_hl = get_folder_icon()
-
-  -- Handle deep nesting
-  if #parts > max_depth then
-    -- Show first directory with folder icon
-    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#" .. folder_icon .. " " .. parts[1])
-
-    -- Add ellipsis
-    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "# 󰅂 ")
-    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#...")
-
-    -- Add separator before parent directory
-    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "# 󰅂 ")
-
-    -- Show parent directory (second to last) with folder icon
-    table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#" .. folder_icon .. " " .. parts[#parts - 1])
-
-    -- Add separator before filename
-    table.insert(breadcrumb_parts, "%#Comment# 󰅂 ")
-
-    -- Show filename with icon
-    local filename = parts[#parts]
-    local icon, hl = get_icon(filename)
-    if icon ~= "" and hl ~= "" then
-      table.insert(breadcrumb_parts, "%#" .. hl .. "#" .. icon .. " ")
-    end
-    table.insert(breadcrumb_parts, "%#Normal#" .. filename)
-  else
-    -- Normal display for shallow paths
-    for i, part in ipairs(parts) do
-      if i > 1 then
-        table.insert(breadcrumb_parts, "%#" .. folder_hl .. "# 󰅂 ")
-      end
-
-      -- Last part (filename) gets an icon
-      if i == #parts then
-        local icon, hl = get_icon(part)
-        if icon ~= "" and hl ~= "" then
-          table.insert(breadcrumb_parts, "%#" .. hl .. "#" .. icon .. " ")
-        end
-        table.insert(breadcrumb_parts, "%#Normal#" .. part)
-      else
-        table.insert(breadcrumb_parts, "%#" .. folder_hl .. "#" .. folder_icon .. " " .. part)
-      end
-    end
-  end
+  local breadcrumb = render_path(parts, opts.max_depth)
 
   -- Bug: Wont return true unless current buffer
   -- https://github.com/neovim/neovim/issues/32817
-  local is_modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
-  if is_modified then
-    table.insert(breadcrumb_parts, "%#WarningMsg# ● %*")
+  if vim.api.nvim_get_option_value("modified", { buf = bufnr }) then
+    breadcrumb = breadcrumb .. hl_text("WarningMsg", MODIFIED_INDICATOR)
   end
 
-  return " " .. table.concat(breadcrumb_parts, "") .. " "
+  return " " .. breadcrumb .. " "
 end
 
----@param opts Options
+---@param opts BreadcrumbOpts
 local function update_all_breadcrumbs(opts)
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
     local bufnr = vim.api.nvim_win_get_buf(winnr)
     local breadcrumb = format_breadcrumb(bufnr, opts)
-
-    if breadcrumb ~= "" then
-      pcall(vim.api.nvim_set_option_value, "winbar", breadcrumb, { win = winnr })
-    else
-      pcall(vim.api.nvim_set_option_value, "winbar", "", { win = winnr })
-    end
+    pcall(vim.api.nvim_set_option_value, "winbar", breadcrumb, { win = winnr })
   end
 end
 
-local function init_highlights()
-  local normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
-  vim.api.nvim_set_hl(0, "WinBar", { bg = normal_bg })
-  vim.api.nvim_set_hl(0, "WinBarNC", { bg = normal_bg })
-end
-
----@param opts Options
+---@param opts BreadcrumbOpts
 local function setup(opts)
-  init_highlights()
-
   local group = vim.api.nvim_create_augroup("user-breadcrumbs-hooks", { clear = true })
 
   vim.api.nvim_create_autocmd({
@@ -158,20 +140,11 @@ local function setup(opts)
     "WinEnter",
     "DirChanged",
     "BufModifiedSet",
+    "ColorScheme",
   }, {
     group = group,
     callback = function()
       vim.schedule(function()
-        update_all_breadcrumbs(opts)
-      end)
-    end,
-  })
-
-  vim.api.nvim_create_autocmd("ColorScheme", {
-    group = group,
-    callback = function()
-      vim.schedule(function()
-        init_highlights()
         update_all_breadcrumbs(opts)
       end)
     end,

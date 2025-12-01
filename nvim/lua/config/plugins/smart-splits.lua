@@ -6,6 +6,9 @@ smartsplits.setup({
     "quickfix",
     "prompt",
   },
+  ignored_filetypes = {
+    "no-neck-pain",
+  },
   default_amount = 5,
   move_cursor_same_row = false,
 })

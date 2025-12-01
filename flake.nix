@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    nix-gen-luarc-json = {
+      url = "github:mrcjkb/nix-gen-luarc-json";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -20,12 +24,14 @@
             inherit system;
             overlays = [
               (import ./overlays/default.nix)
+              inputs.nix-gen-luarc-json.overlays.default
             ];
           };
           inherit (pkgs)
             callPackage
             runCommandLocal
             mkShell
+            mk-luarc-json
             ;
           neovim = callPackage ./nix/neovim.nix {
             config = {
@@ -60,6 +66,21 @@
           devShells = {
             default = mkShell {
               packages = scripts;
+              shellHook =
+                let
+                  luarc = mk-luarc-json {
+                    nvim = neovim;
+                    plugins = callPackage ./nix/plugins.nix { };
+                    disabled-diagnostics = [
+                      "missing-fields"
+                      "duplicate-doc-field"
+                    ];
+                  };
+                in
+                # bash
+                ''
+                  ln -fs ${luarc} .luarc.json
+                '';
             };
           };
         };

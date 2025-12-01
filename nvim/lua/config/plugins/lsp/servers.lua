@@ -31,19 +31,6 @@ local servers = {
         completion = {
           callSnippet = "Replace",
         },
-        diagnostics = {
-          globals = { "require", "vim" },
-          disable = {
-            "missing-fields",
-            "duplicate-doc-field",
-          },
-        },
-        workspace = {
-          library = {
-            "${3rd}/busted/library",
-            "${3rd}/luassert/library",
-          },
-        },
       },
     },
   },

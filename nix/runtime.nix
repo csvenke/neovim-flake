@@ -32,6 +32,9 @@ with pkgs;
   ### Git ###
   git
 
+  ### Node ###
+  nodejs
+
   ### Lua ###
   lua-language-server
   stylua

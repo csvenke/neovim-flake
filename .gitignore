@@ -1,3 +1,5 @@
 !.neoconf.json
+!.envrc
 temp
 .direnv
+.luarc.json

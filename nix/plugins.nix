@@ -55,7 +55,6 @@ with pkgs.vimPlugins;
 
   # lsp/init.lua
   nvim-lspconfig
-  lazydev-nvim
   SchemaStore-nvim
   ## Completion
   blink-cmp

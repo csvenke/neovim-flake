@@ -22,6 +22,10 @@ let
 
   neovimConfig =
     neovimUtils.makeNeovimConfig {
+      withNodeJs = false;
+      withPython3 = false;
+      withRuby = false;
+      wrapRc = false;
       plugins = [ configAsPlugin ];
     }
     // {

@@ -1,13 +1,3 @@
-require("lazydev").setup({
-  library = {
-    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-  },
-  integrations = {
-    lspconfig = true,
-    cmp = false,
-  },
-})
-
 require("blink.cmp").setup({
   keymap = {
     preset = "default",
@@ -22,16 +12,9 @@ require("blink.cmp").setup({
   sources = {
     default = { "lsp", "path", "snippets", "buffer" },
     per_filetype = {
-      lua = { "lazydev", "lsp", "path", "snippets", "buffer" },
       sql = { "dadbod", "snippets", "buffer" },
-      codecompanion = { "codecompanion" },
     },
     providers = {
-      lazydev = {
-        name = "LazyDev",
-        module = "lazydev.integrations.blink",
-        score_offset = 100,
-      },
       dadbod = {
         name = "Dadbod",
         module = "vim_dadbod_completion.blink",

@@ -97,11 +97,6 @@ with pkgs.vimPlugins;
   # which-key.lua
   which-key-nvim
 
-  # codecompanion/init.lua
-  codecompanion-nvim
-  codecompanion-spinner-nvim
-  render-markdown-nvim
-
   # no-neck-pain.lua
   no-neck-pain-nvim
 ]

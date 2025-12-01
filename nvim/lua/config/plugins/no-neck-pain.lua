@@ -1,5 +1,5 @@
 require("no-neck-pain").setup({
-  width = 150,
+  width = 200,
   disableOnLastBuffer = true,
   autocmds = {
     enableOnVimEnter = true,
@@ -12,3 +12,5 @@ require("no-neck-pain").setup({
     },
   },
 })
+
+vim.keymap.set("n", "<leader>tn", "<cmd>NoNeckPain<cr>", { desc = "[t]oggle no [n]eck pain" })

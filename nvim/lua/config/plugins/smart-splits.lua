@@ -6,7 +6,6 @@ smartsplits.setup({
     "quickfix",
     "prompt",
   },
-  ignored_filetypes = { "NvimTree" },
   default_amount = 5,
   move_cursor_same_row = false,
 })

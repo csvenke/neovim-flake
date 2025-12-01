@@ -75,9 +75,6 @@ with pkgs.vimPlugins;
   # noice.lua
   noice-nvim
 
-  # nvim-tree.lua
-  nvim-tree-lua
-
   # oil.lua
   oil-nvim
 

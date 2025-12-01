@@ -14,24 +14,22 @@ require("nordic").setup({
     highlights.Visual = {
       bg = visual(palette, 0.1),
     }
-
     highlights.CursorLine = {
       bg = visual(palette, 0.03),
     }
 
     -- Floating terminal highlights
-    ---@diagnostic disable-next-line: inject-field
-    highlights.FloatTermBorder = {
+    highlights["FloatTermBorder"] = {
       fg = palette.cyan.base,
     }
-
-    ---@diagnostic disable-next-line: inject-field
-    highlights.FloatTermNormal = {
+    highlights["FloatTermNormal"] = {
       bg = palette.gray0,
+    }
+    --- Alpha highlights
+    highlights["AlphaGitIcon"] = {
+      fg = palette.orange.base,
     }
   end,
 })
 
-vim.schedule(function()
-  vim.cmd.colorscheme("nordic")
-end)
+vim.cmd.colorscheme("nordic")

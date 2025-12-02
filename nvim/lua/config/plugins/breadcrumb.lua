@@ -2,12 +2,11 @@
 ---@field max_depth number
 ---@field excluded_filetypes string[]
 
-local has_devicons, devicons = pcall(require, "nvim-web-devicons")
+local icons = require("config.lib.icons")
 
-local SEPARATOR = " 󰅂 "
+local SEPARATOR = " " .. icons.separator .. " "
 local ELLIPSIS = "..."
-local MODIFIED_INDICATOR = " ● "
-local DIR_ICON = ""
+local MODIFIED_INDICATOR = " " .. icons.modified .. " "
 
 ---@param hl string
 ---@param text string
@@ -15,23 +14,8 @@ local function hl_text(hl, text)
   return "%#" .. hl .. "#" .. text
 end
 
----@param filename string
-local function get_icon(filename)
-  if not has_devicons then
-    return "", ""
-  end
-
-  local extension = filename:match("^.+%.(.+)$")
-  local icon, hl = devicons.get_icon(filename, extension, { default = true })
-  return icon or "", hl or ""
-end
-
 local function get_folder_icon()
-  if not has_devicons then
-    return " ", "Directory"
-  end
-
-  return DIR_ICON, "Directory"
+  return icons.dir, "Directory"
 end
 
 ---@param bufnr number
@@ -55,7 +39,7 @@ end
 ---@param is_file boolean
 local function render_part(part, is_file)
   if is_file then
-    local icon, hl = get_icon(part)
+    local icon, hl = icons.get_file_icon(part)
     local prefix = (icon ~= "" and hl ~= "") and hl_text(hl, icon .. " ") or ""
     return prefix .. hl_text("Normal", part)
   end

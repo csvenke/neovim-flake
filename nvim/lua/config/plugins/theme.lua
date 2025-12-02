@@ -23,8 +23,7 @@ require("nordic").setup({
     highlights.WinBarNC = {
       bg = highlights.Normal.bg,
     }
-
-    -- Floating terminal highlights
+    --- Floating terminal highlights
     highlights["FloatTermBorder"] = {
       fg = palette.cyan.base,
     }
@@ -34,6 +33,15 @@ require("nordic").setup({
     --- Alpha highlights
     highlights["AlphaGitIcon"] = {
       fg = palette.orange.base,
+    }
+    --- DAP highlights
+    highlights["DapStop"] = {
+      fg = palette.yellow.base,
+      bold = true,
+    }
+    highlights["DapBreak"] = {
+      fg = palette.red.base,
+      bold = true,
     }
   end,
 })

@@ -1,4 +1,5 @@
 local Text = require("config.lib.text")
+local icons = require("config.lib.icons")
 
 --- @class WorktreeArgs
 --- @field name? string
@@ -94,7 +95,7 @@ function Worktree:to_display_string(max_name_length, max_branch_length)
   local items = {}
 
   if self.name then
-    table.insert(items, "󰊢 ")
+    table.insert(items, icons.git .. " ")
     table.insert(items, Text.pad_right(self.name, max_name_length))
     table.insert(items, "|")
   end

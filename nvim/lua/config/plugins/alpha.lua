@@ -8,6 +8,14 @@ local function create_header(text, hl)
   }
 end
 
+local function create_footer()
+  return {
+    type = "text",
+    val = "",
+    opts = { position = "center", hl = "Comment" },
+  }
+end
+
 ---@param lines integer
 local function create_padding(lines)
   return { type = "padding", val = lines }
@@ -61,6 +69,11 @@ local function setup()
     table.insert(theta.config.layout, 4, create_worktrees_group(worktrees))
   end
 
+  -- Add startup time footer
+  local footer = create_footer()
+  table.insert(theta.config.layout, create_padding(1))
+  table.insert(theta.config.layout, footer)
+
   alpha.setup(theta.config)
 
   local group = vim.api.nvim_create_augroup("user-alpha-hooks", { clear = true })
@@ -70,6 +83,17 @@ local function setup()
     pattern = "alpha",
     callback = function()
       vim.opt_local.foldenable = false
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("UIEnter", {
+    group = group,
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        footer.val = string.format("Loaded in %.0f ms", os.clock() * 1000)
+        pcall(vim.cmd.AlphaRedraw)
+      end)
     end,
   })
 end

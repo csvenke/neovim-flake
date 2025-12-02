@@ -20,6 +20,7 @@ local file_panel = {
 }
 
 require("diffview").setup({
+  enhanced_diff_hl = true,
   keymaps = {
     disable_defaults = true,
     view = default_keymaps,
@@ -35,6 +36,7 @@ require("diffview").setup({
   view = {
     merge_tool = {
       layout = "diff3_mixed",
+      disable_diagnostics = true,
     },
   },
   hooks = {

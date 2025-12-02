@@ -1,3 +1,4 @@
+local icons = require("config.lib.icons")
 local grapple = require("grapple")
 
 grapple.setup({
@@ -6,7 +7,7 @@ grapple.setup({
     return "Tags"
   end,
   statusline = {
-    icon = "󰓹",
+    icon = icons.tag,
   },
   win_opts = {
     footer = "",

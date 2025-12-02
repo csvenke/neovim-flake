@@ -1,18 +1,10 @@
 ---@param text string
 ---@param hl string
-local function create_header(text, hl)
+local function create_text(text, hl)
   return {
     type = "text",
     val = text,
     opts = { position = "center", hl = hl },
-  }
-end
-
-local function create_footer()
-  return {
-    type = "text",
-    val = "",
-    opts = { position = "center", hl = "Comment" },
   }
 end
 
@@ -23,7 +15,7 @@ end
 
 ---@param worktrees Worktree[]
 local function create_worktrees_group(worktrees)
-  local icon = "󰊢"
+  local icon = require("config.lib.icons").git
   local icon_hl = "AlphaGitIcon"
   local header = "Git worktrees"
   local header_hl = "SpecialComment"
@@ -31,7 +23,7 @@ local function create_worktrees_group(worktrees)
   local dashboard = require("alpha.themes.dashboard")
 
   local elements = {
-    create_header(header, header_hl),
+    create_text(header, header_hl),
     create_padding(1),
   }
 
@@ -56,23 +48,24 @@ local function create_worktrees_group(worktrees)
 end
 
 local function setup()
+  local icons = require("config.lib.icons")
   local alpha = require("alpha")
   local theta = require("alpha.themes.theta")
 
   -- Remove default buttons
   theta.buttons.val = {}
 
+  -- Add startup time section
+  local startuptime = create_text(icons.startuptime .. " Loading...", "Comment")
+  table.insert(theta.config.layout, 3, create_padding(2))
+  table.insert(theta.config.layout, 4, startuptime)
+
   -- Add git worktree section
   local worktrees = require("config.lib.git").get_worktrees()
   if #worktrees > 0 then
-    table.insert(theta.config.layout, 3, create_padding(2))
-    table.insert(theta.config.layout, 4, create_worktrees_group(worktrees))
+    table.insert(theta.config.layout, 5, create_padding(2))
+    table.insert(theta.config.layout, 6, create_worktrees_group(worktrees))
   end
-
-  -- Add startup time footer
-  local footer = create_footer()
-  table.insert(theta.config.layout, create_padding(1))
-  table.insert(theta.config.layout, footer)
 
   alpha.setup(theta.config)
 
@@ -91,7 +84,7 @@ local function setup()
     once = true,
     callback = function()
       vim.schedule(function()
-        footer.val = string.format("Loaded in %.0f ms", os.clock() * 1000)
+        startuptime.val = string.format("%s Loaded in %.0f ms", icons.startuptime, os.clock() * 1000)
         pcall(vim.cmd.AlphaRedraw)
       end)
     end,

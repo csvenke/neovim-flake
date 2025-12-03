@@ -20,6 +20,9 @@ local file_panel = {
 }
 
 require("diffview").setup({
+  default_args = {
+    DiffviewOpen = { "--imply-local" },
+  },
   enhanced_diff_hl = true,
   keymaps = {
     disable_defaults = true,
@@ -49,8 +52,8 @@ require("diffview").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen --selected-file<cr>", { desc = "[g]it [d]iff view" })
-vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewOpen<cr>", { desc = "[g]it [d]iff view" })
-vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "[g]it [h]istory (current file)" })
-vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "[g]it [H]istory" })
-vim.keymap.set("n", "<leader>gr", "<cmd>DiffviewOpen FETCH_HEAD<cr>", { desc = "[g]it [r]eview" })
+vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen HEAD --selected-file<cr>", { desc = "[g]it [d]iff view" })
+vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewOpen HEAD<cr>", { desc = "[g]it [d]iff view" })
+vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "[g]it diff [h]istory (current file)" })
+vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "[g]it diff [H]istory" })
+vim.keymap.set("n", "<leader>gr", "<cmd>DiffviewOpen origin/HEAD...HEAD<cr>", { desc = "[g]it code [r]eview" })

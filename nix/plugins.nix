@@ -95,4 +95,7 @@ with pkgs.vimPlugins;
 
   # no-neck-pain.lua
   no-neck-pain-nvim
+
+  # fugitive.lua
+  fugitive
 ]

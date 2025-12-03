@@ -1,0 +1,5 @@
+vim.keymap.set("n", "<leader>gf", "<cmd>Git fetch<cr>", { desc = "[g]it [f]etch" })
+vim.keymap.set("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "[g]it [p]ull" })
+vim.keymap.set("n", "<leader>gP", "<cmd>Git push<cr>", { desc = "[g]it [P]ush" })
+vim.keymap.set("n", "<leader>gc", "<cmd>Git commit<cr>", { desc = "[g]it [c]ommit" })
+vim.keymap.set("n", "<leader>gC", "<cmd>Git commit --amend<cr>", { desc = "[g]it [C]ommit (amend)" })

@@ -27,10 +27,9 @@ local function find_win_for_buf(buf)
   return winid ~= -1 and winid or nil
 end
 
----@param buf number
 ---@param opts PopupOpts
----@return number
-local function create_popup_win(buf, opts)
+---@return vim.api.keyset.win_config
+local function get_win_config(opts)
   local width_ratio = opts.width or 0.8
   local height_ratio = opts.height or 0.8
 
@@ -39,7 +38,7 @@ local function create_popup_win(buf, opts)
   local row = math.floor((vim.o.lines - height) / 2) - 1
   local col = math.floor((vim.o.columns - width) / 2)
 
-  local win_opts = {
+  return {
     relative = "editor",
     width = width,
     height = height,
@@ -48,10 +47,36 @@ local function create_popup_win(buf, opts)
     style = "minimal",
     border = "rounded",
   }
+end
+
+---@param buf number
+---@param opts PopupOpts
+---@return number
+local function create_popup_win(buf, opts)
+  local win_opts = get_win_config(opts)
   local win = vim.api.nvim_open_win(buf, true, win_opts)
 
   local winhl = "FloatBorder:FloatTermBorder,Normal:FloatTermNormal"
   vim.api.nvim_set_option_value("winhl", winhl, { win = win })
+
+  local group = vim.api.nvim_create_augroup("user-popup-hooks-" .. win, { clear = true })
+
+  vim.api.nvim_create_autocmd("VimResized", {
+    group = group,
+    callback = function()
+      if vim.api.nvim_win_is_valid(win) then
+        vim.api.nvim_win_set_config(win, get_win_config(opts))
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("WinClosed", {
+    group = group,
+    pattern = tostring(win),
+    callback = function()
+      vim.api.nvim_del_augroup_by_id(group)
+    end,
+  })
 
   return win
 end

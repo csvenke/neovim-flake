@@ -3,3 +3,4 @@ vim.keymap.set("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "[g]it [p]ull" }
 vim.keymap.set("n", "<leader>gP", "<cmd>Git push<cr>", { desc = "[g]it [P]ush" })
 vim.keymap.set("n", "<leader>gc", "<cmd>Git commit<cr>", { desc = "[g]it [c]ommit" })
 vim.keymap.set("n", "<leader>gC", "<cmd>Git commit --amend<cr>", { desc = "[g]it [C]ommit (amend)" })
+vim.keymap.set("n", "<leader>gl", "<cmd>Git log<cr>", { desc = "[g]it [l]og" })

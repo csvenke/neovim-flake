@@ -56,4 +56,4 @@ vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen HEAD --selected-file<cr>", 
 vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewOpen HEAD<cr>", { desc = "[g]it [d]iff view" })
 vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "[g]it diff [h]istory (current file)" })
 vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<cr>", { desc = "[g]it diff [H]istory" })
-vim.keymap.set("n", "<leader>gr", "<cmd>DiffviewOpen origin/HEAD...HEAD<cr>", { desc = "[g]it code [r]eview" })
+vim.keymap.set("n", "<leader>gr", "<cmd>DiffviewOpen FETCH_HEAD...HEAD<cr>", { desc = "[g]it code [r]eview" })

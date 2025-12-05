@@ -21,7 +21,7 @@ local file_panel = {
 
 require("diffview").setup({
   default_args = {
-    DiffviewOpen = { "--imply-local" },
+    DiffviewOpen = { "--imply-local", "--untracked-files" },
   },
   enhanced_diff_hl = true,
   keymaps = {

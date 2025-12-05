@@ -15,14 +15,6 @@ local function open_popup()
   popup.toggle({ id = ":terminal", width = 0.5, height = 0.5 })
 end
 
-local function open_opencode_popup()
-  if vim.fn.executable("opencode") ~= 1 then
-    vim.notify("Missing opencode executable")
-    return
-  end
-  popup.toggle({ id = ":opencode", cmd = "opencode", width = 0.8, height = 0.8 })
-end
-
 local function open_lazygit_popup()
   if vim.fn.executable("lazygit") ~= 1 then
     vim.notify("Missing lazygit executable")
@@ -36,7 +28,6 @@ vim.keymap.set("n", "tt", open_term_split, { desc = "open [t]erminal split (hori
 vim.keymap.set("n", "ts", open_term_split, { desc = "open [t]erminal split (horizontal)" })
 vim.keymap.set("n", "tv", open_term_vsplit, { desc = "open [t]erminal split (vertical)" })
 vim.keymap.set("n", "tp", open_popup, { desc = "open [t]erminal [p]opup" })
-vim.keymap.set("n", "to", open_opencode_popup, { desc = "open [terminal] [o]pencode popup" })
 vim.keymap.set("n", "<leader>gg", open_lazygit_popup, { desc = "[g]it [g]ui" })
 
 local group = vim.api.nvim_create_augroup("user-terminal-hooks", { clear = true })

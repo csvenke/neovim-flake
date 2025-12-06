@@ -131,6 +131,19 @@ local servers = {
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/tailwindcss.lua
   tailwindcss = {},
+
+  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/gopls.lua
+  gopls = {
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+        gofumpt = true,
+      },
+    },
+  },
 }
 
 return servers

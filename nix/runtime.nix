@@ -98,6 +98,9 @@ with pkgs;
   ### Rust ###
   rust-analyzer
 
+  ### Go ###
+  gopls
+
   ### Database ###
   sqlcmd
 ]

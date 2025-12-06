@@ -18,7 +18,6 @@ conform.setup({
     lua = { "stylua" },
     bash = { "shfmt" },
     sh = { "shfmt" },
-    cs = { "csharpier" },
     javascript = { "prettier" },
     javascriptreact = { "prettier" },
     typescript = { "prettier" },
@@ -50,16 +49,6 @@ conform.setup({
     shfmt = {
       command = "shfmt",
       prepend_args = { "-i", "2" },
-    },
-    csharpier = {
-      command = "dotnet-csharpier",
-      args = { "--write-stdout" },
-      cwd = require("conform.util").root_file({
-        ".csharpierrc",
-        ".csharpierrc.json",
-        ".csharpierrc.yaml",
-      }),
-      require_cwd = true,
     },
     prettier = {
       command = "prettierd",

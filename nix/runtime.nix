@@ -78,7 +78,6 @@ with pkgs;
   tailwindcss-language-server
 
   ### Dotnet ###
-  csharpier
   roslyn-ls
   netcoredbg
 

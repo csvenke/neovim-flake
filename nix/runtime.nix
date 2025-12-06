@@ -32,9 +32,6 @@ with pkgs;
   ### Git ###
   git
 
-  ### Node ###
-  nodejs
-
   ### Lua ###
   lua-language-server
   stylua
@@ -49,10 +46,6 @@ with pkgs;
   shellcheck
 
   ### Python ###
-  (python3.withPackages (ps: [
-    ps.pip
-    ps.pipx
-  ]))
   pyright
   ruff
 

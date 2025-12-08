@@ -1,0 +1,25 @@
+diff --git a/lua/direnv.lua b/lua/direnv.lua
+index b3448c7..264a508 100644
+--- a/lua/direnv.lua
++++ b/lua/direnv.lua
+@@ -202,7 +202,7 @@ end
+ M._init = function(path)
+    local cwd = vim.fs.dirname(path)
+    local silent = M.config.notifications.silent_autoload
+-      and vim.b.direnv_autoload_triggered
++
+ 
+    if not silent then
+       vim.schedule(function()
+@@ -603,11 +603,6 @@ M.setup = function(user_config)
+ 
+    M._get_rc_status(function() end)
+ 
+-   process_notification_queue()
+-
+-   if not M.config.notifications.silent_autoload then
+-      notify("direnv.nvim initialized", vim.log.levels.DEBUG)
+-   end
+ end
+ 
+ return M

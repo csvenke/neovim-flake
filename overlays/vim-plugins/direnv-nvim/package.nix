@@ -9,5 +9,8 @@ vimUtils.buildVimPlugin rec {
     rev = version;
     sha256 = "sha256-KqO8uDbVy4sVVZ6mHikuO+SWCzWr97ZuFRC8npOPJIE=";
   };
+  patches = [
+    ./patches/disable-startup-notify.patch
+  ];
   meta.homepage = "https://github.com/NotAShelf/direnv.nvim";
 }

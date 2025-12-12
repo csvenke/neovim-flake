@@ -3,6 +3,7 @@ local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 ---@class Icons
 ---@field git string
 ---@field dir string
+---@field term string
 ---@field startuptime string
 ---@field separator string
 ---@field modified string
@@ -22,6 +23,7 @@ local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 local M = {
   git = has_devicons and "󰊢" or "",
   dir = has_devicons and "" or "",
+  term = has_devicons and "" or "",
   startuptime = has_devicons and "󱐋" or "",
   separator = has_devicons and "󰅂" or ">",
   modified = has_devicons and "●" or "[+]",

@@ -13,7 +13,7 @@ require("oil").setup({
   view_options = {
     show_hidden = true,
     is_always_hidden = function(name)
-      local hidden_names = { "..", ".git" }
+      local hidden_names = { ".." }
       return vim.tbl_contains(hidden_names, name)
     end,
   },

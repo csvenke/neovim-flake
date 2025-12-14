@@ -5,8 +5,8 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>")
 vim.keymap.set("x", "p", '"_dP')
 
 -- disable macros
-vim.keymap.set("n", "q", "<Nop>")
-vim.keymap.set("n", "Q", "<Nop>")
+vim.keymap.set({ "n", "v", "s" }, "q", "<Nop>")
+vim.keymap.set({ "n", "v", "s" }, "Q", "<Nop>")
 
 -- quitting
 vim.keymap.set("n", "<leader>qq", "<cmd>wa | qa<cr>", { desc = "[q]uit" })

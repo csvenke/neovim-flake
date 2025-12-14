@@ -38,6 +38,5 @@ require("noice").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>sl", "<cmd>NoicePick<cr>", { desc = "[s]earch [l]ogs" })
-vim.keymap.set("n", "<leader>ls", "<cmd>NoicePick<cr>", { desc = "[l]ogs [s]earch" })
 vim.keymap.set("n", "<leader>la", "<cmd>NoiceAll<cr>", { desc = "[l]ogs [a]ll" })
+vim.keymap.set("n", "<leader>ll", "<cmd>NoiceAll<cr>", { desc = "[l]ogs [a]ll" })

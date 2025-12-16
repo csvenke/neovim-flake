@@ -35,9 +35,8 @@
             ;
           neovim = callPackage ./nix/neovim.nix {
             config = {
-              name = "config";
               src = ./nvim;
-              vimPlugins = callPackage ./nix/plugins.nix { };
+              plugins = callPackage ./nix/plugins.nix { };
               dependencies = callPackage ./nix/runtime.nix { };
             };
           };

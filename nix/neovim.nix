@@ -4,23 +4,14 @@
   wrapNeovimUnstable,
   neovimUtils,
   neovim-unwrapped,
-  vimUtils,
   config,
 }:
 
-assert config ? name || throw "config is missing name";
 assert config ? src || throw "config is missing src";
-assert config ? vimPlugins || throw "config is missing vimPlugins";
+assert config ? plugins || throw "config is missing plugins";
 assert config ? dependencies || throw "config is missing dependencies";
 
 let
-  configAsPlugin = vimUtils.buildVimPlugin {
-    name = config.name;
-    src = config.src;
-    dependencies = config.vimPlugins;
-    buildInputs = config.dependencies;
-  };
-
   disableBuiltinPlugins = writeText "disable-builtin-plugins.lua" /* lua */ ''
     vim.g.loaded_netrw = 1
     vim.g.loaded_netrwPlugin = 1
@@ -43,8 +34,11 @@ let
       withNodeJs = false;
       withPython3 = false;
       withRuby = false;
-      wrapRc = false;
-      plugins = [ configAsPlugin ];
+      wrapRc = true;
+      customRC = /* vim */ ''
+        set runtimepath^=${config.src}
+      '';
+      plugins = config.plugins;
     }
     // {
       wrapperArgs = [

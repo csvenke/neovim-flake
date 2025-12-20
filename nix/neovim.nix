@@ -37,6 +37,7 @@ let
       wrapRc = true;
       customRC = /* vim */ ''
         set runtimepath^=${config.src}
+        set runtimepath+=${config.src}/after
       '';
       plugins = config.plugins;
     }

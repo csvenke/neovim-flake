@@ -6,16 +6,20 @@
 }:
 
 let
+  version = "5.3.3";
+  rev = "9fc4831a116fb32b0fd420ed483f5102a873446a";
+
+  src = fetchFromGitHub {
+    owner = "mistweaverco";
+    repo = "kulala.nvim";
+    inherit rev;
+    hash = "sha256-YRHPx4KPrVtXbYinKOFQmO3SI1cC/+siUtzNWjfTCf8=";
+  };
+
   kulala-http-grammar = neovimUtils.grammarToPlugin (
-    tree-sitter.buildGrammar rec {
+    tree-sitter.buildGrammar {
       language = "kulala_http";
-      version = "8676a4ffc654d9f9404b343982390bea568da737";
-      src = fetchFromGitHub {
-        owner = "mistweaverco";
-        repo = "kulala.nvim";
-        rev = version;
-        sha256 = "sha256-TXbcy4Pjth9FfBcgnESuSQzdqRsRI5nPUocbNbpV8g4=";
-      };
+      inherit version src;
       location = "lua/tree-sitter";
       generate = false;
       meta.homepage = "https://github.com/mistweaverco/kulala.nvim";
@@ -24,8 +28,7 @@ let
 in
 
 vimPlugins.kulala-nvim.overrideAttrs (oldAttrs: {
-  patches = (oldAttrs.patches or [ ]) ++ [
-    ./patches/kulala-treesitter.patch
-  ];
+  inherit version src;
+  patches = [ ./patches/kulala-treesitter.patch ];
   dependencies = (oldAttrs.dependencies or [ ]) ++ [ kulala-http-grammar ];
 })

@@ -1,8 +1,6 @@
-diff --git a/lua/kulala/config/init.lua b/lua/kulala/config/init.lua
-index f680379..6a81674 100644
 --- a/lua/kulala/config/init.lua
 +++ b/lua/kulala/config/init.lua
-@@ -116,6 +116,13 @@ local function setup_treesitter_master()
+@@ -109,6 +109,13 @@
  end
  
  local function set_kulala_parser()

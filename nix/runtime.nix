@@ -18,6 +18,9 @@ with pkgs;
   xdg-utils
   xclip
 
+  ### Treesitter ###
+  tree-sitter
+
   ### Direnv ###
   direnv
   nix-direnv

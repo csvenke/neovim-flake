@@ -87,6 +87,9 @@ with pkgs.vimPlugins;
 
   # treesitter.lua
   nvim-treesitter.withAllGrammars
+  nvim-treesitter.passthru.queries.html_tags
+  nvim-treesitter.passthru.queries.ecma
+  nvim-treesitter.passthru.queries.jsx
   nvim-treesitter-context
   nvim-ts-autotag
 

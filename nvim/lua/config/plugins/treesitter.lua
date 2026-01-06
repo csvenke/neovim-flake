@@ -1,6 +1,6 @@
 require("nvim-ts-autotag").setup({})
 
-require("nvim-treesitter").setup({})
+require("nvim-treesitter").setup()
 
 local group = vim.api.nvim_create_augroup("user-treesitter-hooks", { clear = true })
 

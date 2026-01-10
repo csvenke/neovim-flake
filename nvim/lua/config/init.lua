@@ -3,6 +3,7 @@ require("config.core.options")
 require("config.core.keymaps")
 require("config.core.autocmds")
 require("config.core.terminal")
+require("config.core.neovide-support")
 
 --- plugins
 require("config.plugins.theme")

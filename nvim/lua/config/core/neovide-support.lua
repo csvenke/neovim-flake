@@ -14,12 +14,10 @@ if vim.g.neovide then
   vim.g.neovide_scroll_animation_far_lines = 0
   vim.g.neovide_scroll_animation_length = 0.00
 
-  vim.keymap.set("n", "<C-0>", function()
-    change_scale_factor(1.25)
-  end)
   vim.keymap.set("n", "<C-->", function()
     change_scale_factor(1 / 1.25)
   end)
+
   vim.keymap.set("n", "<C-+>", function()
     change_scale_factor(1 * 1.25)
   end)

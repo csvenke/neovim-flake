@@ -40,14 +40,20 @@
               dependencies = callPackage ./nix/runtime.nix { };
             };
           };
+          neovide = pkgs.neovide.overrideAttrs {
+            inherit neovim;
+          };
           scripts = callPackage ./scripts.nix { };
         in
         {
           overlayAttrs = {
             inherit neovim;
+            inherit neovide;
           };
           packages = {
             default = neovim;
+            inherit neovim;
+            inherit neovide;
           };
           checks = {
             checkhealth = runCommandLocal "checkhealth" { } ''

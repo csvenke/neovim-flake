@@ -41,7 +41,7 @@ with pkgs;
 
   ### Nix ###
   nixd
-  nixfmt-rfc-style
+  nixfmt
 
   ### Bash ###
   bash-language-server

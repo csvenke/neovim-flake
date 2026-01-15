@@ -101,4 +101,7 @@ with pkgs.vimPlugins;
 
   # fugitive.lua
   fugitive
+
+  # opencode.lua
+  opencode-nvim
 ]

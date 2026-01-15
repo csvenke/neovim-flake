@@ -203,4 +203,41 @@ function M.is_inside_worktree()
   return vim.v.shell_error == 0 and git_check:match("true")
 end
 
+---@class RunAfterWorktreeAddHookArgs
+---@field bare_worktree_path string
+---@field new_worktree_path string
+---@field on_complete fun(success: boolean)?
+
+---@param args RunAfterWorktreeAddHookArgs
+function M.run_after_worktree_add_hook(args)
+  local hook_script = args.bare_worktree_path .. "/.hooks/after-worktree-add.sh"
+
+  if vim.fn.executable(hook_script) ~= 1 then
+    return
+  end
+
+  local title = "Git worktree hook"
+  local hook_notification = vim.notify("Running hook...", vim.log.levels.INFO, {
+    title = title,
+  })
+
+  vim.system({ hook_script }, { cwd = args.new_worktree_path }, function(result)
+    vim.schedule(function()
+      local hook_notify_opts = {
+        title = title,
+        replace = hook_notification and hook_notification.id,
+      }
+      local success = result.code == 0
+      if success then
+        vim.notify("Running hook... DONE", vim.log.levels.INFO, hook_notify_opts)
+      else
+        vim.notify("Running hook... FAILED", vim.log.levels.WARN, hook_notify_opts)
+      end
+      if args.on_complete then
+        args.on_complete(success)
+      end
+    end)
+  end)
+end
+
 return M

@@ -1,5 +1,5 @@
 require("no-neck-pain").setup({
-  width = 180,
+  width = 200,
   disableOnLastBuffer = true,
   autocmds = {
     enableOnVimEnter = true,

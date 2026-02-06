@@ -3,6 +3,38 @@ local Worktree = require("config.lib.worktree")
 
 local M = {}
 
+---@param cwd string
+---@return string?
+function M.get_default_branch(cwd)
+  local result = vim.system({ "git", "symbolic-ref", "refs/remotes/origin/HEAD" }, { cwd = cwd }):wait()
+
+  if result.code == 0 and result.stdout then
+    local branch = result.stdout:gsub("^refs/remotes/origin/", ""):gsub("%s+$", "")
+    if branch ~= "" then
+      return branch
+    end
+  end
+
+  result = vim.system({ "git", "remote", "show", "origin" }, { cwd = cwd }):wait()
+
+  if result.code == 0 and result.stdout then
+    local branch = result.stdout:match("HEAD branch: ([^\n]+)")
+    if branch then
+      return branch
+    end
+  end
+
+  return nil
+end
+
+---@param cwd string
+---@param branch string
+---@return boolean
+function M.remote_branch_exists(cwd, branch)
+  local result = vim.system({ "git", "ls-remote", "--heads", "origin", branch }, { cwd = cwd }):wait()
+  return result.code == 0 and result.stdout ~= nil and result.stdout ~= ""
+end
+
 function M.worktree_list()
   local output = vim.fn.system("git worktree list --porcelain")
   local entries = vim.split(output, "\n\n", { trimempty = true })
@@ -48,14 +80,25 @@ function M.worktree_add(cwd, path, branch)
     return nil, "Worktree already exists"
   end
 
-  local git_cmd = { "git", "worktree", "add" }
+  vim.system({ "git", "fetch", "origin", "+refs/heads/*:refs/remotes/origin/*" }, { cwd = cwd }):wait()
 
-  if branch then
-    table.insert(git_cmd, "-b")
-    table.insert(git_cmd, branch)
+  local new_branch = branch or path
+
+  local base_branch
+  if M.remote_branch_exists(cwd, new_branch) then
+    base_branch = "origin/" .. new_branch
+  else
+    local default_branch = M.get_default_branch(cwd)
+    if default_branch then
+      base_branch = "origin/" .. default_branch
+    end
   end
 
-  table.insert(git_cmd, path)
+  local git_cmd = { "git", "worktree", "add", "-b", new_branch, path }
+
+  if base_branch then
+    table.insert(git_cmd, base_branch)
+  end
 
   vim.system(git_cmd, { cwd = cwd }):wait()
 

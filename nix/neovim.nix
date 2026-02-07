@@ -37,7 +37,6 @@ let
       wrapRc = true;
       customRC = /* vim */ ''
         set runtimepath^=${config.src}
-        set runtimepath^=${config.src}/../git-worktree.nvim
         set runtimepath+=${config.src}/after
       '';
       plugins = config.plugins;

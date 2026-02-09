@@ -100,7 +100,7 @@ with pkgs.vimPlugins;
   no-neck-pain-nvim
 
   # fugitive.lua
-  fugitive
+  vim-fugitive
 
   # opencode.lua
   opencode-nvim

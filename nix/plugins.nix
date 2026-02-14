@@ -29,9 +29,6 @@ with pkgs.vimPlugins;
   nvim-dap-ui
   nvim-dap-virtual-text
 
-  # diffview.lua
-  diffview-nvim
-
   # direnv.lua
   direnv-nvim
 
@@ -101,6 +98,7 @@ with pkgs.vimPlugins;
 
   # fugitive.lua
   vim-fugitive
+  diffs-nvim
 
   # opencode.lua
   opencode-nvim

@@ -51,6 +51,7 @@ vim.opt.listchars = {
   extends = "›",
   precedes = "‹",
 }
+vim.opt.fillchars:append({ diff = " " })
 
 -- Split behavior
 vim.opt.splitright = true

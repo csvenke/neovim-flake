@@ -20,7 +20,7 @@ local function open_lazygit_popup()
     vim.notify("Missing lazygit executable")
     return
   end
-  popup.toggle({ id = ":lazygit", cmd = "lazygit", width = 0.8, height = 0.8 })
+  popup.toggle({ id = ":lazygit", cmd = "lazygit", width = 1, height = 1 })
 end
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "exit [t]erminal mode" })

@@ -1,6 +1,11 @@
+---@class BreadcrumbResolver
+---@field pattern string
+---@field transform? fun(path: string): string
+
 ---@class BreadcrumbOpts
 ---@field max_depth number
----@field excluded_filetypes string[]
+---@field ignore string[]
+---@field resolve BreadcrumbResolver[]
 
 local icons = require("config.lib.icons")
 
@@ -79,12 +84,26 @@ end
 ---@param bufnr number
 ---@param opts BreadcrumbOpts
 local function format_breadcrumb(bufnr, opts)
-  if vim.api.nvim_get_option_value("buftype", { buf = bufnr }) ~= "" then
+  local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufnr })
+  if buftype ~= "" then
+    local bufname = vim.api.nvim_buf_get_name(bufnr)
+
+    for _, resolver in ipairs(opts.resolve) do
+      local path = bufname:match(resolver.pattern)
+      if path then
+        if resolver.transform then
+          path = resolver.transform(path)
+        end
+        local parts = vim.split(path, "/", { plain = true })
+        return " " .. render_path(parts, opts.max_depth) .. " "
+      end
+    end
+
     return ""
   end
 
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
-  if vim.tbl_contains(opts.excluded_filetypes, filetype) then
+  if vim.tbl_contains(opts.ignore, filetype) then
     return ""
   end
 
@@ -141,8 +160,16 @@ end
 
 setup({
   max_depth = 4,
-  excluded_filetypes = {
+  ignore = {
     "oil",
     "alpha",
+  },
+  resolve = {
+    {
+      pattern = "^codediff:///.-///.-/(.+)$",
+      transform = function(path)
+        return "diff:// " .. path
+      end,
+    },
   },
 })

@@ -34,11 +34,9 @@
             mk-luarc-json
             ;
           neovim = callPackage ./nix/neovim.nix {
-            config = {
-              src = ./nvim;
-              plugins = callPackage ./nix/plugins.nix { };
-              dependencies = callPackage ./nix/runtime.nix { };
-            };
+            src = ./nvim;
+            plugins = callPackage ./nix/plugins.nix { };
+            runtimeDeps = callPackage ./nix/runtimeDeps.nix { };
           };
           neovide = pkgs.neovide.overrideAttrs {
             inherit neovim;

@@ -4,12 +4,10 @@
   wrapNeovimUnstable,
   neovimUtils,
   neovim-unwrapped,
-  config,
+  src,
+  plugins,
+  runtimeDeps,
 }:
-
-assert config ? src || throw "config is missing src";
-assert config ? plugins || throw "config is missing plugins";
-assert config ? dependencies || throw "config is missing dependencies";
 
 let
   disableBuiltinPlugins = writeText "disable-builtin-plugins.lua" /* lua */ ''
@@ -36,17 +34,17 @@ let
       withRuby = false;
       wrapRc = true;
       customRC = /* vim */ ''
-        set runtimepath^=${config.src}
-        set runtimepath+=${config.src}/after
+        set runtimepath^=${src}
+        set runtimepath+=${src}/after
       '';
-      plugins = config.plugins;
+      inherit plugins;
     }
     // {
       wrapperArgs = [
         "--prefix"
         "PATH"
         ":"
-        (lib.makeBinPath config.dependencies)
+        (lib.makeBinPath runtimeDeps)
         "--add-flags"
         "--cmd 'luafile ${disableBuiltinPlugins}'"
       ];

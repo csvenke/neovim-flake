@@ -9,6 +9,14 @@ require("telescope").setup({
       },
     },
   },
+  pickers = {
+    grep_string = {
+      additional_args = { "--hidden" },
+    },
+    live_grep = {
+      additional_args = { "--hidden" },
+    },
+  },
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown({}),
@@ -44,8 +52,6 @@ vim.keymap.set("n", "<leader>ss", builtin.lsp_document_symbols, { desc = "[s]ear
 vim.keymap.set("n", "<leader>sS", builtin.lsp_dynamic_workspace_symbols, { desc = "[s]earch workspace [S]ymbols" })
 vim.keymap.set("n", "<leader>/", builtin.live_grep, { desc = "Find in files (Grep)" })
 vim.keymap.set("n", "<leader>?", builtin.live_grep, { desc = "Find in files (Grep)" })
-vim.keymap.set("n", "<leader>:", builtin.command_history, { desc = "Command history" })
+vim.keymap.set("n", "<leader>s:", builtin.command_history, { desc = "[s]earch command history" })
 vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = "[s]earch recent files" })
 vim.keymap.set("n", "<leader><leader>", find_files_smart, { desc = "[s]earch [f]iles" })
-
-require("config.plugins.telescope.multigrep").setup()

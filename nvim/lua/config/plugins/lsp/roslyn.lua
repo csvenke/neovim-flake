@@ -2,8 +2,9 @@ local M = {}
 
 function M.setup()
   require("roslyn").setup({
+    filewatching = "roslyn",
     broad_search = true,
-    lock_target = true,
+    lock_target = false,
     silent = true,
   })
 
@@ -14,7 +15,7 @@ function M.setup()
     group = group,
     pattern = { "cs" },
     callback = function()
-      vim.api.nvim_clear_autocmds({
+      pcall(vim.api.nvim_clear_autocmds, {
         pattern = "*",
         event = "LspProgress",
         group = "noice_lsp_progress",

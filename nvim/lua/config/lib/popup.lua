@@ -6,6 +6,15 @@
 
 local M = {}
 
+-- Counter for generating unique popup IDs
+local popup_counter = 0
+
+---@return string
+local function generate_unique_id()
+  popup_counter = popup_counter + 1
+  return "popup_" .. popup_counter .. "_" .. os.time()
+end
+
 ---@param id string
 ---@param cwd string
 ---@return number|nil
@@ -118,7 +127,7 @@ end
 ---@param opts PopupOpts
 ---@return number, number
 function M.toggle(opts)
-  local id = opts.id or opts.cmd or ""
+  local id = opts.id or opts.cmd or generate_unique_id()
   local cwd = vim.fn.getcwd()
 
   local existing_buf = find_popup_buf(id, cwd)

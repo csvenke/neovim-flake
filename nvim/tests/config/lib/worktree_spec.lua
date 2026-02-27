@@ -1,6 +1,27 @@
 local Worktree = require("config.lib.worktree")
 
 describe("config.lib.worktree", function()
+  describe("Worktree.new", function()
+    it("ensures name is never nil by defaulting to empty string", function()
+      local wt = Worktree.new({
+        name = nil,
+        path = "/some/path",
+      })
+
+      assert.are.equal("", wt.name)
+      assert.is_not_nil(wt.name)
+    end)
+
+    it("uses provided name when not nil", function()
+      local wt = Worktree.new({
+        name = "my-worktree",
+        path = "/some/path",
+      })
+
+      assert.are.equal("my-worktree", wt.name)
+    end)
+  end)
+
   describe("from_entry", function()
     it("parses worktree path and derives name from last path segment", function()
       local entry = [[worktree /home/user/repo/main
@@ -69,6 +90,26 @@ branch refs/heads/main]]
 
       assert.are.equal("/home/user/my repo/feature branch", wt.path)
       assert.are.equal("feature branch", wt.name)
+    end)
+
+    it("handles missing worktree path by defaulting name to empty string", function()
+      local entry = [[worktree
+HEAD abc123def456789012345678901234567890abcd
+branch refs/heads/main]]
+      local wt = Worktree.from_entry(entry)
+
+      assert.are.equal("", wt.path)
+      assert.are.equal("", wt.name)
+    end)
+
+    it("handles path without slash by defaulting name to 'unknown'", function()
+      local entry = [[worktree myworktree
+HEAD abc123def456789012345678901234567890abcd
+branch refs/heads/main]]
+      local wt = Worktree.from_entry(entry)
+
+      assert.are.equal("myworktree", wt.path)
+      assert.are.equal("myworktree", wt.name)
     end)
   end)
 

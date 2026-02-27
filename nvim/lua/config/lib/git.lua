@@ -3,9 +3,18 @@ local Worktree = require("config.lib.worktree")
 
 local M = {}
 
+---@return boolean
+local function ensure_git()
+  return vim.fn.executable("git") == 1
+end
+
 ---@param cwd string
 ---@return string?
 function M.get_default_branch(cwd)
+  if not ensure_git() then
+    return nil
+  end
+
   local result = vim.system({ "git", "symbolic-ref", "refs/remotes/origin/HEAD" }, { cwd = cwd }):wait()
 
   if result.code == 0 and result.stdout then
@@ -31,11 +40,19 @@ end
 ---@param branch string
 ---@return boolean
 function M.remote_branch_exists(cwd, branch)
+  if not ensure_git() then
+    return false
+  end
+
   local result = vim.system({ "git", "ls-remote", "--heads", "origin", branch }, { cwd = cwd }):wait()
   return result.code == 0 and result.stdout ~= nil and result.stdout ~= ""
 end
 
 function M.worktree_list()
+  if not ensure_git() then
+    return {}
+  end
+
   local output = vim.fn.system("git worktree list --porcelain")
   local entries = vim.split(output, "\n\n", { trimempty = true })
   local max_name_length = 0
@@ -74,6 +91,10 @@ end
 ---@return string?
 ---@return string?
 function M.worktree_add(cwd, path, branch)
+  if not ensure_git() then
+    return nil, "git not available"
+  end
+
   local new_worktree = string.format("%s/%s", cwd, path)
 
   if Path.is_directory(new_worktree) then
@@ -144,6 +165,10 @@ end
 ---@return Worktree?
 ---@return string?
 function M.worktree_remove(worktree)
+  if not ensure_git() then
+    return nil, "git not available"
+  end
+
   if not Path.is_directory(worktree.path) then
     return nil, "Worktree does not exist"
   end

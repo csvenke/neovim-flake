@@ -44,7 +44,7 @@ local servers = {
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/hls.lua
   hls = {},
 
-  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/hls.lua
+  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/jdtls.lua
   jdtls = {},
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/rust_analyzer.lua

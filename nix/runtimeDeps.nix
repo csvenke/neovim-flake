@@ -96,6 +96,10 @@ with pkgs;
   ### Go ###
   gopls
 
+  ### Elixir ###
+  elixir
+  elixir-ls
+
   ### Database ###
   sqlcmd
 

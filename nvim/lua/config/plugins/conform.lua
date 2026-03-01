@@ -18,6 +18,9 @@ conform.setup({
     lua = { "stylua" },
     bash = { "shfmt" },
     sh = { "shfmt" },
+    elixir = { "mix_format" },
+    eelixir = { "mix_format" },
+    heex = { "mix_format" },
     javascript = { "prettier" },
     javascriptreact = { "prettier" },
     typescript = { "prettier" },
@@ -71,6 +74,15 @@ conform.setup({
         "kdlfmt.kdl",
         ".editorconfig",
       }),
+    },
+    mix_format = {
+      command = "mix",
+      args = { "format", "-" },
+      cwd = require("conform.util").root_file({
+        "mix.exs",
+        ".formatter.exs",
+      }),
+      require_cwd = true,
     },
   },
 })

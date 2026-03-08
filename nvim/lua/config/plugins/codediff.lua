@@ -12,8 +12,8 @@ require("codediff").setup({
     view = {
       quit = "<C-q>",
       toggle_explorer = "<Nop>",
-      next_hunk = "<C-d>",
-      prev_hunk = "<C-u>",
+      next_hunk = "gh",
+      prev_hunk = "gH",
       next_file = "<Tab>",
       prev_file = "<S-Tab>",
       diff_get = "<Nop>",

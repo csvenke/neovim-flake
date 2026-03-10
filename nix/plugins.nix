@@ -61,7 +61,6 @@ with pkgs.vimPlugins;
   friendly-snippets
   ## Language specific
   nvim-jdtls
-  roslyn-nvim
 
   # lualine.lua
   lualine-nvim

@@ -38,8 +38,6 @@ for server, config in pairs(servers) do
   vim.lsp.enable(server)
 end
 
-require("config.plugins.lsp.roslyn").setup()
-
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
   callback = function(event)

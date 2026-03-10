@@ -147,6 +147,9 @@ local servers = {
       },
     },
   },
+
+  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/roslyn_ls.lua
+  roslyn_ls = {},
 }
 
 return servers

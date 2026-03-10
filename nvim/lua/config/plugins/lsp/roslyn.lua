@@ -2,10 +2,10 @@ local M = {}
 
 function M.setup()
   require("roslyn").setup({
-    filewatching = "roslyn",
-    broad_search = true,
-    lock_target = false,
-    silent = true,
+    filewatching = "auto",
+    broad_search = false,
+    lock_target = true,
+    silent = false,
   })
 
   local group = vim.api.nvim_create_augroup("user-lsp-roslyn-hooks", { clear = true })

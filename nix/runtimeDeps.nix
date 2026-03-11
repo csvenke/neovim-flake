@@ -19,7 +19,7 @@ with pkgs;
   xclip
 
   ### Treesitter ###
-  tree-sitter
+  tree-sitter-cli
 
   ### Direnv ###
   direnv

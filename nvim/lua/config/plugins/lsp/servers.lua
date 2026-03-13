@@ -149,9 +149,7 @@ local servers = {
   },
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/roslyn_ls.lua
-  roslyn_ls = {
-    root_dir = vim.fs.dirname(vim.fs.find({ "*.csproj", "*.sln" }, { upward = true })[1]),
-  },
+  roslyn_ls = {},
 }
 
 return servers

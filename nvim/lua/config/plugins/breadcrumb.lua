@@ -168,7 +168,7 @@ setup({
     {
       pattern = "^codediff:///.-///.-/(.+)$",
       transform = function(path)
-        return "diff:// " .. path
+        return "codediff:// " .. path
       end,
     },
   },

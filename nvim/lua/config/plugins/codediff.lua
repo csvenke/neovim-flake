@@ -1,3 +1,5 @@
+local workspace = require("lib.workspace")
+
 require("codediff").setup({
   highlights = {
     line_insert = "DiffAdd",
@@ -36,7 +38,30 @@ require("codediff").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>gd", "<cmd>CodeDiff<cr>", { desc = "[g]it [d]iff view" })
-vim.keymap.set("n", "<leader>gh", "<cmd>CodeDiff history %<cr>", { desc = "[g]it [h]istory" })
-vim.keymap.set("n", "<leader>gH", "<cmd>CodeDiff history<cr>", { desc = "[g]it [H]istory" })
-vim.keymap.set("n", "<leader>gr", "<cmd>CodeDiff origin/HEAD<cr>", { desc = "[g]it code [r]eview" })
+local function open_codediff(cmd)
+  workspace.enter()
+  vim.cmd(cmd)
+end
+
+vim.keymap.set("n", "<leader>gd", function()
+  open_codediff("CodeDiff")
+end, { desc = "[g]it [d]iff view" })
+
+vim.keymap.set("n", "<leader>gh", function()
+  open_codediff("CodeDiff history %")
+end, { desc = "[g]it [h]istory" })
+
+vim.keymap.set("n", "<leader>gH", function()
+  open_codediff("CodeDiff history")
+end, { desc = "[g]it [H]istory" })
+
+vim.keymap.set("n", "<leader>gr", function()
+  open_codediff("CodeDiff origin/HEAD")
+end, { desc = "[g]it code [r]eview" })
+
+vim.api.nvim_create_autocmd("BufUnload", {
+  pattern = "codediff://*",
+  callback = function()
+    workspace.exit()
+  end,
+})

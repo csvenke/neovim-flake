@@ -149,7 +149,16 @@ local servers = {
   },
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/roslyn_ls.lua
-  roslyn_ls = {},
+  roslyn_ls = {
+    capabilities = {
+      workspace = {
+        didChangeWatchedFiles = {
+          dynamicRegistration = true,
+          relativePatternSupport = true,
+        },
+      },
+    },
+  },
 }
 
 return servers

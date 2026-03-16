@@ -17,6 +17,7 @@ with pkgs;
   gnugrep
   xdg-utils
   xclip
+  inotify-tools
 
   ### Treesitter ###
   tree-sitter-cli

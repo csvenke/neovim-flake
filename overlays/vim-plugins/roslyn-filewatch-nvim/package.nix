@@ -6,33 +6,37 @@
 }:
 
 let
-  roslynFilewatchRs = stdenv.mkDerivation rec {
+  platforms = {
+    "x86_64-linux" = "linux-x86_64";
+    "aarch64-linux" = "linux-x86_64";
+    "x86_64-darwin" = "macos-arm64";
+    "aarch64-darwin" = "macos-arm64";
+  };
+
+  hashes = {
+    "x86_64-linux" = "sha256-ZkDw9lWRL8iuurGTYKNfJ7ad9PZl+jvyxUCGltMKOm0=";
+    "aarch64-linux" = "sha256-ZkDw9lWRL8iuurGTYKNfJ7ad9PZl+jvyxUCGltMKOm0=";
+    "x86_64-darwin" = "sha256-PLACEHOLDER_MACOS_X86";
+    "aarch64-darwin" = "sha256-PLACEHOLDER_MACOS_ARM";
+  };
+
+  system = stdenv.hostPlatform.system;
+
+  platform = platforms.${system}
+    or (throw "Unsupported system: ${system}. Supported systems: x86_64-linux, aarch64-linux, x86_64-darwin, aarch64-darwin");
+
+  hash = hashes.${system}
+    or (throw "Unsupported system: ${system}. Supported systems: x86_64-linux, aarch64-linux, x86_64-darwin, aarch64-darwin");
+
+  version = "v0.4.7";
+
+  roslynFilewatchRs = stdenv.mkDerivation {
     pname = "roslyn-filewatch-rs";
-    version = "v0.4.7";
+    inherit version;
 
     src = fetchurl {
-      url =
-        let
-          platform =
-            {
-              "x86_64-linux" = "linux-x86_64";
-              "aarch64-linux" = "linux-x86_64";
-              "x86_64-darwin" = "macos-arm64";
-              "aarch64-darwin" = "macos-arm64";
-            }
-            .${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
-        in
-        "https://github.com/khoido2003/roslyn-filewatch.nvim/releases/download/${version}/roslyn_filewatch_rs-${platform}.so";
-
-      sha256 =
-        if stdenv.isLinux && stdenv.isx86_64 then
-          "sha256-ZkDw9lWRL8iuurGTYKNfJ7ad9PZl+jvyxUCGltMKOm0="
-        else if stdenv.isDarwin && stdenv.isAarch64 then
-          "sha256-PLACEHOLDER_MACOS_ARM"
-        else if stdenv.isDarwin && stdenv.isx86_64 then
-          "sha256-PLACEHOLDER_MACOS_X86"
-        else
-          throw "Unsupported platform";
+      url = "https://github.com/khoido2003/roslyn-filewatch.nvim/releases/download/${version}/roslyn_filewatch_rs-${platform}.so";
+      sha256 = hash;
     };
 
     dontUnpack = true;

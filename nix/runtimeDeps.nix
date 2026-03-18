@@ -17,7 +17,10 @@ with pkgs;
   gnugrep
   xdg-utils
   xclip
+
+  ### Lsps ###
   inotify-tools
+  fswatch
 
   ### Treesitter ###
   tree-sitter-cli

@@ -62,6 +62,7 @@ with pkgs.vimPlugins;
   ## Language specific
   nvim-jdtls
   roslyn-nvim
+  roslyn-filewatch-nvim
 
   # lualine.lua
   lualine-nvim

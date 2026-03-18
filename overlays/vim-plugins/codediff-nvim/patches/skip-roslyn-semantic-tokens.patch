@@ -1,0 +1,26 @@
+--- a/lua/codediff/ui/semantic_tokens.lua
++++ b/lua/codediff/ui/semantic_tokens.lua
+@@ -171,6 +171,10 @@ function M.apply_semantic_tokens(left_buf, right_buf)
+     return false
+   end
+ 
++  -- LSPs that crash on custom URI schemes like codediff://
++  -- These servers can't handle textDocument/didOpen for virtual URIs.
++  local incompatible_lsps = { roslyn = true, omnisharp = true }
++
+   -- Find a client that supports semantic tokens
+   local client = nil
+   for _, c in ipairs(clients) do
+@@ -180,6 +184,12 @@ function M.apply_semantic_tokens(left_buf, right_buf)
+     end
+   end
+ 
++  -- Skip incompatible LSPs - TreeSitter highlighting is still available as fallback
++  if client and incompatible_lsps[client.name] then
++    -- Don't send didOpen to servers that can't handle virtual URIs
++    return false
++  end
++
+   if not client then
+     return false
+   end

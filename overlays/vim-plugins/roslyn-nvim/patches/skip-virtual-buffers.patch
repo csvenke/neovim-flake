@@ -1,0 +1,38 @@
+--- a/lsp/roslyn.lua
++++ b/lsp/roslyn.lua
+@@ -55,6 +55,21 @@ end
+ 
+ ---@type vim.lsp.Config
+ return {
++    -- Prevent existing client from attaching to virtual buffers
++    reuse_client = function(client, config)
++        local bufnr = vim.api.nvim_get_current_buf()
++        local buf_name = vim.api.nvim_buf_get_name(bufnr)
++        -- Never reuse client for virtual buffers (codediff://, fugitive://, etc.)
++        if buf_name:match("^%a+://") and not buf_name:match("^file://") and not buf_name:match("^roslyn%-source%-generated://") then
++            return false
++        end
++        -- Default behavior: reuse if name and root_dir match
++        if client.name ~= config.name then
++            return false
++        end
++        return client.root_dir == config.root_dir
++    end,
++
+     name = "roslyn",
+     filetypes = { "cs", "razor" },
+     cmd = get_default_cmd(),
+@@ -80,6 +95,13 @@ return {
+         },
+     },
+     root_dir = function(bufnr, on_dir)
++        -- Skip virtual buffers (codediff://, fugitive://, etc.)
++        -- These URIs crash the roslyn LSP server when it tries to process them
++        local buf_name = vim.api.nvim_buf_get_name(bufnr)
++        if buf_name:match("^%a+://") and not buf_name:match("^file://") and not buf_name:match("^roslyn%-source%-generated://") then
++            return
++        end
++
+         if require("roslyn.config").get().lock_target and vim.g.roslyn_nvim_selected_solution then
+             local root_dir = vim.fs.dirname(vim.g.roslyn_nvim_selected_solution)
+             on_dir(root_dir)

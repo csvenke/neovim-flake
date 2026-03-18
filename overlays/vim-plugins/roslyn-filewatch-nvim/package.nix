@@ -16,17 +16,15 @@ let
   hashes = {
     "x86_64-linux" = "sha256-ZkDw9lWRL8iuurGTYKNfJ7ad9PZl+jvyxUCGltMKOm0=";
     "aarch64-linux" = "sha256-ZkDw9lWRL8iuurGTYKNfJ7ad9PZl+jvyxUCGltMKOm0=";
-    "x86_64-darwin" = "sha256-PLACEHOLDER_MACOS_X86";
-    "aarch64-darwin" = "sha256-PLACEHOLDER_MACOS_ARM";
+    "x86_64-darwin" = "sha256-1bk8srpnbqy1x5k373pia5s840dfc4ph7kqywan57127j58hdr9a";
+    "aarch64-darwin" = "sha256-1bk8srpnbqy1x5k373pia5s840dfc4ph7kqywan57127j58hdr9a";
   };
 
   system = stdenv.hostPlatform.system;
 
-  platform = platforms.${system}
-    or (throw "Unsupported system: ${system}. Supported systems: x86_64-linux, aarch64-linux, x86_64-darwin, aarch64-darwin");
+  platform = platforms.${system} or (throw "Unsupported system: ${system}.");
 
-  hash = hashes.${system}
-    or (throw "Unsupported system: ${system}. Supported systems: x86_64-linux, aarch64-linux, x86_64-darwin, aarch64-darwin");
+  hash = hashes.${system} or (throw "Unsupported system: ${system}.");
 
   version = "v0.4.7";
 
@@ -55,7 +53,7 @@ in
 
 vimUtils.buildVimPlugin rec {
   pname = "roslyn-filewatch";
-  version = "v0.4.7";
+  inherit version;
 
   src = fetchFromGitHub {
     owner = "khoido2003";

@@ -9,6 +9,10 @@ require("codediff").setup({
   },
   explorer = {
     initial_focus = "modified",
+    view_mode = "tree",
+  },
+  diff = {
+    compute_moves = true,
   },
   keymaps = {
     view = {

@@ -2,7 +2,7 @@ local M = {}
 
 function M.setup()
   require("roslyn").setup({
-    filewatching = "off",
+    filewatching = "auto",
     broad_search = false,
     lock_target = true,
     silent = true,

@@ -8,9 +8,7 @@ function M.setup()
     silent = true,
   })
 
-  require("roslyn_filewatch").setup({
-    enable_autorestore = false,
-  })
+  require("roslyn_filewatch").setup({})
 
   local group = vim.api.nvim_create_augroup("user-lsp-roslyn-hooks", { clear = true })
 

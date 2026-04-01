@@ -1,4 +1,4 @@
-local workspace = require("lib.workspace")
+local workspace = require("config.lib.workspace")
 
 require("codediff").setup({
   highlights = {

@@ -1,5 +1,5 @@
 local smartsplits = require("smart-splits")
-local workspace = require("lib.workspace")
+local workspace = require("config.lib.workspace")
 
 smartsplits.setup({
   ignored_buftypes = {

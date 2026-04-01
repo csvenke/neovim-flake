@@ -18,6 +18,9 @@ wrapNeovimUnstable neovim-unwrapped {
   '';
   inherit plugins;
   wrapperArgs = [
+    "--set-default"
+    "NVIM_APPNAME"
+    "neovim-flake"
     "--prefix"
     "PATH"
     ":"

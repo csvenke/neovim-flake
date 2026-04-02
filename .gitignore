@@ -4,3 +4,4 @@ temp
 .direnv
 .luarc.json
 result
+result-*

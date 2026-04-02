@@ -14,4 +14,3 @@
    local parsers = vim.F.npcall(require, "nvim-treesitter.parsers")
  
    if not parsers then
-

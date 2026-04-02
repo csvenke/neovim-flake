@@ -1,4 +1,8 @@
-{ pkgs }:
+{
+  pkgs,
+  lib,
+  stdenv,
+}:
 
 with pkgs;
 [
@@ -16,11 +20,6 @@ with pkgs;
   gnused
   gnugrep
   xdg-utils
-  xclip
-
-  ### Lsps ###
-  inotify-tools
-  fswatch
 
   ### Treesitter ###
   tree-sitter-cli
@@ -109,4 +108,8 @@ with pkgs;
 
   ### Opencode ###
   lsof
+]
+++ lib.optionals stdenv.isLinux [
+  xclip
+  wl-clipboard
 ]

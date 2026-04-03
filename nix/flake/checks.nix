@@ -3,26 +3,60 @@
 {
   perSystem =
     {
-      hermeticTestEnv,
-      mkRoslynIntegrationTest,
-      neovim,
       pkgs,
-      repoRoot,
-      runIntegrationTest,
+      neovim,
       ...
     }:
+    let
+      inherit (pkgs) callPackage runCommandLocal luaPackages;
+
+      repoRoot = ../../.;
+      nvimRoot = repoRoot + "/nvim";
+      testRoot = nvimRoot + "/tests";
+      integrationTestRoot = testRoot + "/integration";
+      integrationFixtureRoot = integrationTestRoot + "/fixtures";
+      integrationSupportRoot = testRoot + "/support";
+
+      hermeticTestEnv = callPackage ../tests/hermeticTestEnv.nix { };
+
+      runIntegrationTest = callPackage ../tests/runIntegrationTest.nix {
+        inherit neovim hermeticTestEnv;
+        inherit integrationFixtureRoot;
+        helperSrc = integrationSupportRoot;
+        integrationSpecRoot = integrationTestRoot;
+      };
+
+      mkRoslynIntegrationTest =
+        {
+          sdkMajor,
+          sdkPackage,
+          fixture,
+        }:
+        runIntegrationTest {
+          name = "lsp-integration-dotnet${sdkMajor}-roslyn";
+          inherit fixture;
+          openFile = "src/App/Program.cs";
+          spec = "lsp_dotnet_roslyn.lua";
+          extraPath = [ sdkPackage ];
+          extraEnv = {
+            DOTNET_ROOT = "${sdkPackage}";
+            DOTNET_MULTILEVEL_LOOKUP = "0";
+            INTEGRATION_TEST_DOTNET_SDK_MAJOR = sdkMajor;
+          };
+        };
+    in
     {
       checks = {
-        checkhealth = pkgs.runCommandLocal "checkhealth" { } ''
+        checkhealth = runCommandLocal "checkhealth" { } ''
           set -euo pipefail
           ${hermeticTestEnv { }}
           ${neovim}/bin/nvim --headless "+checkhealth" +qa | tee $out
         '';
 
         luacheck =
-          pkgs.runCommandLocal "luacheck"
+          runCommandLocal "luacheck"
             {
-              nativeBuildInputs = [ pkgs.luaPackages.luacheck ];
+              nativeBuildInputs = [ luaPackages.luacheck ];
             }
             ''
               set -euo pipefail
@@ -34,7 +68,7 @@
               touch $out
             '';
 
-        test = pkgs.runCommandLocal "test" { } ''
+        test = runCommandLocal "test" { } ''
           set -euo pipefail
           ${hermeticTestEnv { }}
           cd ${repoRoot}

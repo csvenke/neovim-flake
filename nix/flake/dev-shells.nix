@@ -3,14 +3,15 @@
 {
   perSystem =
     {
-      config,
-      neovim,
       pkgs,
+      neovim,
       plugins,
       ...
     }:
     let
-      luarc = pkgs.mk-luarc-json {
+      inherit (pkgs) mkShell luaPackages mk-luarc-json;
+
+      luarc = mk-luarc-json {
         nvim = neovim;
         inherit plugins;
         disabled-diagnostics = [
@@ -20,16 +21,17 @@
       };
     in
     {
-      devShells.default = pkgs.mkShell {
-        packages = [
-          config.treefmt.build.wrapper
-          pkgs.luaPackages.luacheck
-        ];
-        shellHook =
-          # bash
-          ''
-            ln -fs ${luarc} .luarc.json
-          '';
+      devShells = {
+        default = mkShell {
+          packages = [
+            luaPackages.luacheck
+          ];
+          shellHook =
+            # bash
+            ''
+              ln -fs ${luarc} .luarc.json
+            '';
+        };
       };
     };
 }

@@ -11,6 +11,16 @@ permissions:
   pull-requests: write
 
 jobs:
+  health-check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - run: nix flake check -v
+
   release:
     runs-on: ubuntu-latest
     env:

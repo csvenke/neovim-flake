@@ -22,6 +22,7 @@ jobs:
       - run: nix flake check -v
 
   release:
+    needs: [health-check]
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

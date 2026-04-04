@@ -1,5 +1,7 @@
 local workspace = require("config.lib.workspace")
 
+local explorer_width = 40
+
 require("codediff").setup({
   highlights = {
     line_insert = "DiffAdd",
@@ -10,6 +12,7 @@ require("codediff").setup({
   explorer = {
     initial_focus = "modified",
     view_mode = "tree",
+    width = explorer_width,
   },
   diff = {
     compute_moves = true,
@@ -63,23 +66,33 @@ vim.keymap.set("n", "<leader>gr", function()
   open_codediff("CodeDiff origin/HEAD")
 end, { desc = "[g]it code [r]eview" })
 
+local group = vim.api.nvim_create_augroup("user-codediff-hooks", { clear = true })
+
 vim.api.nvim_create_autocmd("BufUnload", {
+  group = group,
   pattern = "codediff://*",
   callback = function()
     workspace.exit()
   end,
 })
 
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = group,
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "codediff-explorer" then
+      vim.opt_local.winfixwidth = true
+    end
+  end,
+})
+
 local wrapped_roslyn_clients = {}
 
 -- Prevent roslyn LSP from crashing on codediff virtual buffers.
--- The issue: codediff virtual buffers (codediff://) may get tracked by Neovim's
+-- codediff virtual buffers (codediff://) may get tracked by Neovim's
 -- LSP subsystem without roslyn receiving didOpen. When the buffer closes, Neovim
 -- sends didClose, which crashes roslyn because the URI was never opened.
---
--- Solution: Wrap the roslyn client's rpc.notify method to filter out didClose for
--- codediff:// URIs. We wrap rpc.notify because client:notify eventually calls it.
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = group,
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if not client or client.name ~= "roslyn" then

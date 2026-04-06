@@ -42,3 +42,11 @@ vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected down", 
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected up", silent = true })
 vim.keymap.set("v", "<C-h>", "<gv", { desc = "Move selected left", silent = true })
 vim.keymap.set("v", "<C-l>", ">gv", { desc = "Move selected right", silent = true })
+
+-- undotree
+vim.cmd("packadd nvim.undotree")
+vim.keymap.set("n", "<leader>u", function()
+  require("undotree").open({
+    command = "rightbelow new",
+  })
+end, { desc = "[u]ndotree toggle" })

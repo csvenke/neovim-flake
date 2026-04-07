@@ -1,22 +1,26 @@
 --- a/lua/codediff/ui/semantic_tokens.lua
 +++ b/lua/codediff/ui/semantic_tokens.lua
-@@ -171,6 +171,10 @@ function M.apply_semantic_tokens(left_buf, right_buf)
+@@ -171,6 +171,14 @@ function M.apply_semantic_tokens(left_buf, right_buf)
      return false
    end
  
 +  -- LSPs that crash on custom URI schemes like codediff://
 +  -- These servers can't handle textDocument/didOpen for virtual URIs.
-+  local incompatible_lsps = { roslyn = true, omnisharp = true }
++  local incompatible_lsps = {
++    roslyn = true,
++    roslyn_ls = true,
++    omnisharp = true,
++  }
 +
    -- Find a client that supports semantic tokens
    local client = nil
    for _, c in ipairs(clients) do
-@@ -180,6 +184,12 @@ function M.apply_semantic_tokens(left_buf, right_buf)
+@@ -180,6 +190,12 @@ function M.apply_semantic_tokens(left_buf, right_buf)
      end
    end
  
 +  -- Skip incompatible LSPs - TreeSitter highlighting is still available as fallback
-+  if client and incompatible_lsps[client.name] then
++  if client and (incompatible_lsps[client.name] or client.name:match("^roslyn")) then
 +    -- Don't send didOpen to servers that can't handle virtual URIs
 +    return false
 +  end
@@ -24,3 +28,21 @@
    if not client then
      return false
    end
+
+--- a/lua/codediff/ui/lifecycle/cleanup.lua
++++ b/lua/codediff/ui/lifecycle/cleanup.lua
+@@ -63,8 +63,13 @@ local function cleanup_diff(tabpage)
+   local ref_bufnr = vim.api.nvim_buf_is_valid(diff.original_bufnr) and diff.original_bufnr or diff.modified_bufnr
+   local clients = vim.lsp.get_clients({ bufnr = ref_bufnr })
+ 
++  local incompatible_close_lsps = { roslyn = true, roslyn_ls = true, omnisharp = true }
++
+   for _, client in ipairs(clients) do
+-    if client.server_capabilities.semanticTokensProvider then
++    local is_incompatible = incompatible_close_lsps[client.name]
++      or (client.name and client.name:match("^roslyn"))
++
++    if client.server_capabilities.semanticTokensProvider and not is_incompatible then
+       if original_virtual_uri then
+         pcall(client.notify, "textDocument/didClose", {
+           textDocument = { uri = original_virtual_uri },

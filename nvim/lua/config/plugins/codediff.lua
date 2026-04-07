@@ -84,35 +84,3 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     end
   end,
 })
-
-local wrapped_roslyn_clients = {}
-
--- Prevent roslyn LSP from crashing on codediff virtual buffers.
--- codediff virtual buffers (codediff://) may get tracked by Neovim's
--- LSP subsystem without roslyn receiving didOpen. When the buffer closes, Neovim
--- sends didClose, which crashes roslyn because the URI was never opened.
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = group,
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if not client or client.name ~= "roslyn" then
-      return
-    end
-
-    if wrapped_roslyn_clients[client.id] then
-      return
-    end
-    wrapped_roslyn_clients[client.id] = true
-
-    local original_rpc_notify = client.rpc.notify
-    client.rpc.notify = function(method, params)
-      if method == "textDocument/didClose" and params and params.textDocument then
-        local uri = params.textDocument.uri
-        if uri and uri:match("^codediff://") then
-          return true
-        end
-      end
-      return original_rpc_notify(method, params)
-    end
-  end,
-})

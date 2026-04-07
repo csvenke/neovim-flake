@@ -35,6 +35,8 @@ require("blink.cmp").setup({
   },
 })
 
+require("config.plugins.lsp.roslyn").setup()
+
 local servers = require("config.plugins.lsp.servers")
 
 for server, config in pairs(servers) do
@@ -42,20 +44,9 @@ for server, config in pairs(servers) do
   vim.lsp.enable(server)
 end
 
-require("config.plugins.lsp.roslyn").setup()
-
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
   callback = function(event)
-    -- Skip virtual buffers (codediff://, debug://, etc.)
-    local bufname = vim.api.nvim_buf_get_name(event.buf)
-    if bufname:match("^%a+://") and not bufname:match("^file://") then
-      for _, client in ipairs(vim.lsp.get_clients({ bufnr = event.buf })) do
-        vim.lsp.buf_detach_client(event.buf, client.id)
-      end
-      return
-    end
-
     local telescope = require("telescope.builtin")
 
     --- @param keys string

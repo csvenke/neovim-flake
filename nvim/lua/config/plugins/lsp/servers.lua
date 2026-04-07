@@ -50,6 +50,11 @@ local servers = {
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/rust_analyzer.lua
   rust_analyzer = {},
 
+  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/roslyn_ls.lua
+  roslyn_ls = {
+    workspace_required = true,
+  },
+
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/ts_ls.lua
   ts_ls = {
     init_options = {

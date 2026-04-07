@@ -25,7 +25,11 @@ require("blink.cmp").setup({
     menu = {
       draw = {
         treesitter = { "lsp" },
-        columns = { { "label", "kind_icon", "kind", gap = 1 } },
+        columns = {
+          { "label" },
+          { "kind_icon" },
+          { "kind" },
+        },
       },
     },
   },

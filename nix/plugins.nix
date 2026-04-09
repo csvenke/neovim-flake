@@ -32,6 +32,9 @@ with pkgs.vimPlugins;
   # codediff.lua
   codediff-nvim
 
+  # diffs.lua
+  diffs-nvim
+
   # direnv.lua
   direnv-nvim
 

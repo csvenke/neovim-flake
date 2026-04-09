@@ -1,3 +1,12 @@
+vim.g.diffs = {
+  hide_prefix = true,
+  integrations = {
+    fugitive = true,
+    gitsigns = true,
+    telescope = true,
+  },
+}
+
 vim.keymap.set("n", "<leader>gf", "<cmd>Git fetch<cr>", { desc = "[g]it [f]etch" })
 vim.keymap.set("n", "<leader>gp", "<cmd>Git pull<cr>", { desc = "[g]it [p]ull" })
 vim.keymap.set("n", "<leader>gP", "<cmd>Git push<cr>", { desc = "[g]it [P]ush" })

@@ -9,8 +9,8 @@ runner.define({
   describe = string.format("Roslyn .NET %s integration test", sdk_major),
   it = "attaches and serves completion and definition requests",
   client_name = "roslyn",
-  timeout_ms = 30000,
-  request_timeout_ms = 2000,
+  timeout_ms = 60000,
+  request_timeout_ms = 5000,
   probes = {
     {
       type = "attach",

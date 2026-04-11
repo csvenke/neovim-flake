@@ -43,6 +43,7 @@
             DOTNET_MULTILEVEL_LOOKUP = "0";
             INTEGRATION_TEST_DOTNET_SDK_MAJOR = sdkMajor;
           };
+          preflight = "dotnet build";
         };
     in
     {

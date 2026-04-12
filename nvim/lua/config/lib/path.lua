@@ -22,16 +22,16 @@ function M.change_current_directory(path)
   -- Stop all lsp clients and close attached buffers
   local clients = vim.lsp.get_clients()
   for _, client in ipairs(clients) do
-    local buffers = vim.lsp.get_buffers_by_client_id(client.id)
+    local attached_buffers = client.attached_buffers
 
     -- Attempt graceful shutdown
-    vim.lsp.stop_client(client.id, true)
+    client:stop(true)
     vim.wait(3000, function()
-      return vim.lsp.client_is_stopped(client.id)
+      return client:is_stopped()
     end)
 
     -- Remove loaded buffers
-    for _, buffer in ipairs(buffers) do
+    for buffer in pairs(attached_buffers) do
       if vim.api.nvim_buf_is_loaded(buffer) then
         require("mini.bufremove").delete(buffer, true)
       end

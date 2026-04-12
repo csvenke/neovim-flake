@@ -21,9 +21,6 @@ with pkgs;
   gnugrep
   xdg-utils
 
-  ### Treesitter ###
-  tree-sitter-cli
-
   ### Direnv ###
   direnv
   nix-direnv

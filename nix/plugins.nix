@@ -8,6 +8,8 @@ with pkgs.vimPlugins;
   nui-nvim
   nvim-nio
   nvim-web-devicons
+
+  # notify.nvim
   nvim-notify
 
   # theme.lua

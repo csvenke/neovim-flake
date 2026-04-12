@@ -74,9 +74,6 @@ with pkgs.vimPlugins;
   mini-bufremove
   mini-pairs
 
-  # noice.lua
-  noice-nvim
-
   # oil.lua
   oil-nvim
 

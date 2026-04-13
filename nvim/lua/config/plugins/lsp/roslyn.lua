@@ -6,6 +6,10 @@ function M.setup()
     filewatching = "off",
     silent = true,
   })
+
+  vim.lsp.config("roslyn", {
+    workspace_required = true,
+  })
 end
 
 return M

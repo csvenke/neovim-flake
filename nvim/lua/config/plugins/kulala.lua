@@ -1,6 +1,18 @@
-local kulala = require("kulala")
+local function open_requests_tab()
+  local dir = vim.fn.stdpath("data") .. "/kulala"
+  local file = dir .. "/requests.http"
 
-kulala.setup({
+  vim.fn.mkdir(dir, "p")
+
+  if vim.fn.filereadable(file) == 0 then
+    vim.fn.writefile({}, file)
+  end
+
+  vim.cmd("tabnew")
+  vim.cmd.edit(vim.fn.fnameescape(file))
+end
+
+require("kulala").setup({
   kulala_keymaps = false,
   global_keymaps = false,
   ui = {
@@ -18,13 +30,18 @@ kulala.setup({
   },
 })
 
+vim.keymap.set("n", "<leader>Ro", open_requests_tab, { desc = "[R]equests [o]pen" })
+vim.keymap.set("n", "<leader>RR", open_requests_tab, { desc = "[R]equests [o]pen" })
+
 local group = vim.api.nvim_create_augroup("user-kulala-hooks", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "http", "rest" },
   group = group,
   callback = function(event)
-    vim.keymap.set("n", "<F5>", kulala.run, { buffer = event.buf, desc = "Run request" })
+    vim.keymap.set("n", "<F5>", function()
+      require("kulala").run()
+    end, { buffer = event.buf, desc = "Run request" })
   end,
 })
 

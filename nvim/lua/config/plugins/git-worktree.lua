@@ -64,7 +64,7 @@ end
 
 local function add_worktree()
   vim.ui.input({
-    prompt = "Add worktree",
+    prompt = "Add worktree: ",
   }, function(choice)
     if choice == nil then
       return

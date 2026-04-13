@@ -44,7 +44,6 @@ vim.keymap.set("v", "<C-h>", "<gv", { desc = "Move selected left", silent = true
 vim.keymap.set("v", "<C-l>", ">gv", { desc = "Move selected right", silent = true })
 
 -- undotree
-vim.cmd("packadd nvim.undotree")
 vim.keymap.set("n", "<leader>u", function()
   require("undotree").open({
     command = "rightbelow new",

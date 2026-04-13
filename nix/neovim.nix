@@ -13,6 +13,8 @@ wrapNeovimUnstable neovim-unwrapped {
   withRuby = false;
   wrapRc = true;
   neovimRcContent = /* vim */ ''
+    packadd nvim.undotree
+    packadd nvim.difftool
     set runtimepath^=${src}
     set runtimepath+=${src}/after
   '';

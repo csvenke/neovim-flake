@@ -1,12 +1,12 @@
 ---@class PopupOpts
----@field id string
----@field cmd string|nil
----@field width number|nil
----@field height number|nil
+---@field id? string
+---@field cmd? string
+---@field width? number
+---@field height? number
 
+-- Floating terminal/runtime popup orchestration.
 local M = {}
 
--- Counter for generating unique popup IDs
 local popup_counter = 0
 
 ---@return string
@@ -17,7 +17,6 @@ end
 
 ---@param id string
 ---@param cwd string
----@return number|nil
 local function find_popup_buf(id, cwd)
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_loaded(buf) then
@@ -30,7 +29,6 @@ local function find_popup_buf(id, cwd)
 end
 
 ---@param buf number
----@return number|nil
 local function find_win_for_buf(buf)
   local winid = vim.fn.bufwinid(buf)
   return winid ~= -1 and winid or nil
@@ -60,7 +58,6 @@ end
 
 ---@param buf number
 ---@param opts PopupOpts
----@return number
 local function create_popup_win(buf, opts)
   local win_opts = get_win_config(opts)
   local win = vim.api.nvim_open_win(buf, true, win_opts)
@@ -91,9 +88,8 @@ local function create_popup_win(buf, opts)
 end
 
 ---@param id string
----@param cmd string|nil
+---@param cmd string?
 ---@param cwd string
----@return number
 local function create_popup_buf(id, cmd, cwd)
   local buf = vim.api.nvim_create_buf(false, true)
 
@@ -125,7 +121,6 @@ local function create_popup_buf(id, cmd, cwd)
 end
 
 ---@param opts PopupOpts
----@return number, number
 function M.toggle(opts)
   local id = opts.id or opts.cmd or generate_unique_id()
   local cwd = vim.fn.getcwd()

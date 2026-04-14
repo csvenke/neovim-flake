@@ -1,6 +1,5 @@
 ---@type opencode.Opts
 vim.g.opencode_opts = { server = {} }
-vim.o.autoread = true
 
 vim.keymap.set({ "n", "x" }, "<leader>aa", function()
   require("opencode").ask("@this: ", { submit = true })

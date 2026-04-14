@@ -1,30 +1,30 @@
-local Text = require("config.lib.text")
+local text = require("config.lib.text")
 local icons = require("config.lib.icons")
 
---- @class WorktreeArgs
---- @field name? string
---- @field path? string
---- @field sha? string
---- @field short_sha? string
---- @field branch? string|nil
---- @field bare? boolean
---- @field detached? boolean
---- @field locked? boolean
---- @field prunable? boolean
+---@class WorktreeArgs
+---@field name? string
+---@field path? string
+---@field sha? string
+---@field short_sha? string
+---@field branch? string
+---@field bare? boolean
+---@field detached? boolean
+---@field locked? boolean
+---@field prunable? boolean
 
---- @class Worktree
---- @field name string
---- @field path string
---- @field sha string
---- @field short_sha string
---- @field branch string|nil
---- @field bare boolean
---- @field detached boolean
---- @field locked boolean
---- @field prunable boolean
---- @field display string
---- @field to_display_string fun(self: Worktree, max_name_length: number, max_branch_length: number): string
---- @field is_active fun(self: Worktree): boolean
+---@class Worktree
+---@field name string
+---@field path string
+---@field sha string
+---@field short_sha string
+---@field branch string?
+---@field bare boolean
+---@field detached boolean
+---@field locked boolean
+---@field prunable boolean
+---@field display string
+---@field to_display_string fun(self: Worktree, max_name_length: number, max_branch_length: number): string
+---@field is_active fun(self: Worktree): boolean
 
 local Worktree = {}
 Worktree.__index = Worktree
@@ -76,7 +76,8 @@ function Worktree.from_entry(entry)
     branch = branch:match("refs/heads/(.+)") or branch
   end
 
-  local function hasFlag(flag)
+  ---@param flag string
+  local function has_flag(flag)
     return entry:find(flag) ~= nil
   end
 
@@ -86,10 +87,10 @@ function Worktree.from_entry(entry)
     sha = sha,
     short_sha = short_sha,
     branch = branch,
-    bare = hasFlag("bare"),
-    detached = hasFlag("detached"),
-    locked = hasFlag("locked"),
-    prunable = hasFlag("prunable"),
+    bare = has_flag("bare"),
+    detached = has_flag("detached"),
+    locked = has_flag("locked"),
+    prunable = has_flag("prunable"),
   })
 end
 
@@ -101,7 +102,7 @@ function Worktree:to_display_string(max_name_length, max_branch_length)
 
   if self.name then
     table.insert(items, icons.git .. " ")
-    table.insert(items, Text.pad_right(self.name, max_name_length))
+    table.insert(items, text.pad_right(self.name, max_name_length))
     table.insert(items, "|")
   end
 
@@ -110,9 +111,9 @@ function Worktree:to_display_string(max_name_length, max_branch_length)
   end
 
   if self.detached then
-    table.insert(items, Text.pad_right("(detached HEAD)", max_branch_length))
+    table.insert(items, text.pad_right("(detached HEAD)", max_branch_length))
   elseif self.branch then
-    table.insert(items, Text.pad_right(string.format("[%s]", self.branch), max_branch_length))
+    table.insert(items, text.pad_right(string.format("[%s]", self.branch), max_branch_length))
   end
 
   if self.locked then

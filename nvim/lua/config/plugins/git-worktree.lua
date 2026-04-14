@@ -1,6 +1,7 @@
-local Direnv = require("config.lib.direnv")
-local Path = require("config.lib.path")
-local Git = require("config.lib.git")
+local direnv = require("config.lib.direnv")
+local path = require("config.lib.path")
+local git = require("config.runtime.git")
+local workspace = require("config.runtime.workspace")
 
 local NOTIFY_TITLE = "Git worktree"
 
@@ -9,7 +10,7 @@ local NOTIFY_TITLE = "Git worktree"
 local function run_post_add_hook(worktree_path, bare_worktree_path)
   local hook_script = vim.fs.joinpath(bare_worktree_path, ".hooks", "after-worktree-add.sh")
 
-  if not Path.is_file(hook_script) then
+  if not path.is_file(hook_script) then
     return
   end
 
@@ -33,7 +34,7 @@ local function run_post_add_hook(worktree_path, bare_worktree_path)
 end
 
 local function switch_worktree()
-  Git.worktree_select({
+  git.worktree_select({
     prompt = "Switch worktree",
     on_select = function(worktree)
       local notification = vim.notify("Switching worktree...", vim.log.levels.INFO, {
@@ -44,7 +45,7 @@ local function switch_worktree()
         replace = notification and notification.id,
       }
 
-      local _, err = Git.worktree_switch(worktree)
+      local _, err = git.worktree_switch(worktree)
 
       if err then
         vim.notify(err, vim.log.levels.INFO, notify_opts)
@@ -70,7 +71,7 @@ local function add_worktree()
     end
 
     local choices = vim.split(choice, "%s+", { plain = false })
-    local path = choices[1]
+    local worktree_path = choices[1]
     local branch = choices[2]
 
     local notification = vim.notify("Adding worktree...", vim.log.levels.INFO, {
@@ -81,24 +82,24 @@ local function add_worktree()
       replace = notification and notification.id,
     }
 
-    local worktrees = Git.worktree_list()
-    local bare_worktree = Git.get_bare_worktree(worktrees)
+    local worktrees = git.worktree_list()
+    local bare_worktree = git.get_bare_worktree(worktrees)
 
     if not bare_worktree then
       vim.notify("No bare worktree found", vim.log.levels.INFO, notify_opts)
       return
     end
 
-    local new_worktree, err = Git.worktree_add(bare_worktree.path, path, branch)
+    local new_worktree, err = git.worktree_add(bare_worktree.path, worktree_path, branch)
 
     if not new_worktree then
       vim.notify(err --[[@as string]], vim.log.levels.INFO, notify_opts)
       return
     end
 
-    Path.copy_directory(bare_worktree.path .. "/.shared", new_worktree)
-    Direnv.allow_if_available(new_worktree)
-    Path.change_current_directory(new_worktree)
+    path.copy_directory(bare_worktree.path .. "/.shared", new_worktree)
+    direnv.allow_if_available(new_worktree)
+    workspace.change_current_directory(new_worktree)
     run_post_add_hook(new_worktree, bare_worktree.path)
 
     vim.notify("Adding worktree... DONE", vim.log.levels.INFO, notify_opts)
@@ -106,7 +107,7 @@ local function add_worktree()
 end
 
 local function remove_worktree()
-  Git.worktree_select({
+  git.worktree_select({
     prompt = "Remove worktree",
     on_select = function(worktree)
       local notification = vim.notify("Removing worktree...", vim.log.levels.INFO, {
@@ -117,7 +118,7 @@ local function remove_worktree()
         replace = notification and notification.id,
       }
 
-      local _, err = Git.worktree_remove(worktree)
+      local _, err = git.worktree_remove(worktree)
 
       if err then
         vim.notify(err, vim.log.levels.INFO, notify_opts)

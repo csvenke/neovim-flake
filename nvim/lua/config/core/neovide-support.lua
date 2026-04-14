@@ -2,7 +2,7 @@ if vim.g.neovide then
   vim.g.neovide_scale_factor = 1.0
 
   ---@param delta number
-  local change_scale_factor = function(delta)
+  local function change_scale_factor(delta)
     vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
   end
 

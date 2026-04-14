@@ -1,4 +1,4 @@
-local Git = require("config.lib.git")
+local git = require("config.runtime.git")
 
 require("telescope").setup({
   defaults = {
@@ -29,7 +29,7 @@ require("telescope").load_extension("ui-select")
 local builtin = require("telescope.builtin")
 
 local function find_files_smart()
-  if Git.is_inside_worktree() then
+  if git.is_inside_worktree() then
     builtin.git_files({ show_untracked = true })
   else
     builtin.find_files()

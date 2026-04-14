@@ -1,3 +1,4 @@
+-- Pure string helpers that are safe to require anywhere.
 local M = {}
 
 ---@param s string

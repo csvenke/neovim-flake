@@ -1,3 +1,4 @@
+-- Startup-safe icon helpers with string fallbacks.
 local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 
 ---@class Icons

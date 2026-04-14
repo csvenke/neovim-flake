@@ -1,4 +1,4 @@
-local function deleteBuffer()
+local function delete_buffer()
   local delete = require("mini.bufremove").delete
   if vim.bo.modified then
     local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
@@ -13,7 +13,7 @@ local function deleteBuffer()
   end
 end
 
-local function deleteBufferForce()
+local function delete_buffer_force()
   require("mini.bufremove").delete(0, true)
 end
 
@@ -30,5 +30,5 @@ require("mini.ai").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>bd", deleteBuffer, { desc = "[b]uffer [d]elete" })
-vim.keymap.set("n", "<leader>bD", deleteBufferForce, { desc = "[b]uffer [D]elete (force)" })
+vim.keymap.set("n", "<leader>bd", delete_buffer, { desc = "[b]uffer [d]elete" })
+vim.keymap.set("n", "<leader>bD", delete_buffer_force, { desc = "[b]uffer [D]elete (force)" })

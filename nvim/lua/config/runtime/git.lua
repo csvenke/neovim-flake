@@ -1,6 +1,8 @@
-local Path = require("config.lib.path")
+local path = require("config.lib.path")
 local Worktree = require("config.lib.worktree")
+local workspace = require("config.runtime.workspace")
 
+-- Git worktree/runtime orchestration and editor-facing flows.
 local M = {}
 
 ---@return boolean
@@ -38,7 +40,6 @@ end
 
 ---@param cwd string
 ---@param branch string
----@return boolean
 function M.remote_branch_exists(cwd, branch)
   if not ensure_git() then
     return false
@@ -48,6 +49,7 @@ function M.remote_branch_exists(cwd, branch)
   return result.code == 0 and result.stdout ~= nil and result.stdout ~= ""
 end
 
+---@return Worktree[]
 function M.worktree_list()
   if not ensure_git() then
     return {}
@@ -59,7 +61,7 @@ function M.worktree_list()
   end
 
   local output = result.stdout
-  local entries = vim.split(output, "\n\n", { trimempty = true })
+  local entries = vim.split(output or "", "\n\n", { trimempty = true })
   local max_name_length = 0
   local max_branch_length = 0
   local wrapper_length = 2
@@ -91,24 +93,22 @@ function M.worktree_list()
 end
 
 ---@param cwd string
----@param path string
+---@param worktree_path string
 ---@param branch string?
----@return string?
----@return string?
-function M.worktree_add(cwd, path, branch)
+function M.worktree_add(cwd, worktree_path, branch)
   if not ensure_git() then
     return nil, "git not available"
   end
 
-  local new_worktree = string.format("%s/%s", cwd, path)
+  local new_worktree = string.format("%s/%s", cwd, worktree_path)
 
-  if Path.is_directory(new_worktree) then
+  if path.is_directory(new_worktree) then
     return nil, "Worktree already exists"
   end
 
   vim.system({ "git", "fetch", "origin", "+refs/heads/*:refs/remotes/origin/*" }, { cwd = cwd }):wait()
 
-  local new_branch = branch or path
+  local new_branch = branch or worktree_path
 
   local base_branch
   if M.remote_branch_exists(cwd, new_branch) then
@@ -120,7 +120,7 @@ function M.worktree_add(cwd, path, branch)
     end
   end
 
-  local git_cmd = { "git", "worktree", "add", "-b", new_branch, path }
+  local git_cmd = { "git", "worktree", "add", "-b", new_branch, worktree_path }
 
   if base_branch then
     table.insert(git_cmd, base_branch)
@@ -129,10 +129,10 @@ function M.worktree_add(cwd, path, branch)
   vim.system(git_cmd, { cwd = cwd }):wait()
 
   vim.wait(3000, function()
-    return Path.is_directory(new_worktree)
+    return path.is_directory(new_worktree)
   end)
 
-  if not Path.is_directory(new_worktree) then
+  if not path.is_directory(new_worktree) then
     return nil, "Failed to add worktree"
   end
 
@@ -140,20 +140,18 @@ function M.worktree_add(cwd, path, branch)
 end
 
 ---@param worktree Worktree
----@return Worktree?
----@return string?
 function M.worktree_switch(worktree)
   if worktree.prunable then
     return nil, "Can't switch to prunable worktree"
   end
-  if not Path.is_directory(worktree.path) then
+  if not path.is_directory(worktree.path) then
     return nil, "Can't switch to worktree that does not exist"
   end
   if worktree:is_active() then
     return nil, "Can't switch to active worktree"
   end
 
-  Path.change_current_directory(worktree.path)
+  workspace.change_current_directory(worktree.path)
 
   vim.wait(3000, function()
     return worktree:is_active()
@@ -174,7 +172,7 @@ function M.worktree_remove(worktree)
     return nil, "git not available"
   end
 
-  if not Path.is_directory(worktree.path) then
+  if not path.is_directory(worktree.path) then
     return nil, "Worktree does not exist"
   end
   if worktree.locked then
@@ -186,7 +184,7 @@ function M.worktree_remove(worktree)
 
   vim.system({ "git", "worktree", "remove", worktree.path }):wait()
 
-  if Path.is_directory(worktree.path) then
+  if path.is_directory(worktree.path) then
     local choice =
       vim.fn.confirm("Worktree contains modified or untracked files, use --force to delete it?", "&Yes\n&No", 2)
     if choice == 1 then
@@ -194,14 +192,13 @@ function M.worktree_remove(worktree)
     end
   end
 
-  if Path.is_directory(worktree.path) then
+  if path.is_directory(worktree.path) then
     return nil, "Failed to remove worktree"
   end
 
   return worktree
 end
 
----@return Worktree[]
 function M.get_worktrees()
   local worktrees = M.worktree_list()
 
@@ -214,7 +211,6 @@ function M.get_worktrees()
 end
 
 ---@param worktrees Worktree[]
----@return Worktree?
 function M.get_bare_worktree(worktrees)
   if #worktrees == 1 then
     return table.remove(worktrees, 1)
@@ -230,7 +226,6 @@ function M.get_bare_worktree(worktrees)
 end
 
 ---@param worktrees Worktree[]
----@return Worktree?
 function M.get_active_worktree(worktrees)
   for _, worktree in ipairs(worktrees) do
     if worktree:is_active() then
@@ -244,7 +239,7 @@ end
 ---@class WorktreeSelectArgs
 ---@field prompt string
 ---@field on_select fun(worktree: Worktree)
----@field on_empty fun()
+---@field on_empty? fun()
 
 ---@param args WorktreeSelectArgs
 function M.worktree_select(args)
@@ -257,23 +252,27 @@ function M.worktree_select(args)
     return
   end
 
-  vim.ui.select(worktrees, {
-    prompt = args.prompt,
-    ---@param worktree Worktree
-    format_item = function(worktree)
-      return worktree.display
-    end,
-  }, function(worktree)
-    if worktree then
-      args.on_select(worktree)
+  vim.ui.select(
+    worktrees,
+    {
+      prompt = args.prompt,
+      ---@param worktree Worktree
+      format_item = function(worktree)
+        return worktree.display
+      end,
+    },
+    ---@param worktree Worktree?
+    function(worktree)
+      if worktree then
+        args.on_select(worktree)
+      end
     end
-  end)
+  )
 end
 
----@return boolean
 function M.is_inside_worktree()
   local result = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
-  return result.code == 0 and result.stdout and result.stdout:match("true") ~= nil
+  return result.code == 0 and result.stdout and result.stdout:match("true") ~= nil or false
 end
 
 return M

@@ -1,4 +1,4 @@
-local popup = require("config.lib.popup")
+local popup = require("config.runtime.popup")
 
 local function open_term_split()
   vim.cmd.split()

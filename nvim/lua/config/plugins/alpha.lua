@@ -61,7 +61,7 @@ local function setup()
   table.insert(theta.config.layout, 4, startuptime)
 
   -- Add git worktree section
-  local worktrees = require("config.lib.git").get_worktrees()
+  local worktrees = require("config.runtime.git").get_worktrees()
   if #worktrees > 0 then
     table.insert(theta.config.layout, 5, create_padding(2))
     table.insert(theta.config.layout, 6, create_worktrees_group(worktrees))

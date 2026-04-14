@@ -30,14 +30,22 @@ local function get_relative_path(bufnr)
     return nil
   end
 
+  filepath = vim.fs.normalize(filepath)
   local cwd = vim.fn.getcwd()
-  local relative = vim.fn.fnamemodify(filepath, ":~:.")
-
-  if vim.startswith(filepath, cwd) then
+  local relative = vim.fs.relpath(cwd, filepath)
+  if relative then
     return relative
-  else
-    return vim.fn.fnamemodify(filepath, ":~")
   end
+
+  local home = vim.env.HOME and vim.fs.normalize(vim.env.HOME) or nil
+  if home and filepath == home then
+    return "~"
+  end
+  if home and vim.startswith(filepath, home .. "/") then
+    return "~/" .. filepath:sub(#home + 2)
+  end
+
+  return filepath
 end
 
 ---@param part string

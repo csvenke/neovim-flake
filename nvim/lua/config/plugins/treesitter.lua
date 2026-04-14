@@ -1,7 +1,5 @@
 require("nvim-ts-autotag").setup({})
 
-require("nvim-treesitter").setup()
-
 local indent_exclude = {
   "cs",
 }

@@ -53,7 +53,12 @@ function M.worktree_list()
     return {}
   end
 
-  local output = vim.fn.system("git worktree list --porcelain")
+  local result = vim.system({ "git", "worktree", "list", "--porcelain" }, { text = true }):wait()
+  if result.code ~= 0 or not result.stdout then
+    return {}
+  end
+
+  local output = result.stdout
   local entries = vim.split(output, "\n\n", { trimempty = true })
   local max_name_length = 0
   local max_branch_length = 0
@@ -267,8 +272,8 @@ end
 
 ---@return boolean
 function M.is_inside_worktree()
-  local git_check = vim.fn.system("git rev-parse --is-inside-work-tree 2>/dev/null")
-  return vim.v.shell_error == 0 and git_check:match("true")
+  local result = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
+  return result.code == 0 and result.stdout and result.stdout:match("true") ~= nil
 end
 
 return M

@@ -103,7 +103,7 @@ local function format_selection()
 end
 
 local function toggle_autoformat()
-  vim.cmd("lua vim.g.autoformat = not vim.g.autoformat")
+  vim.g.autoformat = not vim.g.autoformat
   if vim.g.autoformat then
     vim.notify("autoformat is on")
   else

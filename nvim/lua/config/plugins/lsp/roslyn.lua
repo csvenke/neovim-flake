@@ -6,6 +6,9 @@ function M.setup()
     filewatching = "off",
     silent = true,
   })
+  require("roslyn_filewatch").setup({
+    client_names = { "roslyn" },
+  })
 
   vim.lsp.config("roslyn", {
     workspace_required = true,

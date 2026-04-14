@@ -1,11 +1,14 @@
 local function open_requests_tab()
-  local dir = vim.fn.stdpath("data") .. "/kulala"
-  local file = dir .. "/requests.http"
+  local dir = vim.fs.joinpath(vim.fn.stdpath("data"), "kulala")
+  local file = vim.fs.joinpath(dir, "requests.http")
 
   vim.fn.mkdir(dir, "p")
 
-  if vim.fn.filereadable(file) == 0 then
-    vim.fn.writefile({}, file)
+  if not vim.uv.fs_stat(file) then
+    local fd = vim.uv.fs_open(file, "w", 420)
+    if fd then
+      vim.uv.fs_close(fd)
+    end
   end
 
   vim.cmd("tabnew")

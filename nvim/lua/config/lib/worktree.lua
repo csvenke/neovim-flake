@@ -127,7 +127,7 @@ function Worktree:to_display_string(max_name_length, max_branch_length)
 end
 
 function Worktree:is_active()
-  return vim.fn.getcwd() == self.path
+  return vim.fs.normalize(vim.fn.getcwd()) == vim.fs.normalize(self.path)
 end
 
 return Worktree

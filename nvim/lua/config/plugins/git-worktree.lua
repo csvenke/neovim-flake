@@ -7,9 +7,9 @@ local NOTIFY_TITLE = "Git worktree"
 --- @param worktree_path string
 --- @param bare_worktree_path string
 local function run_post_add_hook(worktree_path, bare_worktree_path)
-  local hook_script = bare_worktree_path .. "/.hooks/after-worktree-add.sh"
+  local hook_script = vim.fs.joinpath(bare_worktree_path, ".hooks", "after-worktree-add.sh")
 
-  if vim.fn.filereadable(hook_script) ~= 1 then
+  if not Path.is_file(hook_script) then
     return
   end
 
@@ -21,16 +21,15 @@ local function run_post_add_hook(worktree_path, bare_worktree_path)
     replace = notification and notification.id,
   }
 
-  vim.fn.jobstart(hook_script, {
-    cwd = worktree_path,
-    on_exit = function(_, exit_code)
-      if exit_code == 0 then
+  vim.system({ hook_script }, { cwd = worktree_path, text = true }, function(result)
+    vim.schedule(function()
+      if result.code == 0 then
         vim.notify("Running hook... DONE", vim.log.levels.INFO, notify_opts)
       else
-        vim.notify("Hook failed with code " .. exit_code, vim.log.levels.ERROR, notify_opts)
+        vim.notify("Hook failed with code " .. result.code, vim.log.levels.ERROR, notify_opts)
       end
-    end,
-  })
+    end)
+  end)
 end
 
 local function switch_worktree()

@@ -4,12 +4,7 @@ local function dbui_tab()
 end
 
 local function execute_query()
-  vim.cmd("vertical DB")
-  vim.cmd("wincmd =")
-end
-
-local function execute_query_visual()
-  vim.cmd("vertical '<,'>DB")
+  vim.cmd("vertical % DB")
   vim.cmd("wincmd =")
 end
 
@@ -29,7 +24,7 @@ vim.keymap.set("n", "<leader>Da", "<cmd>DBUIAddConnection<cr>", { desc = "[D]BUI
 local group = vim.api.nvim_create_augroup("user-dadbod-hooks", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "dbui", "sql", "dbout" },
+  pattern = { "dbui", "sql" },
   group = group,
   callback = function(event)
     vim.keymap.set("n", "<C-q>", "<cmd>tabclose<cr>", { buffer = event.buf, desc = "[D]BUI close" })
@@ -41,6 +36,5 @@ vim.api.nvim_create_autocmd("FileType", {
   group = group,
   callback = function(event)
     vim.keymap.set("n", "<F5>", execute_query, { buffer = event.buf, desc = "[D]BUI execute query" })
-    vim.keymap.set("v", "<F5>", execute_query_visual, { buffer = event.buf, desc = "[D]BUI execute query (visual)" })
   end,
 })

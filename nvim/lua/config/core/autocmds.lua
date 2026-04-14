@@ -39,22 +39,24 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end
 
     local file = vim.uv.fs_realpath(event.match) or event.match
-    local directory_path = vim.fn.fnamemodify(file, ":p:h")
-    vim.fn.mkdir(directory_path, "p")
+    local directory_path = vim.fs.dirname(file)
+    if directory_path then
+      vim.fn.mkdir(directory_path, "p")
+    end
   end,
 })
 
 vim.api.nvim_create_autocmd({ "VimEnter", "TabEnter", "TabLeave", "TabNew", "TabClosed" }, {
   group = group,
   callback = function()
-    vim.opt.showtabline = #vim.fn.gettabinfo() > 1 and 2 or 0
+    vim.opt.showtabline = #vim.api.nvim_list_tabpages() > 1 and 2 or 0
   end,
 })
 
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = group,
-  callback = function()
-    local is_file_buffer = vim.bo.buftype == ""
+  callback = function(event)
+    local is_file_buffer = vim.bo[event.buf].buftype == ""
     if is_file_buffer then
       vim.cmd("silent! checktime")
     end
@@ -63,8 +65,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 
 vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
   group = group,
-  callback = function()
-    local is_file_buffer = vim.bo.buftype == ""
+  callback = function(event)
+    local is_file_buffer = vim.bo[event.buf].buftype == ""
     if is_file_buffer then
       vim.cmd("silent! update")
     end

@@ -67,6 +67,9 @@ with pkgs;
   ### Json, eslint, markdown, css, html ###
   vscode-langservers-extracted
 
+  ### css variables ###
+  css-variables-language-server
+
   ### Prettier ###
   prettierd
 

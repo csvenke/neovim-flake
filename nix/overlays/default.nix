@@ -11,4 +11,8 @@ in
 
 {
   vimPlugins = prev.vimPlugins // overrideVimPlugins;
+
+  css-variables-language-server =
+    prev.callPackage ./packages/css-variables-language-server/package.nix
+      { };
 }

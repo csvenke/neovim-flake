@@ -66,7 +66,6 @@ with pkgs;
 
   ### Json, eslint, markdown, css, html ###
   vscode-langservers-extracted
-  vscode-extensions.dbaeumer.vscode-eslint
 
   ### Prettier ###
   prettierd

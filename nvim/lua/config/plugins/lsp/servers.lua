@@ -112,9 +112,6 @@ local servers = {
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/css_variables.lua
   css_variables = {},
 
-  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/eslint.lua
-  eslint = {},
-
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/jsonls.lua
   jsonls = {
     settings = {

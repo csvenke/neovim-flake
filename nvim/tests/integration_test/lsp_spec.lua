@@ -236,4 +236,51 @@ describe("integration_test.lsp", function()
     assert.are.equal("Ruff", diagnostic.source)
     assert.are.equal("E501", diagnostic.code)
   end)
+
+  it("waits until matching diagnostics clear", function()
+    local attempts = 0
+    local polls = 0
+
+    vim.wait = function(_, predicate)
+      for _ = 1, 3 do
+        if predicate() then
+          return true
+        end
+      end
+
+      return false
+    end
+    vim.lsp.get_clients = function()
+      return {
+        { id = 9, name = "roslyn" },
+      }
+    end
+    vim.diagnostic.get = function(bufnr)
+      attempts = attempts + 1
+
+      assert.are.equal(5, bufnr)
+
+      if attempts == 1 then
+        return {
+          { message = "The name 'Helper' does not exist", source = "Roslyn" },
+        }
+      end
+
+      return {}
+    end
+
+    local cleared = harness.assert_diagnostic_absent({
+      bufnr = 5,
+      client_name = "roslyn",
+      source = "Roslyn",
+      message_contains = "Helper",
+      timeout_ms = 30,
+      poll = function()
+        polls = polls + 1
+      end,
+    })
+
+    assert.is_true(cleared)
+    assert.are.equal(2, polls)
+  end)
 end)

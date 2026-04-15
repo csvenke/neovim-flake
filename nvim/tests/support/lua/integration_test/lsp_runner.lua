@@ -32,6 +32,9 @@ local function probe_options(context, probe)
   maybe_assign(opts, "message", probe.message)
   maybe_assign(opts, "message_contains", probe.message_contains)
   maybe_assign(opts, "message_pattern", probe.message_pattern)
+  maybe_assign(opts, "poll", probe.poll and function()
+    return probe.poll(context)
+  end)
 
   return opts
 end
@@ -48,6 +51,9 @@ local probe_runners = {
   end,
   diagnostic = function(context, probe)
     return lsp.assert_diagnostic_matches(probe_options(context, probe))
+  end,
+  diagnostic_absent = function(context, probe)
+    return lsp.assert_diagnostic_absent(probe_options(context, probe))
   end,
 }
 

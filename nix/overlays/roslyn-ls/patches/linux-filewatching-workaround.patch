@@ -1,0 +1,69 @@
+--- a/src/LanguageServer/Microsoft.CodeAnalysis.LanguageServer/HostWorkspace/FileWatching/DefaultFileChangeWatcher.cs
++++ b/src/LanguageServer/Microsoft.CodeAnalysis.LanguageServer/HostWorkspace/FileWatching/DefaultFileChangeWatcher.cs
+@@ -2,6 +2,7 @@
+ // The .NET Foundation licenses this file to you under the MIT license.
+ // See the LICENSE file in the project root for more information.
+ 
++using System.IO;
+ using System.Collections.Immutable;
+ using System.Runtime.InteropServices;
+ using Microsoft.CodeAnalysis.ProjectSystem;
+@@ -32,6 +33,19 @@ internal sealed partial class DefaultFileChangeWatcher : IFileChangeWatcher
+     public IFileChangeContext CreateContext(ImmutableArray<WatchedDirectory> watchedDirectories)
+         => new FileChangeContext(this, watchedDirectories);
+ 
++    private static string? GetWatchPath(string path)
++    {
++        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
++        {
++            if (Directory.Exists(path))
++                return path;
++
++            return Path.GetDirectoryName(path);
++        }
++
++        return Path.GetPathRoot(path);
++    }
++
+     private IReferenceCountedDisposable<ICacheEntry<string, FileSystemWatcher>> GetOrCreateSharedWatcher(string rootPath)
+     {
+         var rootWatcher = _sharedRootWatchers.GetOrCreate<object?>(rootPath, static (key, _) => new FileSystemWatcher(key), arg: null);
+--- a/src/LanguageServer/Microsoft.CodeAnalysis.LanguageServer/HostWorkspace/FileWatching/DefaultFileChangeWatcher.FileChangeContext.cs
++++ b/src/LanguageServer/Microsoft.CodeAnalysis.LanguageServer/HostWorkspace/FileWatching/DefaultFileChangeWatcher.FileChangeContext.cs
+@@ -40,7 +40,10 @@ internal sealed partial class DefaultFileChangeWatcher
+ 
+                 watchedDirectoryBuilder.Add(watchedDirectory);
+ 
+-                var rootPath = Path.GetPathRoot(watchedDirectory.Path)!;
++                var rootPath = GetWatchPath(watchedDirectory.Path);
++                if (string.IsNullOrEmpty(rootPath) || !Directory.Exists(rootPath))
++                    continue;
++
+                 if (!watchedRootPaths.Add(rootPath))
+                     continue;
+ 
+@@ -82,7 +85,7 @@ internal sealed partial class DefaultFileChangeWatcher
+                 return NoOpWatchedFile.Instance;
+ 
+             // If this path doesn't have a valid root, we can't watch it
+-            var rootPath = Path.GetPathRoot(filePath);
++            var rootPath = GetWatchPath(filePath);
+             if (string.IsNullOrEmpty(rootPath) || !Directory.Exists(rootPath))
+                 return NoOpWatchedFile.Instance;
+ 
+--- a/src/Workspaces/Core/Portable/Workspace/ProjectSystem/FileWatchedPortableExecutableReferenceFactory.cs
++++ b/src/Workspaces/Core/Portable/Workspace/ProjectSystem/FileWatchedPortableExecutableReferenceFactory.cs
+@@ -75,6 +75,13 @@ internal sealed class FileWatchedReferenceFactory<TReference>
+         {
+             using var _ = PooledHashSet<string>.GetInstance(out var referenceDirectories);
+ 
++            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
++            {
++                // Downstream Linux/WSL workaround: avoid recursive watches over SDK and package caches.
++                // Individual metadata reference paths are still watched as they are loaded.
++                return [];
++            }
++
+             // On each platform, there is a place that reference assemblies for the framework are installed. These are
+             // rarely going to be changed but are the most common places that we're going to create file watches. Rather
+             // than either creating a huge number of file watchers for every single file, or eventually realizing we

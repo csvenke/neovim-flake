@@ -7,6 +7,7 @@ describe("integration_test.lsp_runner", function()
   local original_completion
   local original_definition
   local original_diagnostic
+  local original_diagnostic_absent
   local original_open_file_env
 
   before_each(function()
@@ -16,6 +17,7 @@ describe("integration_test.lsp_runner", function()
     original_completion = require("integration_test.lsp").assert_completion_contains
     original_definition = require("integration_test.lsp").assert_definition_matches
     original_diagnostic = require("integration_test.lsp").assert_diagnostic_matches
+    original_diagnostic_absent = require("integration_test.lsp").assert_diagnostic_absent
     original_open_file_env = vim.env.INTEGRATION_TEST_OPEN_FILE
   end)
 
@@ -26,6 +28,7 @@ describe("integration_test.lsp_runner", function()
     require("integration_test.lsp").assert_completion_contains = original_completion
     require("integration_test.lsp").assert_definition_matches = original_definition
     require("integration_test.lsp").assert_diagnostic_matches = original_diagnostic
+    require("integration_test.lsp").assert_diagnostic_absent = original_diagnostic_absent
     vim.env.INTEGRATION_TEST_OPEN_FILE = original_open_file_env
   end)
 
@@ -58,6 +61,10 @@ describe("integration_test.lsp_runner", function()
     lsp.assert_diagnostic_matches = function(opts)
       table.insert(calls, { stage = "diagnostic", opts = opts })
       return { message = opts.message_contains }
+    end
+    lsp.assert_diagnostic_absent = function(opts)
+      table.insert(calls, { stage = "diagnostic_absent", opts = opts })
+      return true
     end
 
     local context = runner.run({
@@ -92,6 +99,10 @@ describe("integration_test.lsp_runner", function()
           type = "diagnostic",
           message_contains = "missing_value",
         },
+        {
+          type = "diagnostic_absent",
+          message_contains = "missing_value",
+        },
       },
     })
 
@@ -99,6 +110,7 @@ describe("integration_test.lsp_runner", function()
     assert.are.equal("ts_ls", context.client.name)
     assert.are.equal("message", context.results[2].label)
     assert.are.equal("missing_value", context.results[4].message)
+    assert.is_true(context.results[5])
 
     assert.are.same({ stage = "open_file", relative_path = "src/index.ts" }, calls[1])
     assert.are.same({ stage = "prepare_attach", bufnr = 7 }, calls[2])
@@ -106,11 +118,13 @@ describe("integration_test.lsp_runner", function()
     assert.are.equal("completion", calls[5].stage)
     assert.are.equal("definition", calls[6].stage)
     assert.are.equal("diagnostic", calls[7].stage)
+    assert.are.equal("diagnostic_absent", calls[8].stage)
     assert.are.same({ stage = "assert_attach", client = "ts_ls", workspace_root = "/tmp/workspace" }, calls[4])
     assert.are.equal("ts_ls", calls[3].opts.client_name)
     assert.are.equal(30000, calls[3].opts.timeout_ms)
     assert.are.equal(2000, calls[5].opts.request_timeout_ms)
     assert.are.equal("src/lib.ts", calls[6].opts.path_suffix)
     assert.are.equal("missing_value", calls[7].opts.message_contains)
+    assert.are.equal("missing_value", calls[8].opts.message_contains)
   end)
 end)

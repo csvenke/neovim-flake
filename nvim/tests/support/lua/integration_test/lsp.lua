@@ -235,6 +235,10 @@ function M.assert_diagnostic_matches(opts)
   local description = opts.message or opts.message_contains or opts.source or "response"
 
   return M.wait_until(string.format("diagnostic %s", description), function()
+    if opts.poll then
+      opts.poll()
+    end
+
     for _, diagnostic in ipairs(vim.diagnostic.get(bufnr)) do
       if diagnostic_matches(diagnostic, opts) then
         return diagnostic
@@ -243,6 +247,32 @@ function M.assert_diagnostic_matches(opts)
 
     return false
   end, opts)
+end
+
+function M.assert_diagnostic_absent(opts)
+  local bufnr = opts.bufnr or 0
+
+  if opts.client_name then
+    M.assert_client_attached(opts)
+  end
+
+  local description = opts.message or opts.message_contains or opts.source or "response"
+
+  M.wait_until(string.format("diagnostic %s to clear", description), function()
+    if opts.poll then
+      opts.poll()
+    end
+
+    for _, diagnostic in ipairs(vim.diagnostic.get(bufnr)) do
+      if diagnostic_matches(diagnostic, opts) then
+        return false
+      end
+    end
+
+    return true
+  end, opts)
+
+  return true
 end
 
 return M

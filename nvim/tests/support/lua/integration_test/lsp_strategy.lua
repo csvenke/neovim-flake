@@ -5,6 +5,7 @@ local supported_probe_types = {
   completion = true,
   definition = true,
   diagnostic = true,
+  diagnostic_absent = true,
 }
 
 local function require_string(value, label)
@@ -47,11 +48,14 @@ local function validate_probe(strategy, probe, index)
   end
 
   require_function(probe.prepare, string.format("probe #%d prepare", index))
+  require_function(probe.poll, string.format("probe #%d poll", index))
   require_function(probe.assert, string.format("probe #%d assert", index))
+
+  local allows_missing_client_name = probe_type == "diagnostic" or probe_type == "diagnostic_absent"
 
   if probe.client_name ~= nil then
     require_string(probe.client_name, string.format("probe #%d client_name", index))
-  elseif probe_type ~= "diagnostic" or strategy.client_name ~= nil then
+  elseif not allows_missing_client_name or strategy.client_name ~= nil then
     require_string(strategy.client_name, "client_name")
   end
 end

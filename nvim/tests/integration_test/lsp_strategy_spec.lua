@@ -11,6 +11,7 @@ describe("integration_test.lsp_strategy", function()
         { type = "completion", label = "message" },
         { type = "definition", path_suffix = "src/lib.ts" },
         { type = "diagnostic", message_contains = "missing_value" },
+        { type = "diagnostic_absent", message_contains = "missing_value" },
       },
     })
 

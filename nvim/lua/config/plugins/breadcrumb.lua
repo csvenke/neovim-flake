@@ -4,7 +4,8 @@
 
 ---@class BreadcrumbOpts
 ---@field max_depth number
----@field ignore string[]
+---@field clear string[]
+---@field preserve string[]
 ---@field resolve BreadcrumbResolver[]
 
 local icons = require("config.lib.icons")
@@ -91,7 +92,24 @@ end
 
 ---@param bufnr number
 ---@param opts BreadcrumbOpts
+local function get_buffer_behavior(bufnr, opts)
+  local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+  if vim.tbl_contains(opts.clear, filetype) then
+    return "clear"
+  end
+  if vim.tbl_contains(opts.preserve, filetype) then
+    return "preserve"
+  end
+  return nil
+end
+
+---@param bufnr number
+---@param opts BreadcrumbOpts
 local function format_breadcrumb(bufnr, opts)
+  if get_buffer_behavior(bufnr, opts) == "clear" then
+    return ""
+  end
+
   local buftype = vim.api.nvim_get_option_value("buftype", { buf = bufnr })
   if buftype ~= "" then
     local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -107,11 +125,6 @@ local function format_breadcrumb(bufnr, opts)
       end
     end
 
-    return ""
-  end
-
-  local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
-  if vim.tbl_contains(opts.ignore, filetype) then
     return ""
   end
 
@@ -136,8 +149,11 @@ end
 local function update_all_breadcrumbs(opts)
   for _, winnr in ipairs(vim.api.nvim_list_wins()) do
     local bufnr = vim.api.nvim_win_get_buf(winnr)
-    local breadcrumb = format_breadcrumb(bufnr, opts)
-    pcall(vim.api.nvim_set_option_value, "winbar", breadcrumb, { win = winnr })
+    local behavior = get_buffer_behavior(bufnr, opts)
+    if behavior ~= "preserve" then
+      local breadcrumb = format_breadcrumb(bufnr, opts)
+      pcall(vim.api.nvim_set_option_value, "winbar", breadcrumb, { win = winnr })
+    end
   end
 end
 
@@ -168,9 +184,15 @@ end
 
 setup({
   max_depth = 4,
-  ignore = {
+  clear = {
     "oil",
     "alpha",
+  },
+  preserve = {
+    "dap-view",
+    "dap-view-term",
+    "dap-view-help",
+    "dap-repl",
   },
   resolve = {
     {

@@ -87,15 +87,8 @@ conform.setup({
   },
 })
 
-local function format_buffer()
+local function format()
   conform.format({ async = true, lsp_fallback = true })
-end
-
-local function format_selection()
-  conform.format({
-    async = true,
-    lsp_fallback = true,
-  })
 end
 
 local function toggle_autoformat()
@@ -107,6 +100,5 @@ local function toggle_autoformat()
   end
 end
 
-vim.keymap.set("v", "F", format_selection, { desc = "format selection" })
-vim.keymap.set("n", "F", format_buffer, { desc = "[F]ormat buffer" })
+vim.keymap.set({ "n", "v" }, "F", format, { desc = "[F]ormat" })
 vim.keymap.set("n", "<leader>tf", toggle_autoformat, { desc = "[t]oggle auto[f]ormat" })

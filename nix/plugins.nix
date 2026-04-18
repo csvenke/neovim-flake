@@ -28,7 +28,7 @@ with pkgs.vimPlugins;
 
   # debug/
   nvim-dap
-  nvim-dap-ui
+  nvim-dap-view
   nvim-dap-virtual-text
 
   # codediff.lua

@@ -1,9 +1,8 @@
 local dap = require("dap")
-local dapui = require("dapui")
+local dapview = require("dap-view")
+local widgets = require("dap.ui.widgets")
 local icons = require("config.lib.icons")
 require("nvim-dap-virtual-text").setup({})
-
-local group = vim.api.nvim_create_augroup("user-dap-hooks", { clear = true })
 
 vim.fn.sign_define("DapBreakpoint", {
   text = icons.dap_breakpoint,
@@ -31,29 +30,9 @@ vim.fn.sign_define("DapStopped", {
   numhl = "DapBreak",
 })
 
-dapui.setup({
-  layouts = {
-    {
-      size = 80,
-      position = "right",
-      elements = {
-        { id = "watches", size = 0.25 },
-        { id = "scopes", size = 0.25 },
-        { id = "stacks", size = 0.25 },
-        { id = "breakpoints", size = 0.25 },
-      },
-    },
-  },
+dapview.setup({
+  auto_toggle = true,
 })
-
-dap.listeners.before.attach.dapui_config = function()
-  dapui.open({ reset = true })
-end
-dap.listeners.before.launch.dapui_config = function()
-  dapui.open({ reset = true })
-end
-dap.listeners.before.event_terminated.dapui_config = dapui.close
-dap.listeners.before.event_exited.dapui_config = dapui.close
 
 vim.keymap.set("n", "<F1>", dap.step_over, { desc = "[d]ebug step [o]ver" })
 vim.keymap.set("n", "<F2>", dap.step_into, { desc = "[d]ebug step [i]nto" })
@@ -68,26 +47,17 @@ vim.keymap.set("n", "<leader>db", dap.step_back, { desc = "[d]ebug step [b]ack" 
 vim.keymap.set("n", "<leader>tb", dap.toggle_breakpoint, { desc = "[t]oggle [b]reakpoint" })
 vim.keymap.set("n", "<leader>tB", dap.clear_breakpoints, { desc = "clear [t]oggled [B]reakpoints" })
 vim.keymap.set("n", "<leader>d?", function()
-  dapui.eval(nil, { enter = true })
+  widgets.hover()
 end, { desc = "[d]ebug inspect" })
 vim.keymap.set("n", "<leader>dt", function()
-  dapui.toggle({ reset = true })
+  vim.cmd("DapViewToggle")
 end, { desc = "[d]ebug [t]oggle ui" })
 vim.keymap.set("n", "<leader>dd", function()
-  dapui.toggle({ reset = true })
+  vim.cmd("DapViewToggle")
 end, { desc = "[d]ebug [t]oggle ui" })
 vim.keymap.set("n", "<leader>d=", function()
-  dapui.open({ reset = true })
+  vim.cmd("DapViewClose!")
+  vim.cmd("DapViewOpen")
 end, { desc = "reset [d]ebug ui" })
 
 require("config.plugins.debug.netcoredbg").setup()
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "dapui_breakpoints", "dapui_stacks", "dapui_scopes", "dapui_watches" },
-  group = group,
-  callback = function(event)
-    vim.keymap.set("n", "<C-q>", function()
-      require("dapui").close()
-    end, { buffer = event.buf, desc = "[d]ebug close" })
-  end,
-})

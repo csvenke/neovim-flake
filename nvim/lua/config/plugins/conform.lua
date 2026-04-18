@@ -95,10 +95,6 @@ local function format_selection()
   conform.format({
     async = true,
     lsp_fallback = true,
-    range = {
-      start = vim.fn.getpos("'<"),
-      ["end"] = vim.fn.getpos("'>"),
-    },
   })
 end
 
@@ -113,4 +109,4 @@ end
 
 vim.keymap.set("v", "F", format_selection, { desc = "format selection" })
 vim.keymap.set("n", "F", format_buffer, { desc = "[F]ormat buffer" })
-vim.keymap.set("n", "<C-f>", toggle_autoformat, { desc = "Toggle auto-[f]ormat" })
+vim.keymap.set("n", "<leader>tf", toggle_autoformat, { desc = "[t]oggle auto[f]ormat" })

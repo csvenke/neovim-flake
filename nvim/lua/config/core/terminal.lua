@@ -1,13 +1,13 @@
 local popup = require("config.runtime.popup")
 
 local function open_term_split()
-  vim.cmd.split()
+  vim.cmd.new()
   vim.api.nvim_win_set_height(0, 15)
   vim.cmd.terminal()
 end
 
 local function open_term_vsplit()
-  vim.cmd.vsplit()
+  vim.cmd.vnew()
   vim.cmd.terminal()
 end
 

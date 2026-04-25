@@ -16,7 +16,5 @@ in
     roslynLs = prev.roslyn-ls;
   };
 
-  css-variables-language-server =
-    prev.callPackage ./packages/css-variables-language-server/package.nix
-      { };
+  css-variables-language-server = prev.callPackage ./css-variables-language-server/package.nix { };
 }

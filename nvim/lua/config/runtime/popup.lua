@@ -107,13 +107,15 @@ local function create_popup_buf(id, cmd, cwd)
         end
 
         local winid = find_win_for_buf(buf)
-        if winid then
-          pcall(vim.api.nvim_win_close, winid, true)
+        if winid and vim.api.nvim_win_is_valid(winid) then
+          pcall(vim.api.nvim_win_close, winid, false)
         end
 
-        if vim.api.nvim_buf_is_valid(buf) then
-          pcall(vim.api.nvim_buf_delete, buf, { force = true })
-        end
+        vim.defer_fn(function()
+          if vim.api.nvim_buf_is_valid(buf) and vim.fn.bufwinid(buf) == -1 then
+            pcall(vim.api.nvim_buf_delete, buf, { force = false })
+          end
+        end, 100)
       end),
     })
   end)
@@ -135,7 +137,7 @@ function M.toggle(opts)
 
   local existing_win = find_win_for_buf(existing_buf)
   if existing_win then
-    vim.api.nvim_win_close(existing_win, true)
+    vim.api.nvim_win_close(existing_win, false)
     return existing_buf, existing_win
   end
 

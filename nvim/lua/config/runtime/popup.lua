@@ -79,8 +79,9 @@ local function create_popup_win(buf, opts)
   vim.api.nvim_create_autocmd("WinClosed", {
     group = group,
     pattern = tostring(win),
+    once = true,
     callback = function()
-      vim.api.nvim_del_augroup_by_id(group)
+      pcall(vim.api.nvim_del_augroup_by_id, group)
     end,
   })
 
@@ -107,11 +108,11 @@ local function create_popup_buf(id, cmd, cwd)
 
         local winid = find_win_for_buf(buf)
         if winid then
-          vim.api.nvim_win_close(winid, true)
+          pcall(vim.api.nvim_win_close, winid, true)
         end
 
         if vim.api.nvim_buf_is_valid(buf) then
-          vim.api.nvim_buf_delete(buf, { force = true })
+          pcall(vim.api.nvim_buf_delete, buf, { force = true })
         end
       end),
     })

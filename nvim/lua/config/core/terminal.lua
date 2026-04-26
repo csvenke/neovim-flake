@@ -60,20 +60,3 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.cmd("startinsert!")
   end,
 })
-
-vim.api.nvim_create_autocmd("TermClose", {
-  group = group,
-  callback = function(args)
-    if vim.api.nvim_get_current_buf() ~= args.buf then
-      return
-    end
-
-    local listed = vim.tbl_filter(function(buf)
-      return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
-    end, vim.api.nvim_list_bufs())
-
-    if #listed == 0 then
-      vim.cmd("enew")
-    end
-  end,
-})

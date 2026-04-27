@@ -70,6 +70,18 @@ vim.diagnostic.config({
 vim.api.nvim_create_autocmd("LspAttach", {
   group = lsp_attach_group,
   callback = function(event)
+    local buftype = vim.bo[event.buf].buftype
+    local bufname = vim.api.nvim_buf_get_name(event.buf)
+    local is_virtual = buftype ~= "" or bufname:match("^%w%w+://")
+
+    if is_virtual then
+      local client = vim.lsp.get_client_by_id(event.data.client_id)
+      if client then
+        vim.lsp.buf_detach_client(event.buf, client.id)
+      end
+      return
+    end
+
     local telescope = require("telescope.builtin")
 
     --- @param keys string

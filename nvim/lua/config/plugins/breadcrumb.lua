@@ -194,12 +194,5 @@ setup({
     "dap-view-help",
     "dap-repl",
   },
-  resolve = {
-    {
-      pattern = "^codediff:///.-///.-/(.+)$",
-      transform = function(path)
-        return "codediff:// " .. path
-      end,
-    },
-  },
+  resolve = {},
 })

@@ -31,9 +31,6 @@ with pkgs.vimPlugins;
   nvim-dap-view
   nvim-dap-virtual-text
 
-  # codediff.lua
-  codediff-nvim
-
   # diffs.lua
   diffs-nvim
 

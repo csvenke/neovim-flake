@@ -14,6 +14,7 @@ vim.keymap.set("n", "<leader>gD", "<cmd>tabnew % | leftabove Gvdiffsplit origin/
 vim.keymap.set("n", "<leader>gh", "<cmd>tabnew % | rightbelow 0Gclog<cr>", { desc = "[g]it [h]istory" })
 vim.keymap.set("n", "<leader>gH", "<cmd>tabnew % | rightbelow Gclog<cr>", { desc = "[g]it [H]istory" })
 vim.keymap.set("n", "<leader>gt", "<cmd>rightbelow Git difftool<cr>", { desc = "[g]it diff[t]ool" })
+vim.keymap.set("n", "<leader>gT", "<cmd>rightbelow Git difftool origin/HEAD<cr>", { desc = "[g]it diff[T]ool" })
 
 local group = vim.api.nvim_create_augroup("user-fugitive-hooks", { clear = true })
 

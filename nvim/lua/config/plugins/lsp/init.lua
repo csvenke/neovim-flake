@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local bufname = vim.api.nvim_buf_get_name(event.buf)
     local is_virtual = buftype ~= "" or bufname:match("^%w%w+://")
 
-    if is_virtual then
+    if is_virtual or vim.wo.diff then
       local client = vim.lsp.get_client_by_id(event.data.client_id)
       if client then
         vim.lsp.buf_detach_client(event.buf, client.id)

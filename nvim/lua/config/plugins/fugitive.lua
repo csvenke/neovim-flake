@@ -9,8 +9,8 @@ vim.g.diffs = {
 
 vim.keymap.set("n", "<leader>gg", "<cmd>rightbelow Git<cr>", { desc = "[g]it [s]tatus" })
 vim.keymap.set("n", "<leader>gs", "<cmd>rightbelow Git<cr>", { desc = "[g]it [s]tatus" })
-vim.keymap.set("n", "<leader>gd", "<cmd>tabnew % | Gvdiffsplit<cr>", { desc = "[g]it [d]iff" })
-vim.keymap.set("n", "<leader>gD", "<cmd>tabnew % | leftabove Gvdiffsplit origin/HEAD<cr>", { desc = "[g]it [D]iff" })
+vim.keymap.set("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "[g]it [d]iff" })
+vim.keymap.set("n", "<leader>gD", "<cmd>leftabove Gvdiffsplit origin/HEAD<cr>", { desc = "[g]it [D]iff" })
 vim.keymap.set("n", "<leader>gh", "<cmd>tabnew % | rightbelow 0Gclog<cr>", { desc = "[g]it [h]istory" })
 vim.keymap.set("n", "<leader>gH", "<cmd>tabnew % | rightbelow Gclog<cr>", { desc = "[g]it [H]istory" })
 vim.keymap.set("n", "<leader>gt", "<cmd>rightbelow Git difftool<cr>", { desc = "[g]it diff[t]ool" })

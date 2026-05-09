@@ -123,6 +123,13 @@
           extraPath = [ pkgs.go ];
         };
 
+        "lsp-integration-gleam-gleam" = runIntegrationTest {
+          name = "lsp-integration-gleam-gleam";
+          fixture = "gleam/basic";
+          openFile = "src/main.gleam";
+          spec = "lsp_gleam.lua";
+        };
+
         "lsp-integration-typescript-ts-ls" = runIntegrationTest {
           name = "lsp-integration-typescript-ts-ls";
           fixture = "typescript/basic";

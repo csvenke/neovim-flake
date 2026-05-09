@@ -21,6 +21,7 @@ conform.setup({
     elixir = { "mix_format" },
     eelixir = { "mix_format" },
     heex = { "mix_format" },
+    gleam = { "gleam_format" },
     javascript = { "prettier" },
     javascriptreact = { "prettier" },
     typescript = { "prettier" },
@@ -83,6 +84,13 @@ conform.setup({
         ".formatter.exs",
       }),
       require_cwd = true,
+    },
+    gleam_format = {
+      command = "gleam",
+      args = { "format", "--stdin" },
+      cwd = require("conform.util").root_file({
+        "gleam.toml",
+      }),
     },
   },
 })

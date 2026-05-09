@@ -132,6 +132,9 @@ local servers = {
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/elixirls.lua
   elixirls = {},
 
+  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/gleam.lua
+  gleam = {},
+
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/gopls.lua
   gopls = {
     settings = {

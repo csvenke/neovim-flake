@@ -98,6 +98,9 @@ with pkgs;
   ### Go ###
   gopls
 
+  ### Gleam ###
+  gleam
+
   ### Elixir ###
   elixir
   elixir-ls

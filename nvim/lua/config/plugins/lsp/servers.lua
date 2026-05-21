@@ -47,6 +47,9 @@ local servers = {
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/jdtls.lua
   jdtls = {},
 
+  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/kotlin_lsp.lua
+  kotlin_lsp = {},
+
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/rust_analyzer.lua
   rust_analyzer = {},
 

@@ -114,4 +114,5 @@ with pkgs;
 ++ lib.optionals stdenv.isLinux [
   xclip
   wl-clipboard
+  kotlin-lsp
 ]

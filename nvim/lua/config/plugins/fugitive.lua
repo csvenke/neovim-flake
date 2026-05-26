@@ -1,5 +1,4 @@
 vim.g.diffs = {
-  hide_prefix = true,
   integrations = {
     fugitive = true,
     gitsigns = true,

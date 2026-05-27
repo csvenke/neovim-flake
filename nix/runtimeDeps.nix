@@ -35,6 +35,9 @@ with pkgs;
   ### Git ###
   git
 
+  ### Lsp ###
+  inotify-tools
+
   ### Lua ###
   lua-language-server
   stylua

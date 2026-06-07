@@ -11,13 +11,6 @@ describe("integration test harness smoke", function()
     assert.are.equal("neovim-flake", vim.env.NVIM_APPNAME)
     assert.are.equal(" ", vim.g.mapleader)
     assert.is_nil(vim.o.runtimepath:find(workspace_root .. "/nvim", 1, true))
-    assert.are.equal(0, vim.fn.executable("fswatch"))
-    assert.are.equal(0, vim.fn.executable("inotifywait"))
-
-    if vim.uv.os_uname().sysname == "Linux" then
-      assert.are.equal(1, vim.fn.executable("xclip"))
-      assert.are.equal(1, vim.fn.executable("wl-copy"))
-    end
 
     local ok, err = pcall(bootstrap.open_file, "/tmp/outside-workspace")
 

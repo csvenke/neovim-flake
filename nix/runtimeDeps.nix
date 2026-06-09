@@ -29,7 +29,6 @@ with pkgs;
   git
 
   ### Lsp ###
-  inotify-tools
   libfaketime
 
   ### Lua ###
@@ -109,6 +108,7 @@ with pkgs;
   lsof
 ]
 ++ lib.optionals stdenv.isLinux [
+  inotify-tools
   xclip
   wl-clipboard
   kotlin-lsp

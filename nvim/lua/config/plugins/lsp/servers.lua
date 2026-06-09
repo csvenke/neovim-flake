@@ -48,7 +48,9 @@ local servers = {
   jdtls = {},
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/kotlin_lsp.lua
-  kotlin_lsp = {},
+  kotlin_lsp = {
+    cmd = { "faketime", "2026-06-04", "intellij-server", "--stdio" },
+  },
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/rust_analyzer.lua
   rust_analyzer = {},

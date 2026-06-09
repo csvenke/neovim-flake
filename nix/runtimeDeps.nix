@@ -30,6 +30,7 @@ with pkgs;
 
   ### Lsp ###
   inotify-tools
+  libfaketime
 
   ### Lua ###
   lua-language-server

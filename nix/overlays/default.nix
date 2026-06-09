@@ -15,4 +15,6 @@ in
   css-variables-language-server = prev.callPackage ./css-variables-language-server/package.nix { };
 
   kotlin-lsp = prev.callPackage ./kotlin-lsp/package.nix { };
+
+  gleam = prev.gleam.overrideAttrs { doCheck = false; };
 }

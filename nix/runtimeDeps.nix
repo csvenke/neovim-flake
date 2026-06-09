@@ -25,13 +25,6 @@ with pkgs;
   direnv
   nix-direnv
 
-  ### Http client ###
-  jq
-  grpcurl
-  websocat
-  libxml2
-  openssl
-
   ### Git ###
   git
 

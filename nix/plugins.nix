@@ -52,9 +52,6 @@ with pkgs.vimPlugins;
   # grapple.lua
   grapple-nvim
 
-  # kulala.lua
-  kulala-nvim
-
   # lsp/init.lua
   nvim-lspconfig
   SchemaStore-nvim

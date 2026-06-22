@@ -183,6 +183,20 @@
           openFile = "main.py";
           spec = "lsp_python_ruff.lua";
         };
+
+        "lsp-integration-json-jsonls" = runIntegrationTest {
+          name = "lsp-integration-json-jsonls";
+          fixture = "json/basic";
+          openFile = "package.json";
+          spec = "lsp_json.lua";
+        };
+
+        "lsp-integration-yaml-yamlls" = runIntegrationTest {
+          name = "lsp-integration-yaml-yamlls";
+          fixture = "yaml/basic";
+          openFile = "config.yaml";
+          spec = "lsp_yaml.lua";
+        };
       };
     };
 }

@@ -74,8 +74,8 @@ local servers = {
     end,
   },
 
-  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/marksman.lua
-  marksman = {},
+  --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/markdown_oxide.lua
+  markdown_oxide = {},
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/pyright.lua
   pyright = {

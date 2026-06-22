@@ -52,7 +52,7 @@ with pkgs;
   kdlfmt
 
   ### Markdown ###
-  marksman
+  markdown-oxide
 
   ### Yaml ###
   yaml-language-server

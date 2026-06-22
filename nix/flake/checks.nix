@@ -104,6 +104,13 @@
           spec = "lsp_bash.lua";
         };
 
+        "lsp-integration-markdown-markdown-oxide" = runIntegrationTest {
+          name = "lsp-integration-markdown-markdown-oxide";
+          fixture = "markdown/basic";
+          openFile = "README.md";
+          spec = "lsp_markdown.lua";
+        };
+
         "lsp-integration-rust-rust-analyzer" = runIntegrationTest {
           name = "lsp-integration-rust-rust-analyzer";
           fixture = "rust/basic";

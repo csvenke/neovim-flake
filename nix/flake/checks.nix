@@ -130,14 +130,6 @@
           extraPath = [ pkgs.go ];
         };
 
-        "lsp-integration-kotlin-lsp" = runIntegrationTest {
-          name = "lsp-integration-kotlin-lsp";
-          fixture = "kotlin-lsp/basic";
-          openFile = "src/main/kotlin/Main.kt";
-          spec = "lsp_kotlin_lsp.lua";
-          extraPath = [ pkgs.gradle ];
-        };
-
         "lsp-integration-gleam-gleam" = runIntegrationTest {
           name = "lsp-integration-gleam-gleam";
           fixture = "gleam/basic";
@@ -196,6 +188,15 @@
           fixture = "yaml/basic";
           openFile = "config.yaml";
           spec = "lsp_yaml.lua";
+        };
+      }
+      // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
+        "lsp-integration-kotlin-lsp" = runIntegrationTest {
+          name = "lsp-integration-kotlin-lsp";
+          fixture = "kotlin-lsp/basic";
+          openFile = "src/main/kotlin/Main.kt";
+          spec = "lsp_kotlin_lsp.lua";
+          extraPath = [ pkgs.gradle ];
         };
       };
     };

@@ -81,19 +81,19 @@ describe("integration_test.lsp", function()
       }
     end
     vim.lsp.get_client_by_id = function(client_id)
-      return { id = client_id, name = client_id == 2 and "roslyn" or "lua_ls" }
+      return { id = client_id, name = client_id == 2 and "roslyn_ls" or "lua_ls" }
     end
 
     local result, client = harness.request_sync({
       bufnr = 3,
-      client_name = "roslyn",
+      client_name = "roslyn_ls",
       method = "textDocument/completion",
       params = {},
       request_timeout_ms = 50,
     })
 
     assert.are.same({ label = "keep" }, result)
-    assert.are.equal("roslyn", client.name)
+    assert.are.equal("roslyn_ls", client.name)
   end)
 
   it("polls until completion contains the expected label", function()
@@ -110,11 +110,11 @@ describe("integration_test.lsp", function()
     end
     vim.lsp.get_clients = function()
       return {
-        { id = 2, name = "roslyn", offset_encoding = "utf-16" },
+        { id = 2, name = "roslyn_ls", offset_encoding = "utf-16" },
       }
     end
     vim.lsp.get_client_by_id = function(client_id)
-      return { id = client_id, name = "roslyn" }
+      return { id = client_id, name = "roslyn_ls" }
     end
     vim.lsp.util.make_position_params = function(_, offset_encoding)
       assert.are.equal("utf-16", offset_encoding)
@@ -136,7 +136,7 @@ describe("integration_test.lsp", function()
 
     local item = harness.assert_completion_contains({
       bufnr = 7,
-      client_name = "roslyn",
+      client_name = "roslyn_ls",
       label = "Greeter",
       timeout_ms = 30,
       request_timeout_ms = 10,
@@ -151,11 +151,11 @@ describe("integration_test.lsp", function()
     end
     vim.lsp.get_clients = function()
       return {
-        { id = 2, name = "roslyn", offset_encoding = "utf-16" },
+        { id = 2, name = "roslyn_ls", offset_encoding = "utf-16" },
       }
     end
     vim.lsp.get_client_by_id = function(client_id)
-      return { id = client_id, name = "roslyn" }
+      return { id = client_id, name = "roslyn_ls" }
     end
     vim.lsp.util.make_position_params = function()
       return { position = { line = 0, character = 0 } }
@@ -176,7 +176,7 @@ describe("integration_test.lsp", function()
 
     local location = harness.assert_definition_matches({
       bufnr = 9,
-      client_name = "roslyn",
+      client_name = "roslyn_ls",
       path_suffix = "Greeter.cs",
       timeout_ms = 10,
       request_timeout_ms = 10,
@@ -252,7 +252,7 @@ describe("integration_test.lsp", function()
     end
     vim.lsp.get_clients = function()
       return {
-        { id = 9, name = "roslyn" },
+        { id = 9, name = "roslyn_ls" },
       }
     end
     vim.diagnostic.get = function(bufnr)
@@ -262,7 +262,7 @@ describe("integration_test.lsp", function()
 
       if attempts == 1 then
         return {
-          { message = "The name 'Helper' does not exist", source = "Roslyn" },
+          { message = "The name 'Helper' does not exist", source = "roslyn_ls" },
         }
       end
 
@@ -271,8 +271,8 @@ describe("integration_test.lsp", function()
 
     local cleared = harness.assert_diagnostic_absent({
       bufnr = 5,
-      client_name = "roslyn",
-      source = "Roslyn",
+      client_name = "roslyn_ls",
+      source = "roslyn_ls",
       message_contains = "Helper",
       timeout_ms = 30,
       poll = function()

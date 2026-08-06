@@ -98,8 +98,8 @@ with pkgs;
   gleam
 
   ### Elixir ###
-  elixir
-  elixir-ls
+  beamPackages.elixir
+  beamPackages.elixir-ls
 
   ### Database ###
   sqlcmd

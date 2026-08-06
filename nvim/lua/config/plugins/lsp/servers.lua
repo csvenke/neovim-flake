@@ -29,6 +29,17 @@ local servers = {
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/lua_ls.lua
   lua_ls = {
+    root_dir = function(bufnr, on_dir)
+      local root = vim.fs.root(bufnr, {
+        ".luarc.json",
+        ".luarc.jsonc",
+        ".git",
+        "stylua.toml",
+        "selene.toml",
+        "selene.yml",
+      })
+      on_dir(root or vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
+    end,
     settings = {
       Lua = {
         completion = {

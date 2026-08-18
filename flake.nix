@@ -42,10 +42,10 @@
           inherit (pkgs) callPackage;
 
           plugins = callPackage ./nix/plugins.nix { };
-          runtimeDeps = callPackage ./nix/runtimeDeps.nix { };
+          extraPackages = callPackage ./nix/extraPackages.nix { };
           neovim = callPackage ./nix/neovim.nix {
-            src = ./nvim;
-            inherit plugins runtimeDeps;
+            nvimConfig = ./nvim;
+            inherit plugins extraPackages;
           };
 
           neovide = pkgs.neovide.overrideAttrs {

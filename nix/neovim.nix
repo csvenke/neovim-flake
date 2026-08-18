@@ -2,9 +2,9 @@
   lib,
   wrapNeovimUnstable,
   neovim-unwrapped,
-  src,
+  nvimConfig,
   plugins,
-  runtimeDeps,
+  extraPackages,
 }:
 
 wrapNeovimUnstable neovim-unwrapped {
@@ -15,8 +15,8 @@ wrapNeovimUnstable neovim-unwrapped {
   neovimRcContent = /* vim */ ''
     packadd nvim.undotree
     packadd nvim.difftool
-    set runtimepath^=${src}
-    set runtimepath+=${src}/after
+    set runtimepath^=${nvimConfig}
+    set runtimepath+=${nvimConfig}/after
   '';
   inherit plugins;
   wrapperArgs = [
@@ -26,6 +26,6 @@ wrapNeovimUnstable neovim-unwrapped {
     "--prefix"
     "PATH"
     ":"
-    (lib.makeBinPath runtimeDeps)
+    (lib.makeBinPath extraPackages)
   ];
 }

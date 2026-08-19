@@ -8,7 +8,13 @@
       ...
     }:
     let
-      inherit (pkgs) callPackage runCommandLocal luaPackages;
+      inherit (pkgs)
+        lib
+        stdenv
+        callPackage
+        runCommandLocal
+        luaPackages
+        ;
 
       repoRoot = ../../.;
       nvimRoot = repoRoot + "/nvim";
@@ -190,7 +196,7 @@
           spec = "lsp_yaml.lua";
         };
       }
-      // pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
+      // lib.optionalAttrs stdenv.hostPlatform.isLinux {
         "lsp-integration-kotlin-lsp" = runIntegrationTest {
           name = "lsp-integration-kotlin-lsp";
           fixture = "kotlin-lsp/basic";

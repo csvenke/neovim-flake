@@ -107,7 +107,7 @@ with pkgs;
   ### Opencode ###
   lsof
 ]
-++ lib.optionals stdenv.isLinux [
+++ lib.optionals stdenv.hostPlatform.isLinux [
   inotify-tools
   xclip
   wl-clipboard

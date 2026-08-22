@@ -11,6 +11,71 @@ local function ensure_git()
 end
 
 ---@param cwd string
+---@param worktree_path string
+---@return string
+local function resolve_worktree_path(cwd, worktree_path)
+  if worktree_path:sub(1, 1) == "/" then
+    return worktree_path
+  end
+
+  return vim.fs.joinpath(cwd, worktree_path)
+end
+
+local adjectives = {
+  "amber",
+  "brisk",
+  "calm",
+  "daring",
+  "eager",
+  "faint",
+  "gentle",
+  "hidden",
+  "ivory",
+  "jolly",
+  "kind",
+  "lively",
+  "mellow",
+  "nimble",
+  "odd",
+  "proud",
+  "quiet",
+  "rosy",
+  "swift",
+  "tidy",
+  "vivid",
+  "witty",
+  "young",
+  "zesty",
+}
+
+local nouns = {
+  "anchor",
+  "breeze",
+  "canyon",
+  "drift",
+  "ember",
+  "forest",
+  "grove",
+  "harbor",
+  "island",
+  "jewel",
+  "meadow",
+  "needle",
+  "orbit",
+  "pillar",
+  "quartz",
+  "river",
+  "signal",
+  "trail",
+  "valley",
+  "wave",
+  "willow",
+  "yonder",
+  "zephyr",
+  "harvest",
+}
+
+---@param cwd string
 ---@return string?
 function M.get_default_branch(cwd)
   if not ensure_git() then
@@ -47,6 +112,144 @@ function M.remote_branch_exists(cwd, branch)
 
   local result = vim.system({ "git", "ls-remote", "--heads", "origin", branch }, { cwd = cwd }):wait()
   return result.code == 0 and result.stdout ~= nil and result.stdout ~= ""
+end
+
+---@param worktrees Worktree[]
+---@return string[]
+function M.local_branches(worktrees)
+  if not ensure_git() then
+    return {}
+  end
+
+  local checked_out = {}
+  for _, worktree in ipairs(worktrees or {}) do
+    if worktree.branch then
+      checked_out[worktree.branch] = true
+    end
+  end
+
+  local result = vim.system({ "git", "branch", "--format=%(refname:short)" }, { text = true }):wait()
+  if result.code ~= 0 or not result.stdout then
+    return {}
+  end
+
+  local branches = {}
+  for branch in result.stdout:gmatch("([^\n]+)") do
+    branch = branch:gsub("^%*%s+", ""):gsub("^%s+", ""):gsub("%s+$", "")
+    if branch ~= "" and not checked_out[branch] then
+      table.insert(branches, branch)
+    end
+  end
+
+  return branches
+end
+
+---@return string[]
+function M.remote_only_branches()
+  if not ensure_git() then
+    return {}
+  end
+
+  local locals = {}
+  for _, branch in ipairs(M.local_branches(M.worktree_list())) do
+    locals[branch] = true
+  end
+
+  local result = vim.system({ "git", "branch", "-r" }, { text = true }):wait()
+  if result.code ~= 0 or not result.stdout then
+    return {}
+  end
+
+  local branches = {}
+  for line in result.stdout:gmatch("([^\n]+)") do
+    local branch = line:gsub("^%s+", ""):gsub("%s+$", "")
+    branch = branch:gsub("^origin/HEAD%s+%-%>%s+", "")
+    branch = branch:gsub("^origin/", "")
+    if branch ~= "" and branch ~= "HEAD" and not line:find("%-%>") and not locals[branch] then
+      table.insert(branches, branch)
+    end
+  end
+
+  return branches
+end
+
+---@param bare_path string
+---@return string
+function M.random_worktree_name(bare_path)
+  if not ensure_git() then
+    return ""
+  end
+
+  math.randomseed(vim.uv.hrtime() % 2147483647)
+
+  while true do
+    local name = string.format("%s-%s", adjectives[math.random(#adjectives)], nouns[math.random(#nouns)])
+    if not path.is_directory(vim.fs.joinpath(bare_path, name)) then
+      return name
+    end
+  end
+end
+
+---@param cwd string
+---@param worktree_path string
+function M.worktree_add_detached(cwd, worktree_path)
+  if not ensure_git() then
+    return nil, "git not available"
+  end
+
+  local new_worktree = resolve_worktree_path(cwd, worktree_path)
+
+  if path.is_directory(new_worktree) then
+    return nil, "Worktree already exists"
+  end
+
+  local fetch_cmd = {
+    "git",
+    "fetch",
+    "origin",
+    "+refs/heads/*:refs/remotes/origin/*",
+  }
+  local result = vim.system(fetch_cmd, { cwd = cwd, text = true }):wait()
+  if result.code ~= 0 then
+    return nil, "git fetch failed: " .. vim.trim(result.stderr or "")
+  end
+
+  local default_branch = M.get_default_branch(cwd)
+  local git_cmd = { "git", "worktree", "add", "--detach", worktree_path }
+  if default_branch then
+    table.insert(git_cmd, "origin/" .. default_branch)
+  end
+
+  result = vim.system(git_cmd, { cwd = cwd, text = true }):wait()
+
+  vim.wait(3000, function()
+    return path.is_directory(new_worktree)
+  end)
+
+  if not path.is_directory(new_worktree) then
+    return nil, (result.stderr and result.stderr ~= "" and vim.trim(result.stderr)) or "Failed to add worktree"
+  end
+
+  return new_worktree, nil
+end
+
+---@param worktree_path string
+---@param branch string
+function M.worktree_assign_branch(worktree_path, branch)
+  if not ensure_git() then
+    return nil, "git not available"
+  end
+
+  local result = vim.system({ "git", "switch", "-c", branch }, { cwd = worktree_path, text = true }):wait()
+  if result.code ~= 0 then
+    result = vim.system({ "git", "checkout", "-b", branch }, { cwd = worktree_path, text = true }):wait()
+  end
+
+  if result.code ~= 0 then
+    return nil, (result.stderr and result.stderr ~= "" and vim.trim(result.stderr)) or "Failed to assign branch"
+  end
+
+  return branch, nil
 end
 
 ---@return Worktree[]
@@ -100,13 +303,18 @@ function M.worktree_add(cwd, worktree_path, branch)
     return nil, "git not available"
   end
 
-  local new_worktree = string.format("%s/%s", cwd, worktree_path)
+  local new_worktree = resolve_worktree_path(cwd, worktree_path)
 
   if path.is_directory(new_worktree) then
     return nil, "Worktree already exists"
   end
 
-  vim.system({ "git", "fetch", "origin", "+refs/heads/*:refs/remotes/origin/*" }, { cwd = cwd }):wait()
+  local fetch_cmd = { "git", "fetch", "origin", "+refs/heads/*:refs/remotes/origin/*" }
+  local result = vim.system(fetch_cmd, { cwd = cwd, text = true }):wait()
+
+  if result.code ~= 0 then
+    return nil, "git fetch failed: " .. vim.trim(result.stderr or "")
+  end
 
   local new_branch = branch or worktree_path
 
@@ -126,13 +334,28 @@ function M.worktree_add(cwd, worktree_path, branch)
     table.insert(git_cmd, base_branch)
   end
 
-  vim.system(git_cmd, { cwd = cwd }):wait()
+  result = vim.system(git_cmd, { cwd = cwd, text = true }):wait()
+
+  if result.code ~= 0 and result.stderr and result.stderr:find("already exists", 1, true) then
+    local worktrees = M.worktree_list()
+    for _, worktree in ipairs(worktrees) do
+      if worktree.branch == new_branch then
+        return nil, "Branch " .. new_branch .. " is already checked out in worktree at " .. worktree.path
+      end
+    end
+
+    result = vim.system({ "git", "worktree", "add", worktree_path, new_branch }, { cwd = cwd, text = true }):wait()
+  end
 
   vim.wait(3000, function()
     return path.is_directory(new_worktree)
   end)
 
   if not path.is_directory(new_worktree) then
+    if vim.trim(result.stderr or "") ~= "" then
+      return nil, vim.trim(result.stderr)
+    end
+
     return nil, "Failed to add worktree"
   end
 

@@ -3,6 +3,8 @@ local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 
 ---@class Icons
 ---@field git string
+---@field branch string
+---@field branch_new string
 ---@field dir string
 ---@field startuptime string
 ---@field separator string
@@ -22,6 +24,8 @@ local has_devicons, devicons = pcall(require, "nvim-web-devicons")
 ---@type Icons
 local M = {
   git = has_devicons and "󰊢" or "",
+  branch = has_devicons and "" or "[b]",
+  branch_new = has_devicons and "" or "[+]",
   dir = has_devicons and "" or "",
   startuptime = has_devicons and "󱐋" or "",
   separator = has_devicons and "󰅂" or ">",

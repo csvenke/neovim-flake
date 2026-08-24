@@ -79,6 +79,7 @@ local function add_worktree()
   --- @class WorktreeItem
   --- @field kind string
   --- @field label string
+  --- @field branch? string
 
   --- @type WorktreeItem[]
   local items = {
@@ -158,6 +159,11 @@ local function add_worktree()
       return
     else
       local branch = choice.branch
+      if not branch then
+        vim.notify("Selected worktree has no branch", vim.log.levels.ERROR, notify_opts)
+        return
+      end
+
       local worktree_path = branch:match("([^/]+)$")
       new_worktree, err = git.worktree_add(bare_worktree.path, worktree_path, branch)
     end

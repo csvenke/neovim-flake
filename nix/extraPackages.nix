@@ -103,9 +103,6 @@ with pkgs;
 
   ### Database ###
   sqlcmd
-
-  ### Opencode ###
-  lsof
 ]
 ++ lib.optionals stdenv.hostPlatform.isLinux [
   inotify-tools

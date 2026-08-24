@@ -93,7 +93,4 @@ with pkgs.vimPlugins;
 
   # fugitive.lua
   vim-fugitive
-
-  # opencode.lua
-  opencode-nvim
 ]

@@ -8,7 +8,11 @@ local NOTIFY_TITLE = "Git worktree"
 
 --- @param worktree_path string
 --- @param bare_worktree_path string
-local function run_post_add_hook(worktree_path, bare_worktree_path)
+local function initialize_and_switch_to_worktree(worktree_path, bare_worktree_path)
+  path.copy_directory(bare_worktree_path .. "/.shared", worktree_path)
+  direnv.allow_if_available(worktree_path)
+  workspace.change_current_directory(worktree_path)
+
   local hook_script = vim.fs.joinpath(bare_worktree_path, ".hooks", "after-worktree-add.sh")
 
   if not path.is_file(hook_script) then
@@ -148,10 +152,7 @@ local function add_worktree()
           return
         end
 
-        path.copy_directory(bare_worktree.path .. "/.shared", created_worktree)
-        direnv.allow_if_available(created_worktree)
-        workspace.change_current_directory(created_worktree)
-        run_post_add_hook(created_worktree, bare_worktree.path)
+        initialize_and_switch_to_worktree(created_worktree, bare_worktree.path)
 
         vim.notify("Adding worktree... DONE", vim.log.levels.INFO, notify_opts)
       end)
@@ -173,10 +174,7 @@ local function add_worktree()
       return
     end
 
-    path.copy_directory(bare_worktree.path .. "/.shared", new_worktree)
-    direnv.allow_if_available(new_worktree)
-    workspace.change_current_directory(new_worktree)
-    run_post_add_hook(new_worktree, bare_worktree.path)
+    initialize_and_switch_to_worktree(new_worktree, bare_worktree.path)
 
     vim.notify("Adding worktree... DONE", vim.log.levels.INFO, notify_opts)
   end)

@@ -52,3 +52,34 @@ vim.api.nvim_create_autocmd("OptionSet", {
   pattern = "diff",
   callback = clean_diff_window,
 })
+
+local opencode = require("config.lib.opencode")
+
+local function draft_commit_message()
+  vim.notify("Drafting commit message…", vim.log.levels.INFO)
+
+  opencode.run({
+    agent = "build",
+    model = "github-copilot/claude-haiku-4.5",
+    message = "Run git diff --staged to see the staged changes, then draft a conventional commit message. "
+      .. "Reply with ONLY the commit message, no markdown fences, no commentary.",
+  }, function(msg, err)
+    if not msg then
+      vim.notify(err, vim.log.levels.ERROR)
+      return
+    end
+    vim.cmd("Git commit")
+    vim.api.nvim_buf_set_lines(0, 0, 0, false, vim.split(msg, "\n"))
+  end)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = group,
+  pattern = "fugitive",
+  callback = function(ev)
+    vim.keymap.set("n", "<leader>cc", draft_commit_message, {
+      buffer = ev.buf,
+      desc = "[g]it AI [c]ommit message",
+    })
+  end,
+})

@@ -4,6 +4,12 @@ vim.g.diffs = {
     gitsigns = true,
     telescope = true,
   },
+  highlights = {
+    warn_max_lines = false,
+    treesitter = { max_lines = 2000 },
+    vim = { max_lines = 1000 },
+    intra = { max_lines = 2000 },
+  },
 }
 
 vim.keymap.set("n", "<leader>gg", "<cmd>rightbelow Git<cr>", { desc = "[g]it [s]tatus" })

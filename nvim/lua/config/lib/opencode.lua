@@ -22,14 +22,16 @@ function M.run(opts, callback)
         callback(nil, "opencode failed: " .. (res.stderr or ""))
         return
       end
-      local parts = {}
+      local reply = ""
       for line in (res.stdout or ""):gmatch("[^\n]+") do
         local ok, event = pcall(vim.json.decode, line)
         if ok and event.type == "text" and event.part and event.part.text then
-          table.insert(parts, event.part.text)
+          -- The model may emit intermediate narration (e.g. "I'll check the
+          -- staged diff…") as separate text parts; the final part is the answer.
+          reply = event.part.text
         end
       end
-      local reply = vim.trim(table.concat(parts, ""))
+      reply = vim.trim(reply)
       if reply == "" then
         callback(nil, "opencode returned an empty reply")
         return

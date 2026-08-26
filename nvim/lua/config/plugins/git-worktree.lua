@@ -1,10 +1,12 @@
 local direnv = require("config.lib.direnv")
 local icons = require("config.lib.icons")
+local notify = require("config.lib.notify")
 local path = require("config.lib.path")
 local git = require("config.runtime.git")
 local workspace = require("config.runtime.workspace")
 
 local NOTIFY_TITLE = "Git worktree"
+local notify_once = notify.with_title(NOTIFY_TITLE)
 
 --- @param worktree_path string
 --- @param bare_worktree_path string
@@ -19,22 +21,14 @@ local function initialize_and_switch_to_worktree(worktree_path, bare_worktree_pa
     return
   end
 
-  local notification = vim.notify("Running hook...", vim.log.levels.INFO, {
-    title = NOTIFY_TITLE,
-    timeout = false,
-  })
-  local notify_opts = {
-    title = NOTIFY_TITLE,
-    replace = notification and notification.id,
-    timeout = 5000,
-  }
+  local progress = notify.progress(NOTIFY_TITLE, "Running hook...")
 
   vim.system({ hook_script }, { cwd = worktree_path, text = true }, function(result)
     vim.schedule(function()
       if result.code == 0 then
-        vim.notify("Running hook... DONE", vim.log.levels.INFO, notify_opts)
+        progress.done()
       else
-        vim.notify("Hook failed with code " .. result.code, vim.log.levels.ERROR, notify_opts)
+        progress.fail("Hook failed with code " .. result.code)
       end
     end)
   end)
@@ -44,27 +38,19 @@ local function switch_worktree()
   git.worktree_select({
     prompt = "Switch worktree",
     on_select = function(worktree)
-      local notification = vim.notify("Switching worktree...", vim.log.levels.INFO, {
-        title = NOTIFY_TITLE,
-      })
-      local notify_opts = {
-        title = NOTIFY_TITLE,
-        replace = notification and notification.id,
-      }
+      local progress = notify.progress(NOTIFY_TITLE, "Switching worktree...")
 
       local _, err = git.worktree_switch(worktree)
 
       if err then
-        vim.notify(err, vim.log.levels.INFO, notify_opts)
+        progress.fail(err)
         return
       end
 
-      vim.notify("Switching worktree... DONE", vim.log.levels.INFO, notify_opts)
+      progress.done()
     end,
     on_empty = function()
-      vim.notify("No worktrees found", vim.log.levels.INFO, {
-        title = NOTIFY_TITLE,
-      })
+      notify_once("No worktrees found")
     end,
   })
 end
@@ -74,9 +60,7 @@ local function add_worktree()
   local bare_worktree = git.get_bare_worktree(worktrees)
 
   if not bare_worktree then
-    vim.notify("No bare worktree found", vim.log.levels.INFO, {
-      title = NOTIFY_TITLE,
-    })
+    notify_once("No bare worktree found")
     return
   end
 
@@ -119,15 +103,7 @@ local function add_worktree()
       return
     end
 
-    local notification = vim.notify("Adding worktree...", vim.log.levels.INFO, {
-      title = NOTIFY_TITLE,
-      timeout = false,
-    })
-    local notify_opts = {
-      title = NOTIFY_TITLE,
-      replace = notification and notification.id,
-      timeout = 5000,
-    }
+    local progress = notify.progress(NOTIFY_TITLE, "Adding worktree...")
 
     local new_worktree
     local err
@@ -140,7 +116,7 @@ local function add_worktree()
         prompt = "New branch: ",
       }, function(branch)
         if branch == nil or branch == "" then
-          vim.notify("Adding worktree... cancelled", vim.log.levels.INFO, notify_opts)
+          progress.update("Adding worktree... cancelled")
           return
         end
 
@@ -148,20 +124,20 @@ local function add_worktree()
         local created_worktree, created_err = git.worktree_add(bare_worktree.path, worktree_path, branch)
 
         if not created_worktree then
-          vim.notify(created_err --[[@as string]], vim.log.levels.INFO, notify_opts)
+          progress.fail(created_err --[[@as string]])
           return
         end
 
         initialize_and_switch_to_worktree(created_worktree, bare_worktree.path)
 
-        vim.notify("Adding worktree... DONE", vim.log.levels.INFO, notify_opts)
+        progress.done()
       end)
 
       return
     else
       local branch = choice.branch
       if not branch then
-        vim.notify("Selected worktree has no branch", vim.log.levels.ERROR, notify_opts)
+        progress.fail("Selected worktree has no branch")
         return
       end
 
@@ -170,13 +146,13 @@ local function add_worktree()
     end
 
     if not new_worktree then
-      vim.notify(err --[[@as string]], vim.log.levels.INFO, notify_opts)
+      progress.fail(err --[[@as string]])
       return
     end
 
     initialize_and_switch_to_worktree(new_worktree, bare_worktree.path)
 
-    vim.notify("Adding worktree... DONE", vim.log.levels.INFO, notify_opts)
+    progress.done()
   end)
 end
 
@@ -184,9 +160,7 @@ local function assign_branch()
   local worktree = git.get_active_worktree(git.worktree_list())
 
   if not worktree then
-    vim.notify("No active worktree found", vim.log.levels.INFO, {
-      title = NOTIFY_TITLE,
-    })
+    notify_once("No active worktree found")
     return
   end
 
@@ -197,22 +171,16 @@ local function assign_branch()
       return
     end
 
-    local notification = vim.notify("Assigning branch...", vim.log.levels.INFO, {
-      title = NOTIFY_TITLE,
-    })
-    local notify_opts = {
-      title = NOTIFY_TITLE,
-      replace = notification and notification.id,
-    }
+    local progress = notify.progress(NOTIFY_TITLE, "Assigning branch...")
 
     local _, err = git.worktree_assign_branch(worktree.path, branch)
 
     if err then
-      vim.notify(err, vim.log.levels.INFO, notify_opts)
+      progress.fail(err)
       return
     end
 
-    vim.notify("Assigning branch... DONE", vim.log.levels.INFO, notify_opts)
+    progress.done()
   end)
 end
 
@@ -220,27 +188,19 @@ local function remove_worktree()
   git.worktree_select({
     prompt = "Remove worktree",
     on_select = function(worktree)
-      local notification = vim.notify("Removing worktree...", vim.log.levels.INFO, {
-        title = NOTIFY_TITLE,
-      })
-      local notify_opts = {
-        title = NOTIFY_TITLE,
-        replace = notification and notification.id,
-      }
+      local progress = notify.progress(NOTIFY_TITLE, "Removing worktree...")
 
       local _, err = git.worktree_remove(worktree)
 
       if err then
-        vim.notify(err, vim.log.levels.INFO, notify_opts)
+        progress.fail(err)
         return
       end
 
-      vim.notify("Removing worktree... DONE", vim.log.levels.INFO, notify_opts)
+      progress.done()
     end,
     on_empty = function()
-      vim.notify("No worktrees found", vim.log.levels.INFO, {
-        title = NOTIFY_TITLE,
-      })
+      notify_once("No worktrees found")
     end,
   })
 end

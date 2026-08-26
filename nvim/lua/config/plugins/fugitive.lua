@@ -53,25 +53,18 @@ vim.api.nvim_create_autocmd("OptionSet", {
   callback = clean_diff_window,
 })
 
+local notify = require("config.lib.notify")
 local opencode = require("config.lib.opencode")
+
+local NOTIFY_TITLE = "OpenCode"
 
 local function draft_commit_message()
   if vim.system({ "git", "diff", "--staged", "--quiet" }):wait().code == 0 then
-    vim.notify("Nothing staged to commit", vim.log.levels.WARN)
+    notify.with_title(NOTIFY_TITLE)("Nothing staged to commit", vim.log.levels.WARN)
     return
   end
 
-  local NOTIFY_TITLE = "OpenCode"
-
-  local notification = vim.notify("Drafting commit message...", vim.log.levels.INFO, {
-    title = NOTIFY_TITLE,
-    timeout = false,
-  })
-  local notify_opts = {
-    title = NOTIFY_TITLE,
-    replace = notification and notification.id,
-    timeout = 5000,
-  }
+  local progress = notify.progress(NOTIFY_TITLE, "Drafting commit message...")
 
   opencode.run({
     agent = "build",
@@ -80,10 +73,10 @@ local function draft_commit_message()
       .. "Output ONLY the raw commit message.",
   }, function(msg, err)
     if not msg then
-      vim.notify(err, vim.log.levels.ERROR, notify_opts)
+      progress.fail(err)
       return
     end
-    vim.notify("Drafting commit message... DONE", vim.log.levels.INFO, notify_opts)
+    progress.done()
 
     msg = vim.trim(msg):gsub("^```%w*\n", ""):gsub("\n```%s*$", "")
     vim.cmd("Git commit")

@@ -1,4 +1,5 @@
 local icons = require("config.lib.icons")
+local notify = require("config.lib.notify").with_title("Grapple")
 local grapple = require("grapple")
 
 grapple.setup({
@@ -13,13 +14,6 @@ grapple.setup({
     footer = "",
   },
 })
-
----@param msg string
-local function notify(msg)
-  vim.notify(msg, vim.log.levels.INFO, {
-    title = "Grapple",
-  })
-end
 
 ---@param index number
 local function select_if_exists(index)

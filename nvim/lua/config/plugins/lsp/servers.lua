@@ -60,7 +60,7 @@ local servers = {
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/kotlin_lsp.lua
   kotlin_lsp = {
-    cmd = { "faketime", "2026-06-04", "intellij-server", "--stdio" },
+    cmd = { "faketime", "2026-07-27", "intellij-server", "--stdio" },
   },
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/rust_analyzer.lua

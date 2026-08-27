@@ -101,6 +101,9 @@ with pkgs;
   beamPackages.elixir
   beamPackages.elixir-ls
 
+  ### Kotlin ###
+  kotlin-lsp
+
   ### Database ###
   sqlcmd
 ]
@@ -108,5 +111,4 @@ with pkgs;
   inotify-tools
   xclip
   wl-clipboard
-  kotlin-lsp
 ]

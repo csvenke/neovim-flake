@@ -4,7 +4,7 @@ local M = {}
 ---@param opts { message: string, agent?: string, model?: string, args?: string[] }
 ---@param callback fun(reply: string|nil, err?: string)
 function M.run(opts, callback)
-  local argv = { "opencode2", "run", "--format", "json", "--auto" }
+  local argv = { "opencode", "run", "--format", "json", "--auto" }
   if opts.agent then
     vim.list_extend(argv, { "--agent", opts.agent })
   end

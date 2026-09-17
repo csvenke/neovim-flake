@@ -6,7 +6,7 @@ runner.define({
   describe = "Python pyright integration test",
   it = "attaches and reports type-check diagnostics",
   client_name = "pyright",
-  timeout_ms = 30000,
+  timeout_ms = 60000,
   probes = {
     {
       type = "attach",

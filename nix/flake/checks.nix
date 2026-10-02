@@ -195,7 +195,8 @@
           openFile = "config.yaml";
           spec = "lsp_yaml.lua";
         };
-
+      }
+      // lib.optionalAttrs (!stdenv.hostPlatform.isDarwin) {
         "lsp-integration-kotlin-lsp" = runIntegrationTest {
           name = "lsp-integration-kotlin-lsp";
           fixture = "kotlin-lsp/basic";

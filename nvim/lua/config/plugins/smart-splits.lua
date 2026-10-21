@@ -9,8 +9,12 @@ smartsplits.setup({
   ignored_filetypes = {
     "no-neck-pain",
   },
-  default_amount = 5,
-  move_cursor_same_row = false,
+  resize = {
+    amount = 5,
+  },
+  move = {
+    same_row = false,
+  },
 })
 
 vim.keymap.set("n", "<C-k>", smartsplits.move_cursor_up, { desc = "Move up" })

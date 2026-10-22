@@ -13,10 +13,10 @@ let
   version = "262.9593.0";
 
   platformUrls = {
-    x86_64-linux = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.tar.gz";
-    aarch64-linux = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.tar.gz";
-    x86_64-darwin = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.sit";
-    aarch64-darwin = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.sit";
+    x86_64-linux = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.tar.gz";
+    aarch64-linux = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.tar.gz";
+    x86_64-darwin = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.sit";
+    aarch64-darwin = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.sit";
   };
 
   platformHashes = {

@@ -60,7 +60,8 @@ local servers = {
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/kotlin_lsp.lua
   kotlin_lsp = {
-    cmd = { "faketime", "2026-07-27", "intellij-server", "--stdio" },
+    -- JetBrains EAP builds expire ~30 days after their build date
+    cmd = { "faketime", "2026-10-15", "intellij-server", "--stdio" },
   },
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/rust_analyzer.lua

@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
-      - run: nix flake check -v
+      - run: nix flake check --max-jobs 1 --print-build-logs
 
   automerge:
     if: contains(github.event.pull_request.labels.*.name, 'automerge')

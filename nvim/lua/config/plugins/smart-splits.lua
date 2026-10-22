@@ -15,6 +15,9 @@ smartsplits.setup({
   move = {
     same_row = false,
   },
+  mux = {
+    backend = "smart-splits-backend-tmux",
+  },
 })
 
 vim.keymap.set("n", "<C-k>", smartsplits.move_cursor_up, { desc = "Move up" })

@@ -74,6 +74,7 @@ with pkgs.vimPlugins;
 
   # smart-splits.lua
   smart-splits-nvim
+  smart-splits-backend-tmux
 
   # telescope/init.lua
   telescope-nvim

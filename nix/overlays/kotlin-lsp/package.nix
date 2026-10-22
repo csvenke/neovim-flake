@@ -10,20 +10,20 @@
 }:
 
 let
-  version = "262.9593.0";
+  version = "263.7084.0";
 
   platformUrls = {
-    x86_64-linux = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.tar.gz";
-    aarch64-linux = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.tar.gz";
-    x86_64-darwin = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.sit";
-    aarch64-darwin = "https://download-cdn.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.sit";
+    x86_64-linux = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.tar.gz";
+    aarch64-linux = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.tar.gz";
+    x86_64-darwin = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}.sit";
+    aarch64-darwin = "https://download.jetbrains.com/language-server/kotlin-server/${version}/kotlin-server-${version}-aarch64.sit";
   };
 
   platformHashes = {
-    x86_64-linux = "sha256-LZnY4Zj75KqPRIHjd5lyTOlIA7TqEqYLQWBA4/zXzF4=";
-    aarch64-linux = "sha256-IxeDHG5WB9BbfrwdplUzASXODj1m+/JFF9/ORC3rwU4=";
-    x86_64-darwin = "sha256-Fzaf2pfIVBisJKs4qd9WshUio0aN/hk4Mv5FXBOSB0U=";
-    aarch64-darwin = "sha256-a6YCGnBrIeZM7zP34refGHwJEDIHIrstPtBa0RFexD8=";
+    x86_64-linux = "sha256-rgxLAeF6tzpKUienjqmebcvj5JlgAxWyJ1mk5M3dEd8=";
+    aarch64-linux = "sha256-RQq3wdgOSBBqpCm0jLQibYLKEqiiQARHrgI4Z5R4DKw=";
+    x86_64-darwin = "sha256-spw5Ol5UEVPQPWJueUYmhDfjWKZnpfkUoSbbtAB2ZLE=";
+    aarch64-darwin = "sha256-tAO/ilS9RY47pnMc+KuzNAvgi0OcA1dt/AKxP682lLg=";
   };
 
   isDarwin = stdenv.hostPlatform.isDarwin;

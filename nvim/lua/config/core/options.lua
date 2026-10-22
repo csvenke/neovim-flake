@@ -13,6 +13,11 @@ vim.opt.timeoutlen = 300
 vim.opt.confirm = false
 vim.opt.cursorbind = false
 
+-- Window title
+vim.opt.title = true
+vim.opt.titlestring = "neovim"
+vim.opt.titleold = ""
+
 -- Clipboard configuration
 vim.schedule(function()
   vim.opt.clipboard = "unnamedplus"

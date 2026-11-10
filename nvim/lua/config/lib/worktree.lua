@@ -32,13 +32,8 @@ Worktree.__index = Worktree
 ---@param args WorktreeArgs
 ---@return Worktree
 function Worktree.new(args)
-  local name = args.name or ""
-  if name == nil then
-    name = ""
-  end
-
   local self = setmetatable({
-    name = name,
+    name = args.name or "",
     path = args.path or "",
     sha = args.sha or "0000000000000000000000000000000000000000",
     short_sha = args.short_sha or "0000000",
@@ -59,7 +54,6 @@ function Worktree.from_entry(entry)
   local path = entry:match("worktree ([^\n]+)")
   local name = nil
   if path then
-    path = path
     name = path:match("([^/]+)$") or "unknown"
   end
 

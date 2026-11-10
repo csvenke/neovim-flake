@@ -75,7 +75,7 @@ local function add_worktree()
     { kind = "new", label = "New branch..." },
   }
 
-  for _, branch in ipairs(git.remote_only_branches()) do
+  for _, branch in ipairs(git.remote_only_branches(worktrees)) do
     table.insert(items, { kind = "remote", branch = branch, label = branch .. " (remote)" })
   end
 
@@ -85,10 +85,7 @@ local function add_worktree()
 
   --- @param item WorktreeItem
   local function format_item(item)
-    if item.kind == "detached" then
-      return icons.branch_new .. "  " .. item.label
-    end
-    if item.kind == "new" then
+    if item.kind == "detached" or item.kind == "new" then
       return icons.branch_new .. "  " .. item.label
     end
 

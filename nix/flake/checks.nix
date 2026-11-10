@@ -67,10 +67,7 @@
             }
             ''
               set -euo pipefail
-              mkdir "$TMPDIR/src"
-              cp -R ${repoRoot}/. "$TMPDIR/src"
-              chmod -R u+w "$TMPDIR/src"
-              cd "$TMPDIR/src"
+              cd ${repoRoot}
               luacheck nvim
               touch $out
             '';

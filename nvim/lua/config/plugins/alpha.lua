@@ -30,9 +30,14 @@ local function create_worktrees_group(worktrees)
   for i, worktree in ipairs(worktrees) do
     local shortcut = shortcuts[i] or "-"
 
-    local keybind = string.format("<cmd>cd %s | edit .<cr>", worktree.path)
+    local function open_worktree()
+      require("config.runtime.workspace").change_current_directory(worktree.path)
+    end
+
     local text = string.format("%s  %s", icon, worktree.name)
-    local button = dashboard.button(shortcut, text, keybind)
+    local button = dashboard.button(shortcut, text)
+    button.on_press = open_worktree
+    button.opts.keymap = { "n", shortcut, open_worktree, { noremap = true, silent = true, nowait = true } }
     button.opts.hl = {
       { icon_hl, 0, #icon },
     }

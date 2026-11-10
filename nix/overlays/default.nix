@@ -4,7 +4,7 @@ let
   inherit (prev) lib;
 
   overrideVimPlugins = lib.packagesFromDirectoryRecursive {
-    callPackage = lib.callPackageWith (prev // { vimPlugins = prev.vimPlugins; });
+    inherit (prev) callPackage;
     directory = ./vim-plugins;
   };
 in

@@ -31,9 +31,6 @@ with pkgs.vimPlugins;
   nvim-dap-view
   nvim-dap-virtual-text
 
-  # diffs.lua
-  diffs-nvim
-
   # direnv.lua
   direnv-nvim
 
@@ -76,7 +73,7 @@ with pkgs.vimPlugins;
   smart-splits-nvim
   smart-splits-backend-tmux
 
-  # telescope/init.lua
+  # telescope.lua
   telescope-nvim
   telescope-fzf-native-nvim
   telescope-ui-select-nvim
@@ -94,4 +91,5 @@ with pkgs.vimPlugins;
 
   # fugitive.lua
   vim-fugitive
+  diffs-nvim
 ]

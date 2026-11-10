@@ -90,9 +90,7 @@ local servers = {
   markdown_oxide = {},
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/pyright.lua
-  pyright = {
-    enabled = true,
-  },
+  pyright = {},
 
   --- https://github.com/neovim/nvim-lspconfig/blob/master/lsp/ruff.lua
   ruff = {

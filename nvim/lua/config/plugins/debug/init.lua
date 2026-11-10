@@ -36,7 +36,7 @@ dapview.setup({
 
 vim.keymap.set("n", "<F1>", dap.step_over, { desc = "[d]ebug step [o]ver" })
 vim.keymap.set("n", "<F2>", dap.step_into, { desc = "[d]ebug step [i]nto" })
-vim.keymap.set("n", "<F3>", dap.step_out, { desc = "[d]ebug step [o]ut" })
+vim.keymap.set("n", "<F3>", dap.step_out, { desc = "[d]ebug step [O]ut" })
 vim.keymap.set("n", "<F4>", dap.step_back, { desc = "[d]ebug step [b]ack" })
 vim.keymap.set("n", "<F5>", dap.continue, { desc = "[d]ebug [c]ontinue/start" })
 vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "[d]ebug [c]ontinue/start" })

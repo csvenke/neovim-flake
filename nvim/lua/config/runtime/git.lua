@@ -144,14 +144,15 @@ function M.local_branches(worktrees)
   return branches
 end
 
+---@param worktrees? Worktree[]
 ---@return string[]
-function M.remote_only_branches()
+function M.remote_only_branches(worktrees)
   if not ensure_git() then
     return {}
   end
 
   local locals = {}
-  for _, branch in ipairs(M.local_branches(M.worktree_list())) do
+  for _, branch in ipairs(M.local_branches(worktrees or M.worktree_list())) do
     locals[branch] = true
   end
 
@@ -436,7 +437,7 @@ end
 ---@param worktrees Worktree[]
 function M.get_bare_worktree(worktrees)
   if #worktrees == 1 then
-    return table.remove(worktrees, 1)
+    return worktrees[1]
   end
 
   for _, worktree in ipairs(worktrees) do

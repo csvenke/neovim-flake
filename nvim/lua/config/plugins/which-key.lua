@@ -1,7 +1,6 @@
 local wk = require("which-key")
 
 wk.add({
-  { "<leader>a", group = "ai", mode = { "n", "v" } },
   { "<leader>b", group = "buffer" },
   { "<leader>d", group = "debug" },
   { "<leader>D", group = "Database" },
@@ -10,5 +9,4 @@ wk.add({
   { "<leader>s", group = "search" },
   { "<leader>t", group = "toggle" },
   { "<leader>w", group = "git worktree" },
-  { "<leader>l", group = "logs" },
 })

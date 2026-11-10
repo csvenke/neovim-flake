@@ -11,7 +11,7 @@ conform.setup({
 
     return {
       timeout_ms = 500,
-      lsp_fallback = true,
+      lsp_format = "fallback",
     }
   end,
   formatters_by_ft = {
@@ -96,7 +96,7 @@ conform.setup({
 })
 
 local function format()
-  conform.format({ async = true, lsp_fallback = true })
+  conform.format({ async = true, lsp_format = "fallback" })
 end
 
 local function toggle_autoformat()

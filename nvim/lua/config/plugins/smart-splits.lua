@@ -17,6 +17,7 @@ smartsplits.setup({
   },
   mux = {
     backend = "smart-splits-backend-tmux",
+    warn_if_unusable = false,
   },
 })
 
